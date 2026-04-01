@@ -1,0 +1,195 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:12px 0}
+.layer-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.layer{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;padding:10px;border-radius:8px;background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary)}
+.chip{display:inline-flex;flex-direction:column;gap:2px;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:500;cursor:default;border:1px solid transparent;min-width:90px}
+.chip .sub{font-size:10px;font-weight:400;opacity:.75}
+.in-scope{background:#EAF3DE;color:#27500A;border-color:#97C459}
+.out-scope{background:#FAECE7;color:#712B13;border-color:#F0997B}
+.partial{background:#FAEEDA;color:#633806;border-color:#EF9F27}
+.neutral{background:var(--color-background-primary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+@media(prefers-color-scheme:dark){
+  .in-scope{background:#173404;color:#C0DD97;border-color:#3B6D11}
+  .out-scope{background:#4A1B0C;color:#F5C4B3;border-color:#993C1D}
+  .partial{background:#412402;color:#FAC775;border-color:#854F0B}
+}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:12px}
+.leg{display:flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.dot-in{background:#639922}
+.dot-out{background:#D85A30}
+.dot-partial{background:#EF9F27}
+.dot-n{background:var(--color-border-secondary)}
+.divider{border:none;border-top:1px solid var(--color-border-tertiary);margin:14px 0}
+.gap-card{background:var(--color-background-secondary);border-radius:8px;border:1px solid var(--color-border-tertiary);margin-bottom:8px;overflow:hidden}
+.gap-header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--color-border-tertiary)}
+.gap-sev{font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.sev-blocker{background:#FCEBEB;color:#A32D2D}
+.sev-risk{background:#FAEEDA;color:#854F0B}
+.sev-note{background:#EAF3DE;color:#3B6D11}
+@media(prefers-color-scheme:dark){
+  .sev-blocker{background:#501313;color:#F7C1C1}
+  .sev-risk{background:#412402;color:#FAC775}
+  .sev-note{background:#173404;color:#C0DD97}
+}
+.gap-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.gap-body{padding:10px 12px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.gap-body strong{color:var(--color-text-primary);font-weight:500}
+.section-head{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:16px 0 8px}
+</style>
+<div class="wrap">
+
+<div class="legend">
+  <div class="leg"><div class="dot dot-in"></div><span>In solution design</span></div>
+  <div class="leg"><div class="dot dot-partial"></div><span>Partially covered / implied</span></div>
+  <div class="leg"><div class="dot dot-out"></div><span>Not in solution design — gap</span></div>
+  <div class="leg"><div class="dot dot-n"></div><span>Not relevant to Conscia scope</span></div>
+</div>
+
+<div class="layer-label">Customer touchpoints</div>
+<div class="layer">
+  <div class="chip partial"><span>eCommerce</span><span class="sub">Adobe Commerce</span></div>
+  <div class="chip partial"><span>Point of Sale</span><span class="sub">SF Retail Cloud</span></div>
+  <div class="chip out-scope"><span>Mobile Apps</span><span class="sub">StealthTech v2.0</span></div>
+  <div class="chip out-scope"><span>AI Agent</span><span class="sub">AgentForce etc.</span></div>
+</div>
+
+<div class="layer-label">Integration layer</div>
+<div class="layer">
+  <div class="chip out-scope"><span>Integration Hub</span><span class="sub">Celigo</span></div>
+  <div class="chip out-scope"><span>API Gateway</span><span class="sub">TBD</span></div>
+</div>
+
+<div class="layer-label">Systems of record</div>
+<div class="layer">
+  <div class="chip neutral"><span>HRIS</span><span class="sub">UKG, Paycom</span></div>
+  <div class="chip neutral"><span>CRM</span><span class="sub">Salesforce</span></div>
+  <div class="chip out-scope"><span>OMS</span><span class="sub">Manhattan Active Omni</span></div>
+  <div class="chip partial"><span>ERP</span><span class="sub">NetSuite</span></div>
+  <div class="chip out-scope"><span>PLM</span><span class="sub">TBD — Product Master</span></div>
+</div>
+
+<div class="layer-label">Supporting systems — commerce</div>
+<div class="layer">
+  <div class="chip neutral"><span>Payments</span><span class="sub">Adyen</span></div>
+  <div class="chip neutral"><span>Tax</span><span class="sub">Avalara</span></div>
+  <div class="chip neutral"><span>Returns</span><span class="sub">Narvar</span></div>
+  <div class="chip neutral"><span>Consumer Finance</span><span class="sub">Synchrony</span></div>
+  <div class="chip neutral"><span>Trade-In/Resale</span><span class="sub">Trove</span></div>
+  <div class="chip out-scope"><span>PIM</span><span class="sub">TBD</span></div>
+  <div class="chip out-scope"><span>Visual Configurator</span><span class="sub">Threekit</span></div>
+  <div class="chip neutral"><span>CSAT Surveys</span><span class="sub">Medallia</span></div>
+  <div class="chip neutral"><span>Customer Service</span><span class="sub">Gladly</span></div>
+  <div class="chip neutral"><span>SMS</span><span class="sub">Attentive</span></div>
+  <div class="chip neutral"><span>Marketing</span><span class="sub">Marigold</span></div>
+</div>
+
+<div class="layer-label">Supporting systems — enterprise</div>
+<div class="layer">
+  <div class="chip neutral"><span>Invoice Approvals</span><span class="sub">MineralTree</span></div>
+  <div class="chip neutral"><span>Inbound TMS</span><span class="sub">Infor Nexus</span></div>
+  <div class="chip neutral"><span>EDI</span><span class="sub">Celigo</span></div>
+  <div class="chip out-scope"><span>Inventory Mgmt.</span><span class="sub">TBD, NetSuite</span></div>
+  <div class="chip neutral"><span>Warehouse Mgmt.</span><span class="sub">TBD, Softeon</span></div>
+  <div class="chip neutral"><span>Planning</span><span class="sub">TBD</span></div>
+  <div class="chip neutral"><span>Lease Mgmt.</span><span class="sub">Luxernex</span></div>
+  <div class="chip neutral"><span>EDI</span><span class="sub">SPS Commerce</span></div>
+  <div class="chip neutral"><span>B2B Fulfillment</span><span class="sub">Rithum (fmly CH)</span></div>
+  <div class="chip neutral"><span>Expense Mgmt.</span><span class="sub">Concur</span></div>
+</div>
+
+<div class="layer-label">Data layer</div>
+<div class="layer">
+  <div class="chip out-scope"><span>CDP</span><span class="sub">Blue Conic</span></div>
+  <div class="chip out-scope"><span>Data Warehouse</span><span class="sub">MS Fabric, Databricks</span></div>
+  <div class="chip out-scope"><span>AI Data Layer</span><span class="sub">AgentForce</span></div>
+  <div class="chip out-scope"><span>Analytics &amp; BI</span><span class="sub">PowerBI / Tableau</span></div>
+</div>
+
+<hr class="divider">
+<div class="section-head">Gap analysis — systems not addressed in the solution design</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-blocker">Blocker</span>
+    <span class="gap-title">PLM is marked "Product Master" — but Conscia is also being positioned as product master</span>
+  </div>
+  <div class="gap-body">The architecture diagram explicitly labels PLM (TBD) as the <strong>Product Master</strong>. The Conscia solution design's stated strategic objective is to make <strong>DX Graph</strong> the product master for configurable products. These two are in direct conflict. If Lovesac procures a PLM, it will either replace DX Graph's role or create a duplicate source of truth. This needs to be resolved at kickoff: is Conscia the product master <em>instead of</em> a future PLM, or is DX Graph a compatibility/orchestration layer that sits <em>below</em> a PLM? The answer changes what DX Graph owns and what it receives from upstream.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-blocker">Blocker</span>
+    <span class="gap-title">Celigo (Integration Hub) sits between source systems and everything else — including Conscia</span>
+  </div>
+  <div class="gap-body">The architecture shows Celigo as the Integration Hub through which all system-to-system data flows. The solution design describes DX Graph Jobs pulling data from "up to three source backends" but doesn't mention Celigo once. This is a critical gap: <strong>will DX Graph ingest directly from SAP/Magento/etc., or via Celigo?</strong> If via Celigo, the data format, transformation logic, and delivery cadence are Celigo's concern — not Conscia's. The Magento export CSV in the project folder already has Celigo in the filename (<em>CeligoMagento2ItemExportSearch...</em>), confirming Celigo is already in the data pipeline today.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-blocker">Blocker</span>
+    <span class="gap-title">OMS (Manhattan Active Omni) is the Order Master — BOM explosion output lands here</span>
+  </div>
+  <div class="gap-body">The solution design's BOM Explosion flow produces OMS-shaped output, but Manhattan Active Omni is not mentioned by name. The BOM Explosion flow sends "fulfilment-optimised BOM" to OMS — but <strong>how does it get there?</strong> Does DX Engine call Manhattan directly? Does it go via Celigo? Does Lovesac's OMS team need to build a receiver? This integration path is undefined and it's a delivery-critical one — the whole POS use case depends on the Config ID → BOM → OMS chain working.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-risk">Risk</span>
+    <span class="gap-title">Threekit (Visual Configurator) is the current rules source — not just a UI tool</span>
+  </div>
+  <div class="gap-body">Threekit appears in the architecture as a supporting commerce system. The solution design treats it only as the source of hard-coded compatibility rules to be replaced. But Threekit is also <strong>Lovesac's live customer-facing configurator</strong> (as documented in the Builder Guide). In Phase 1, DX Graph and DX Engine will coexist with Threekit — Threekit won't be decommissioned. There needs to be an explicit plan for the transition period: does Threekit continue to serve the web configurator while DX Engine is being built? When does the switchover happen? Who owns the Threekit rules until then?</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-risk">Risk</span>
+    <span class="gap-title">PIM is listed as TBD — Conscia may be filling this role without it being formally scoped that way</span>
+  </div>
+  <div class="gap-body">The architecture shows a PIM box as TBD in the commerce supporting systems layer. From context, <strong>Conscia DX Graph is effectively being used as the PIM</strong> for configurable products. This is fine, but if Lovesac later procures a traditional PIM (e.g. Akeneo, Salsify), it will need to integrate with or replace DX Graph. This future dependency should be noted in the solution design so the data model is built to be PIM-interoperable, not PIM-replacing in ways that would be painful to unwind.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-risk">Risk</span>
+    <span class="gap-title">SF Retail Cloud (POS) is the named POS system — solution design calls it generic "POS Channel"</span>
+  </div>
+  <div class="gap-body">The solution design refers to "POS Channel" and "POS terminals" throughout, but the architecture names the system as <strong>Salesforce Retail Cloud</strong>. The Conscia BFF research doc includes Salesforce Commerce Cloud connectors. The team should confirm: does Conscia have a documented Salesforce Retail Cloud integration pattern? The API shape that SF Retail Cloud expects may differ from a generic POS. This affects how the BOM Explosion and Config Validation Orchestration Flows are shaped.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-risk">Risk</span>
+    <span class="gap-title">AgentForce appears twice — as AI Agent channel AND as the AI Data Layer</span>
+  </div>
+  <div class="gap-body">Salesforce AgentForce is shown at the top of the diagram as a customer-facing AI Agent channel, and again at the bottom as the AI Data Layer. The solution design mentions Google Shopping and ChatGPT as agentic channels but doesn't mention AgentForce. <strong>If AgentForce is Lovesac's strategic AI agent platform, it should be the primary agentic channel in the solution design</strong> — not an afterthought. The MCP tooling that DX Engine exposes would need to be compatible with AgentForce's agent invocation model. Clarify with Lovesac: is AgentForce the primary AI agent or one of several?</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-risk">Risk</span>
+    <span class="gap-title">Inventory management (NetSuite) is out of scope but affects compatibility logic</span>
+  </div>
+  <div class="gap-body">Inventory Mgmt. is shown as TBD/NetSuite in the enterprise layer. The solution design explicitly excludes real-time inventory from Phase 1 scope. However, <strong>Quickship availability is an inventory concept</strong> — if Quickship reflects live stock in NetSuite rather than a product classification, the Quickship Experience Rule will need a real-time inventory call that isn't currently designed. This connects directly to Open Question 6 in the solution design.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-note">Note</span>
+    <span class="gap-title">ERP is NetSuite — not SAP as assumed in the solution design</span>
+  </div>
+  <div class="gap-body">The solution design mentions "an SAP backend" when describing what Conscia won't connect to directly (Section 3.3). But Lovesac's ERP is <strong>NetSuite</strong>, not SAP. The BOM output from DX Engine is described as going to SAP, but it should be NetSuite. This is a terminology error in the solution design that should be corrected before the kickoff deck is presented.</div>
+</div>
+
+<div class="gap-card">
+  <div class="gap-header">
+    <span class="gap-sev sev-note">Note</span>
+    <span class="gap-title">Mobile Apps (StealthTech v2.0) is a channel not mentioned in the solution design</span>
+  </div>
+  <div class="gap-body">A Mobile App channel (specifically called out as StealthTech v2.0) appears at the top of the architecture. This is presumably the companion app for StealthTech audio/charging system management. It is not a configurable commerce channel, so it's not a gap in the Conscia scope — but it's worth confirming: <strong>does the StealthTech app need to query product compatibility data?</strong> If StealthTech components need to be validated as compatible with a Sactional configuration, DX Engine would be the right layer for that too.</div>
+</div>
+
+</div>
