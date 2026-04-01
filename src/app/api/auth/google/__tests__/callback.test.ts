@@ -9,6 +9,19 @@ vi.mock("@/lib/supabase/server", () => ({
   })),
 }));
 
+// Supabase admin client mock (used for incremental auth check)
+const mockAdminSingle = vi.fn();
+vi.mock("@/lib/supabase/admin", () => ({
+  createAdminClient: vi.fn(() => ({
+    from: vi.fn(() => ({
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      limit: vi.fn().mockReturnThis(),
+      single: mockAdminSingle,
+    })),
+  })),
+}));
+
 // Google auth service mocks
 const mockExchangeCode = vi.fn();
 const mockGetGoogleUserEmail = vi.fn();
@@ -41,6 +54,8 @@ beforeEach(() => {
   vi.clearAllMocks();
   mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
   mockCookieGet.mockReturnValue({ value: "valid-state" });
+  // Default: no existing integration (new connection requires refresh token)
+  mockAdminSingle.mockResolvedValue({ data: null, error: null });
 });
 
 describe("GET /api/auth/google/callback", () => {

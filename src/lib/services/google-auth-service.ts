@@ -165,6 +165,13 @@ export async function getValidAccessToken(
   return access_token;
 }
 
+export function generateCalendarScopeUrl(state: string): string {
+  return generateAuthUrl(
+    ["https://www.googleapis.com/auth/calendar.readonly"],
+    state,
+  );
+}
+
 export async function removeIntegration(
   integrationId: string,
   userId: string,

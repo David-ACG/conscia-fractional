@@ -211,21 +211,15 @@ export function GoogleIntegrationsSection({
             </div>
 
             <div className="flex gap-2 mt-1">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled
-                      className="text-xs"
-                    >
-                      Add Calendar Access
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>Coming in Phase 4</TooltipContent>
-              </Tooltip>
+              {integration.scopes.includes(
+                "https://www.googleapis.com/auth/calendar.readonly",
+              ) ? null : (
+                <Button asChild size="sm" variant="outline" className="text-xs">
+                  <a href="/api/auth/google?scopes=calendar.readonly">
+                    Add Calendar Access
+                  </a>
+                </Button>
+              )}
 
               <Tooltip>
                 <TooltipTrigger asChild>

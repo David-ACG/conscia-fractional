@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   exchangeCode,
   getGoogleUserEmail,
@@ -50,13 +51,31 @@ export async function GET(request: NextRequest) {
   try {
     const tokens = await exchangeCode(code);
 
-    if (!tokens.refresh_token) {
-      return NextResponse.redirect(
-        new URL(`${SETTINGS_URL}?error=no_refresh_token`, request.url),
-      );
-    }
-
     const email = await getGoogleUserEmail(tokens.access_token);
+
+    if (!tokens.refresh_token) {
+      // Incremental auth (adding a new scope to an existing integration) —
+      // Google only returns a refresh_token on the first authorisation.
+      // Verify the integration already exists before accepting the token.
+      const admin = createAdminClient();
+      if (admin) {
+        const { data: existing } = await admin
+          .from("integrations")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("provider", "google")
+          .eq("account_identifier", email)
+          .eq("is_active", true)
+          .limit(1)
+          .single();
+
+        if (!existing) {
+          return NextResponse.redirect(
+            new URL(`${SETTINGS_URL}?error=no_refresh_token`, request.url),
+          );
+        }
+      }
+    }
 
     await storeTokens(user.id, email, tokens);
 
