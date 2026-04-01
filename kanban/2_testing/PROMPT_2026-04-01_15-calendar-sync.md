@@ -251,3 +251,47 @@ Test:
 - [ ] Incremental auth flow is properly specified
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_15-calendar-sync.md`
+
+---
+
+## Implementation Notes — 2026-04-02 00:14
+
+- **Commit:** 089c38c feat(prompt-15): google calendar sync with incremental token support
+- **Tests:** 528 passed (54 test files)
+- **Verification URL:** http://localhost:3002/dashboard/settings
+- **Playwright check:** N/A — no web UI changes beyond settings button (no running server)
+- **Changes summary:**
+  - `supabase/migrations/012_create_calendar_events.sql` — calendar_events table, RLS, 3 indexes
+  - `src/lib/services/google-calendar-service.ts` — syncEvents (full + incremental + 410 recovery + pagination), extractMeetingUrl (Meet/Zoom/Teams/Webex), matchAttendeesToCustomer (contacts → clients → crm_customers)
+  - `src/app/api/cron/calendar-sync/route.ts` — GET cron, CRON_SECRET auth, per-integration error isolation, upserts events, stores sync token + last_sync in metadata
+  - `src/lib/services/google-auth-service.ts` — added generateCalendarScopeUrl()
+  - `src/app/api/auth/google/callback/route.ts` — incremental auth: skip no_refresh_token error if integration already exists
+  - `src/app/(dashboard)/settings/google-integrations.tsx` — "Add Calendar Access" button now active, links to /api/auth/google?scopes=calendar.readonly when scope not yet granted
+  - `src/app/api/auth/google/__tests__/callback.test.ts` — added admin mock for incremental auth test
+  - `src/lib/services/__tests__/google-calendar-service.test.ts` — 12 tests: syncEvents (full/incremental/410/pagination), extractMeetingUrl (4 cases), matchAttendeesToCustomer (4 cases)
+  - `src/app/api/cron/calendar-sync/__tests__/route.test.ts` — 5 tests: auth checks, empty sync, success sync, error isolation
+- **Deviations from plan:** contacts table uses client_id (not crm_customer_id as prompt assumed) — matchAttendeesToCustomer implemented via contacts → client → meetings → crm_customer lookup
+- **Follow-up issues:** None
+
+---
+
+## Testing Checklist — 2026-04-02 00:14
+
+**Check the changes:** http://localhost:3002/dashboard/settings
+
+- [ ] Page loads without errors
+- [ ] Google-connected accounts show "Add Calendar Access" button if calendar scope not granted
+- [ ] "Add Calendar Access" button is hidden for accounts that already have calendar.readonly scope
+- [ ] Clicking "Add Calendar Access" triggers Google OAuth flow with calendar.readonly scope
+- [ ] After granting calendar access, settings page shows Calendar badge on that account
+- [ ] Cron endpoint rejects requests without CRON_SECRET: `curl http://localhost:3002/api/cron/calendar-sync` → 401
+- [ ] Cron endpoint returns sync summary: `curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3002/api/cron/calendar-sync` → `{"synced":N,"errors":[]}`
+
+### Actions for David
+
+1. Run `supabase db push` (or apply migration via Supabase dashboard) to create the calendar_events table
+2. Check the Settings page at the URL above and tick the boxes
+3. Test the "Add Calendar Access" button with a connected Google account
+4. Set `CRON_SECRET` in your `.env.local` if not already set, then test the cron endpoint
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_15-calendar-sync.md`
