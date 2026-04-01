@@ -244,3 +244,55 @@ Test:
 - [ ] Calendar data comes from local DB, not direct Google API calls
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_16-calendar-ui.md`
+
+---
+
+## Implementation Notes — 2026-04-02 00:29
+
+- **Commit:** ca54c42 feat(prompt-16): calendar page UI and upcoming events dashboard card
+- **Tests:** 547 passed (56 test files) — all green
+- **Verification URL:** http://localhost:3002/calendar
+- **Playwright check:** N/A (no running dev server; visual check deferred to testing phase)
+- **Changes summary:**
+  - `src/app/api/calendar/events/route.ts` — GET endpoint, date-range filter, user-scoped, crm_customers join, limit param
+  - `src/components/calendar/calendar-view.tsx` — FullCalendar week/month view, event colour by CRM customer hash
+  - `src/components/calendar/calendar.css` — shadcn/Tailwind CSS variable overrides for FullCalendar theme
+  - `src/components/calendar/event-detail-dialog.tsx` — Dialog with title, time, location, Meet/Zoom/Teams URL detection, attendees + status badges, CRM link, Record/Create Meeting buttons
+  - `src/app/(dashboard)/calendar/page.tsx` — Replaced placeholder with dynamic CalendarView import
+  - `src/components/dashboard/upcoming-events-card.tsx` — Next 5 events grouped Today/Tomorrow/This Week, 5-min polling, empty + no-integration states
+  - `src/app/(dashboard)/dashboard/page.tsx` — Added UpcomingEventsCard to dashboard grid
+  - Two test files: 11 EventDetailDialog tests + 6 UpcomingEventsCard tests
+- **Deviations from plan:** Calendar page uses 'use client' + dynamic import (required for FullCalendar SSR). Route prefix is `(dashboard)` not `dashboard` (existing project convention).
+- **Follow-up issues:** Prompt 17 will wire the "Record Meeting" and "Create Meeting Record" buttons to the actual meetings flow.
+
+---
+
+## Testing Checklist — 2026-04-02 00:29
+
+**Check the changes:** http://localhost:3002/calendar
+
+- [ ] Page loads without errors
+- [ ] Calendar renders in week view by default
+- [ ] Week/Month toggle buttons work
+- [ ] Events from calendar_events table appear (requires synced Google Calendar data)
+- [ ] Events are coloured differently per CRM customer
+- [ ] Clicking an event opens the EventDetailDialog
+- [ ] Dialog shows title, date/time, location, meeting URL (if set)
+- [ ] Meeting URL shows correct label (Meet/Zoom/Teams)
+- [ ] Attendees list with response status badges renders
+- [ ] CRM customer name links to /crm/[slug]
+- [ ] "Record Meeting" and "Create Meeting Record" buttons link to /meetings
+- [ ] Dashboard at http://localhost:3002/dashboard shows Upcoming Events card
+- [ ] Upcoming Events card groups events Today/Tomorrow/This Week
+- [ ] "View Calendar" link navigates to /calendar
+- [ ] Empty state shows "No upcoming events." when no events
+- [ ] No console errors
+
+### Actions for David
+
+1. Start the dev server: `npm run dev`
+2. Check the calendar at http://localhost:3002/calendar
+3. Check the dashboard at http://localhost:3002/dashboard
+4. If Google Calendar is synced, events should appear; if not, the calendar will be empty but functional.
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_16-calendar-ui.md`
