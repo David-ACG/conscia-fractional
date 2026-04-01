@@ -11,6 +11,7 @@ import { QuickActions } from "@/components/dashboard/quick-actions";
 import { TasksCard } from "@/components/dashboard/tasks-card";
 import { MeetingsCard } from "@/components/dashboard/meetings-card";
 import { ActivityCard } from "@/components/dashboard/activity-card";
+import { UpcomingEventsCard } from "@/components/dashboard/upcoming-events-card";
 import type {
   TimeEntry,
   Engagement,
@@ -114,6 +115,9 @@ export default async function DashboardPage() {
               notes={notes}
               deliverables={deliverables}
             />
+          </DashboardCard>
+          <DashboardCard>
+            <UpcomingEventsCard />
           </DashboardCard>
         </DashboardGrid>
       </div>

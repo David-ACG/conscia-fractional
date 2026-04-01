@@ -1,0 +1,84 @@
+/* FullCalendar theme overrides — matches shadcn/Tailwind CSS variables */
+
+.fc-wrapper .fc {
+  --fc-border-color: hsl(var(--border));
+  --fc-button-bg-color: hsl(var(--secondary));
+  --fc-button-border-color: hsl(var(--border));
+  --fc-button-text-color: hsl(var(--secondary-foreground));
+  --fc-button-hover-bg-color: hsl(var(--accent));
+  --fc-button-hover-border-color: hsl(var(--border));
+  --fc-button-active-bg-color: hsl(var(--primary));
+  --fc-button-active-border-color: hsl(var(--primary));
+  --fc-button-active-text-color: hsl(var(--primary-foreground));
+  --fc-today-bg-color: hsl(var(--accent) / 0.4);
+  --fc-neutral-bg-color: hsl(var(--card));
+  --fc-page-bg-color: hsl(var(--card));
+  --fc-event-text-color: #fff;
+  --fc-list-event-hover-bg-color: hsl(var(--accent));
+  font-family: inherit;
+  font-size: 0.875rem;
+}
+
+.fc-wrapper .fc-toolbar-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.fc-wrapper .fc-button {
+  border-radius: 0.375rem !important;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.25rem 0.625rem !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s;
+}
+
+.fc-wrapper .fc-button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.fc-wrapper .fc-button-group .fc-button {
+  border-radius: 0 !important;
+}
+
+.fc-wrapper .fc-button-group .fc-button:first-child {
+  border-radius: 0.375rem 0 0 0.375rem !important;
+}
+
+.fc-wrapper .fc-button-group .fc-button:last-child {
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+
+.fc-wrapper .fc-event {
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 1px 3px;
+}
+
+.fc-wrapper .fc-event:hover {
+  opacity: 0.9;
+}
+
+.fc-wrapper .fc-col-header-cell-cushion,
+.fc-wrapper .fc-daygrid-day-number {
+  color: hsl(var(--foreground));
+}
+
+.fc-wrapper .fc-timegrid-slot-label,
+.fc-wrapper .fc-timegrid-axis-cushion {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.fc-wrapper .fc-now-indicator-line {
+  border-color: hsl(var(--destructive));
+}
+
+.fc-wrapper .fc-now-indicator-arrow {
+  border-top-color: hsl(var(--destructive));
+  border-bottom-color: hsl(var(--destructive));
+}
