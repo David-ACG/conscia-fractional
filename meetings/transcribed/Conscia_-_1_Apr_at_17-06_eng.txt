@@ -1,0 +1,1220 @@
+00:00:00,360 --> 00:00:02,760 [Speaker 0]
+No, let me see. 
+
+00:00:04,500 --> 00:00:08,639 [Speaker 1]
+Um, yeah, I'm just checking here. Product data, left side. 
+
+00:00:08,640 --> 00:00:13,380 [Speaker 0]
+I think March 12th she sent a copy of item search. Is that what it is named? 
+
+00:00:13,380 --> 00:00:15,460 [Speaker 1]
+Oh, that may be the one. 
+
+00:00:17,440 --> 00:00:18,360 [Speaker 1]
+Yes. Yes. 
+
+00:00:18,360 --> 00:00:18,460 [Speaker 0]
+Yeah. 
+
+00:00:18,460 --> 00:00:24,460 [Speaker 1]
+Copy. So that's an Excel file. Co-copy of item search. That's, that's what it was. 
+
+00:00:25,740 --> 00:00:28,860 [Speaker 1]
+So that's the product file, what we have called product file now. 
+
+00:00:28,860 --> 00:00:40,400 [Speaker 0]
+Yeah. I think we're just calling it that, but it's kind of a copy of item search. So what it probably is, is that it's a data feed that goes into their existing search index. 
+
+00:00:41,680 --> 00:00:42,900 [Speaker 1]
+Okay. 
+
+00:00:42,900 --> 00:00:43,080 [Speaker 0]
+S- 
+
+00:00:43,080 --> 00:00:43,500 [Speaker 1]
+Which- 
+
+00:00:43,500 --> 00:00:49,980 [Speaker 0]
+Would be what? A smaller file? The... Why would that be the bigger file? I'm just wondering. 
+
+00:00:49,980 --> 00:00:51,260 [Speaker 1]
+That's... 
+
+00:00:51,260 --> 00:00:51,780 [Speaker 0]
+Yes. 
+
+00:00:51,780 --> 00:00:52,180 [Speaker 1]
+Um, 
+
+00:00:54,280 --> 00:00:55,760 [Speaker 1]
+I think what... 
+
+00:00:55,760 --> 00:00:55,839 [Speaker 0]
+Yeah. 
+
+00:00:55,840 --> 00:01:09,100 [Speaker 1]
+Um, yeah, let, let's just ask her. Let's just ask her [clears throat] that question. We, we won't speculate. We will just say it was called Copy of Item Search, and it was an Excel file before. 
+
+00:01:09,100 --> 00:01:09,240 [Speaker 0]
+Okay. 
+
+00:01:09,240 --> 00:01:22,520 [Speaker 1]
+Then we got a CSV in the latest batch. Are they similar? One thing I did notice, at least when I looked at them, it seemed like the, uh, the newer file has more fields in it 
+
+00:01:23,700 --> 00:01:30,620 [Speaker 1]
+than the product, um, file that she had shared earlier. I don't know if you saw that as well. 
+
+00:01:30,620 --> 00:01:32,119 [Speaker 0]
+It does have more fields, yes. 
+
+00:01:33,220 --> 00:01:33,920 [Speaker 1]
+Okay. 
+
+00:01:33,920 --> 00:01:34,000 [Speaker 0]
+Yeah. 
+
+00:01:34,000 --> 00:01:45,920 [Speaker 1]
+So it's broad. It has more dimensions, more attributes, so it's probably the one that we want. Um, but the other one has more records, just less fields. So I think I would just write that down. 
+
+00:01:45,920 --> 00:01:48,860 [Speaker 0]
+Some different fields also. It's not, um, consistent. 
+
+00:01:48,860 --> 00:01:53,920 [Speaker 1]
+Oh, okay. So it's not like the new one is a super set of all fields. 
+
+00:01:53,920 --> 00:01:54,399 [Speaker 0]
+No, it looks like- 
+
+00:01:54,400 --> 00:01:56,220 [Speaker 1]
+It's just an overlapping set of fields. 
+
+00:01:56,220 --> 00:01:56,820 [Speaker 0]
+Yeah. 
+
+00:01:56,820 --> 00:02:02,619 [Speaker 1]
+Okay. So hori- both horizontally and vertically, you have overlaps- 
+
+00:02:02,620 --> 00:02:03,000 [Speaker 0]
+Mm-hmm 
+
+00:02:03,000 --> 00:02:04,180 [Speaker 1]
+... in both of them. 
+
+00:02:04,180 --> 00:02:04,640 [Speaker 0]
+Yes. 
+
+00:02:04,640 --> 00:02:07,420 [Speaker 1]
+So do we merge it? Do we... You know, what do we do? 
+
+00:02:07,420 --> 00:02:08,419 [Speaker 0]
+Yeah. 
+
+00:02:08,420 --> 00:02:19,240 [Speaker 1]
+Yeah. Okay. Okay. So that, that's just a question that we need to ask. Like, do we want... You know, I mean, I, I would guess you would want all of them, all of the fields in the PIM. 
+
+00:02:20,680 --> 00:02:25,310 [Speaker 2]
+Uh, are we gonna collate all of these questions into one, uh, sheet- 
+
+00:02:25,310 --> 00:02:25,310 [Speaker 1]
+Yeah 
+
+00:02:25,310 --> 00:02:26,900 [Speaker 2]
+... and then send them over? Is that- 
+
+00:02:26,900 --> 00:02:27,460 [Speaker 0]
+Yeah, we should- 
+
+00:02:27,460 --> 00:02:30,000 [Speaker 2]
+Is that Morgan doing that or, or someone? 
+
+00:02:30,000 --> 00:02:30,480 [Speaker 0]
+Yeah. 
+
+00:02:30,480 --> 00:02:30,720 [Speaker 2]
+Yeah. 
+
+00:02:30,720 --> 00:02:31,900 [Speaker 0]
+I'm on the- 
+
+00:02:31,900 --> 00:02:32,130 [Speaker 2]
+Cool 
+
+00:02:32,130 --> 00:02:33,820 [Speaker 0]
+... the work of it right now, so. Yeah, I'll send them. 
+
+00:02:33,820 --> 00:02:35,040 [Speaker 1]
+Yeah. 
+
+00:02:35,040 --> 00:02:37,720 [Speaker 0]
+Make sure that I got all your questions. [laughs] 
+
+00:02:38,860 --> 00:02:45,480 [Speaker 2]
+'Cause I had a whole load of questions that I asked on the-- on Monday in Slack. 
+
+00:02:45,480 --> 00:02:46,100 [Speaker 1]
+Sorry? 
+
+00:02:46,100 --> 00:02:50,679 [Speaker 2]
+I a- I asked quite a few questions on Monday in Slack. Um- 
+
+00:02:50,680 --> 00:02:52,760 [Speaker 1]
+Right. So we should pull them together. 
+
+00:02:52,760 --> 00:02:53,040 [Speaker 2]
+Yeah. 
+
+00:02:53,040 --> 00:02:58,560 [Speaker 1]
+Okay. If, if there was anything that was unanswered, then we should put it together. 
+
+00:02:58,560 --> 00:03:00,320 [Speaker 2]
+Yeah, I think there were a few that weren't. 
+
+00:03:01,960 --> 00:03:05,049 [Speaker 1]
+Yeah. Yeah. 
+
+00:03:05,049 --> 00:03:07,989 [Speaker 0]
+Yeah. Yep, I'll pull them together. 
+
+00:03:07,989 --> 00:03:08,079 [Speaker 1]
+Cool. 
+
+00:03:08,080 --> 00:03:17,080 [Speaker 0]
+Um, my only other question, I think on the data side was the, um... Well, I also put this in the Slack, but like the bundle SKUs files. 
+
+00:03:17,080 --> 00:03:17,900 [Speaker 1]
+Yes. 
+
+00:03:17,900 --> 00:03:30,320 [Speaker 0]
+Um, so the... All of the, like, parent SKU, that field in-- for all the records in that file are not in the item full or product file. So I was assuming that these are, like, the finished goods. Is that correct? 
+
+00:03:31,640 --> 00:03:32,160 [Speaker 1]
+Um- 
+
+00:03:32,160 --> 00:03:32,590 [Speaker 0]
+Or do we need to- 
+
+00:03:32,590 --> 00:03:41,500 [Speaker 1]
+Yeah, it's weird. It's, it's... So their data is really strange. Um, I don't think that those are finished goods. 
+
+00:03:41,500 --> 00:03:41,760 [Speaker 0]
+Okay. 
+
+00:03:41,760 --> 00:03:46,500 [Speaker 1]
+There's only, like, six finished or fifteen finished goods in the- 
+
+00:03:48,800 --> 00:03:59,320 [Speaker 0]
+The new item file, right? Oh, sorry. In the item full one, the finished goods, the ones that are tagged with, like, something got like finished goods, it's only the snugs. There's no sectionals that- 
+
+00:03:59,320 --> 00:03:59,579 [Speaker 1]
+Yeah 
+
+00:03:59,579 --> 00:04:01,060 [Speaker 0]
+... are tagged as finished goods. 
+
+00:04:01,060 --> 00:04:24,080 [Speaker 1]
+Exactly. So, so I think we separate. So we will have a collection of bundles, right, that is gonna have references to the individual SKUs. Um, and that was the answer. That was the question I think I answered in the Slack channel when we were talking about, you know, do we, do we create one-to-many references or- 
+
+00:04:24,080 --> 00:04:24,480 [Speaker 0]
+Mm-hmm 
+
+00:04:24,480 --> 00:04:37,469 [Speaker 1]
+... uh, relationships between those files or it's gonna have to be modeled as a, uh, essentially a nested object inside another collection. And I think it's gonna have to be a nested object with 
+
+00:04:38,520 --> 00:04:40,840 [Speaker 1]
+specific references to- 
+
+00:04:40,840 --> 00:04:41,560 [Speaker 0]
+Okay. 
+
+00:04:41,560 --> 00:04:41,750 [Speaker 1]
+To SKUs. 
+
+00:04:41,750 --> 00:04:44,740 [Speaker 0]
+So even it's a totally different collection for, like, the finished goods. 
+
+00:04:44,740 --> 00:04:46,430 [Speaker 1]
+Yeah, for bundles. Bundles. 
+
+00:04:46,430 --> 00:04:46,440 [Speaker 0]
+Bundles. 
+
+00:04:46,440 --> 00:04:47,640 [Speaker 1]
+They would call them bundles. 
+
+00:04:47,640 --> 00:04:48,130 [Speaker 0]
+Okay. 
+
+00:04:48,130 --> 00:05:00,020 [Speaker 1]
+Yeah. Yeah. 'Cause she never used the word finished goods, so I was... When I saw the word finished goods i-in there, I think it's just one of the regular SKUs that just comes together as a finished SKU. 
+
+00:05:00,020 --> 00:05:01,120 [Speaker 0]
+Okay. 
+
+00:05:01,120 --> 00:05:12,200 [Speaker 1]
+But it doesn't really actually have... If-- Those finished SKUs or goods don't have actual references to other SKUs, whereas bundles actually have real references to other SKUs. 
+
+00:05:12,200 --> 00:05:13,680 [Speaker 0]
+Yes. Okay. That's that cleared. 
+
+00:05:13,680 --> 00:05:14,500 [Speaker 1]
+Do you see what I mean? 
+
+00:05:14,500 --> 00:05:17,820 [Speaker 0]
+And that was also what I was confused about in, like, the solution document. 
+
+00:05:17,820 --> 00:05:18,210 [Speaker 1]
+Yeah. 
+
+00:05:18,210 --> 00:05:21,560 [Speaker 0]
+'Cause that system I think, like, works a little bit- 
+
+00:05:21,560 --> 00:05:25,860 [Speaker 1]
+Yeah. Yeah. So finished goods, just keep it as a regular SKU, right? 
+
+00:05:25,860 --> 00:05:25,880 [Speaker 0]
+Mm-hmm. 
+
+00:05:25,880 --> 00:05:29,880 [Speaker 1]
+There may actually be a bundle that refers to the finished SKU as well. 
+
+00:05:29,880 --> 00:05:29,900 [Speaker 0]
+Mm-hmm. 
+
+00:05:29,900 --> 00:05:31,600 [Speaker 1]
+You never know. Or finished good. 
+
+00:05:31,600 --> 00:05:31,900 [Speaker 0]
+Yes. 
+
+00:05:31,900 --> 00:05:36,200 [Speaker 1]
+Um, that... And, and so what, uh, one of the things that, um, 
+
+00:05:37,260 --> 00:05:59,000 [Speaker 1]
+we wanna keep in mind when we're modeling the data, right, there are different considerations. One consideration is, since we're using this as a PIM and not just a data repository or a, or a graph that nobody actually goes in and looks at, we need the editing ex-experience, the editor experience to be user-friendly. 
+
+00:05:59,000 --> 00:05:59,100 [Speaker 0]
+Mm-hmm. 
+
+00:05:59,100 --> 00:06:29,092 [Speaker 1]
+So we want-Uh, the bundles to be modeled the way I had suggested in the, in the JSON kind of snippet that I created using Quad as well, um, 'cause I'm not good with writing JSON myself. Um, the reason why we want it that way is so that the merchandiser or a category manager can actually go in, take a look at a bundle, and handpick, um, items that they wanna add to the bundle. 
+
+00:06:29,092 --> 00:06:30,172 [Speaker 3]
+Okay. 
+
+00:06:30,172 --> 00:06:30,752 [Speaker 1]
+Right? 
+
+00:06:30,752 --> 00:06:30,792 [Speaker 3]
+Mm-hmm. 
+
+00:06:30,792 --> 00:06:35,212 [Speaker 1]
+So we could-- They could do that if it's set up as an array of objects. 
+
+00:06:35,212 --> 00:06:35,732 [Speaker 3]
+Mm-hmm. 
+
+00:06:35,732 --> 00:06:45,952 [Speaker 1]
+If we set it up as a relationship, like a one-to-one or a one-to-many or a dynamic relationship, the merchandiser would have to set up a rule that applies, 
+
+00:06:47,232 --> 00:06:53,932 [Speaker 1]
+um, across various things. And there's no real rule here. It's a manual set of SKUs that has to be tied 
+
+00:06:54,972 --> 00:06:57,702 [Speaker 1]
+w-specifically to a bundle, right? 
+
+00:06:57,702 --> 00:06:57,712 [Speaker 3]
+Mm-hmm. 
+
+00:06:57,712 --> 00:07:06,192 [Speaker 1]
+So we wanna give them that editor experience and, and, uh, so we don't wanna use any other kind of trick to connect them- 
+
+00:07:06,192 --> 00:07:06,392 [Speaker 3]
+Okay 
+
+00:07:06,392 --> 00:07:08,672 [Speaker 1]
+... to each other. Does that make sense? 
+
+00:07:08,672 --> 00:07:10,332 [Speaker 3]
+Yes, a hundred percent. Yeah. 
+
+00:07:10,332 --> 00:07:25,232 [Speaker 1]
+Okay. And then the s-- So that's one consideration. The second consideration is from a front end, um, if we make a call to the DX engine to go retrieve something, the queries have to work, right? 
+
+00:07:25,232 --> 00:07:25,252 [Speaker 3]
+Mm-hmm. 
+
+00:07:25,252 --> 00:07:44,052 [Speaker 1]
+We have to be able to traverse through the graph queries. We have to be able to traver-- or, or the o-objects and entities inside the graphs. We need to be able to relate things in such a way that the query can work through it. And we cannot, you know, actually reason over the data 
+
+00:07:45,312 --> 00:07:53,892 [Speaker 1]
+easily using the APIs that are available to us, both for the DX graph as well as the capabilities that are there in the DX engine. 
+
+00:07:53,892 --> 00:07:54,032 [Speaker 3]
+Mm-hmm. 
+
+00:07:54,032 --> 00:08:06,102 [Speaker 1]
+They need to be able to, um, work with those APIs. So that-- So whenever you're modeling data, like just... That, that's why the requirements are so important. 
+
+00:08:06,102 --> 00:08:06,292 [Speaker 3]
+Mm-hmm. 
+
+00:08:06,292 --> 00:08:09,391 [Speaker 1]
+Right? They need to tell us what, what are we looking for really? 
+
+00:08:10,852 --> 00:08:35,312 [Speaker 1]
+Why, why do we need to model it that way? What's, what's the real use case that we need to support at the end of the day? So I, I think so far at, at least eighty percent of what we're thinking is probably accurate, but some of it is gonna change as we learn more about what they really want from this system, uh, overall. 
+
+00:08:35,312 --> 00:08:48,801 [Speaker 2]
+Do they have, um, any user stories that we could see? Because I think that would explain quite a lot. Well, it, it would help me understand it a lot more. I, I looked at their website and, um, I realized- 
+
+00:08:48,801 --> 00:08:48,812 [Speaker 1]
+Mm-hmm 
+
+00:08:48,812 --> 00:08:58,081 [Speaker 2]
+... that their, their sofas aren't quite the same as, uh, like UK sofas or whatever. Um, so you can have like a- 
+
+00:08:58,081 --> 00:08:58,682 [Speaker 1]
+[laughs] 
+
+00:08:58,682 --> 00:09:11,322 [Speaker 2]
+... a wooden base, and then you can have a complete, a, a different cushion. Then you can put that... You can take that cushion, put it on the floor, and then you can have all of these different sort of configurations of stuff. 
+
+00:09:11,322 --> 00:09:12,002 [Speaker 1]
+Yeah. [laughs] 
+
+00:09:12,002 --> 00:09:12,521 [Speaker 2]
+And I, and I- 
+
+00:09:12,521 --> 00:09:12,521 [Speaker 1]
+Yeah 
+
+00:09:12,521 --> 00:09:15,172 [Speaker 2]
+... imagine that's what the bundles are. But, um, 
+
+00:09:16,652 --> 00:09:22,852 [Speaker 2]
+how would someone browse the web-- browse their site now to- 
+
+00:09:22,852 --> 00:09:22,972 [Speaker 1]
+Yeah 
+
+00:09:22,972 --> 00:09:23,172 [Speaker 2]
+... put... 
+
+00:09:24,752 --> 00:09:31,672 [Speaker 2]
+What are they trying to get to? 'Cause they're, they're trying to get to an agentic way of putting all of these things together. 
+
+00:09:31,672 --> 00:09:32,552 [Speaker 1]
+Eventually. 
+
+00:09:32,552 --> 00:09:32,992 [Speaker 2]
+Yeah. 
+
+00:09:32,992 --> 00:10:05,392 [Speaker 1]
+Eventually, yeah. For, for now, they just-- So for now, the big requirement is that they need to be able to s-service their existing visual, uh, visualizer or that three-kit configurator. We, we need to have the data and the rules somewhere, i.e., the PIM, so that the, the configurator or the POS can call it to get the information that it needs to allow you to build, uh, a configured couch essentially. So I-- in order to... I'm gonna just send you this link here. 
+
+00:10:05,392 --> 00:10:06,212 [Speaker 2]
+And should it work the way- 
+
+00:10:06,212 --> 00:10:07,512 [Speaker 1]
+I don't know if you guys saw this one. 
+
+00:10:07,512 --> 00:10:10,212 [Speaker 2]
+Should it work the way it does now? 
+
+00:10:10,212 --> 00:10:10,252 [Speaker 1]
+Mm-hmm. 
+
+00:10:10,252 --> 00:10:11,072 [Speaker 2]
+Is that what they want? 
+
+00:10:11,072 --> 00:10:11,652 [Speaker 1]
+Mm-hmm. Yeah. 
+
+00:10:11,652 --> 00:10:13,722 [Speaker 2]
+Or should it work in some different way? 
+
+00:10:13,722 --> 00:10:13,792 [Speaker 1]
+They want that. 
+
+00:10:13,792 --> 00:10:15,922 [Speaker 2]
+Okay. So all I have to do is just go to the website. 
+
+00:10:15,922 --> 00:10:26,132 [Speaker 1]
+No. So the visual... Yeah. Yeah. They have not said that they're gonna change the experience. It's-- They've just said that they're gonna integrate it with what they have today. 
+
+00:10:26,132 --> 00:10:27,312 [Speaker 2]
+Okay. Fine. 
+
+00:10:27,312 --> 00:10:44,432 [Speaker 1]
+Um, so we're gonna assume, if, if you look at this document here, um, tha-this document was generated by Claude Cowork, and the way it did that is that it actually went through every... I asked it to go through the entire configuration wizard- 
+
+00:10:44,432 --> 00:10:44,732 [Speaker 2]
+Yeah 
+
+00:10:44,732 --> 00:10:56,932 [Speaker 1]
+... um, and any information it can get about how the couches and the s-sofas are configured. Um, so it basically followed the wizard- 
+
+00:10:56,932 --> 00:10:57,042 [Speaker 2]
+Right 
+
+00:10:57,042 --> 00:11:22,302 [Speaker 1]
+... that is already there and took a lot, long time to go through every possible, uh, you know, uh, permutation of things that it could configure and came up with this document that tells us how many-- you know, what are some of the compatibility things that it sees, and what are the attributes that we're selecting, et cetera. So it may actually be worth sharing that, 
+
+00:11:23,572 --> 00:11:39,052 [Speaker 1]
+um, with Amelia and say that, "Look, we've come up with kind of the configuration requirements ourselves. We've reversed engineered based on what we see on, uh, their website today." 
+
+00:11:39,052 --> 00:11:39,672 [Speaker 2]
+Yeah. 
+
+00:11:39,672 --> 00:11:45,012 [Speaker 1]
+Um, can you guys have a look at it and somebody from the business team validate 
+
+00:11:46,032 --> 00:12:02,412 [Speaker 1]
+that this is right, that we've documented the current way of configuring the couches? This, uh, you know, uh, do, do we have that right? And if we don't have it right, do we need a session on those user stories? 
+
+00:12:02,412 --> 00:12:02,612 [Speaker 2]
+Yeah.
+
+00:12:03,512 --> 00:12:12,452 [Speaker 1]
+That what-- 'cause we, we need to know how you're gonna be using this data so that we can model it the best possible way. 
+
+00:12:12,452 --> 00:12:17,692 [Speaker 2]
+Yeah, exactly. That's what I was trying to say, but you said it much better. Cool. 
+
+00:12:17,692 --> 00:12:19,242 [Speaker 1]
+Yeah. [laughs] 
+
+00:12:19,242 --> 00:12:19,272 [Speaker 2]
+[laughs] 
+
+00:12:19,272 --> 00:12:23,642 [Speaker 1]
+No worries. My brain's actually working right now. I have my tea. [laughs] 
+
+00:12:23,642 --> 00:12:25,312 [Speaker 2]
+[laughs] 
+
+00:12:25,312 --> 00:13:50,112 [Speaker 1]
+Yeah. So yeah, so let's send it. It also, I think, impresses upon Amelia that we've actually done some work already. Um, we've thought through their requirements, and we're really, you know, all in. Uh, and so that expedites this contract hopefully, um, on her end as well. Uh, 'cause we are working at risk at this point. They haven't, they haven't signed, um, so we wanna, you know, really let her know that we need to move quickly on this. Um, so yeah, so if, if-- Uh, well, I guess what I'm saying is, if we can package together an email that has a bunch of these items, so the questions that you have about the data, what are we missing, um, look at our understanding of your, um, [clears throat] of your current world. Probably not a solution yet. I wouldn't share the solution with her yet 'cause it won't mean anything to her right now. It would be too much information for her to consume and because she, she doesn't even understand the DX graph and how it works at all for her to make sense out of collections and relationships and schemas within the DX graph. She won't, she won't get it. Um, just everything else that we need, um, from them to move ahead. 
+
+00:13:52,552 --> 00:13:55,372 [Speaker 1]
+But in the meantime, uh, Laurel, is, uh, is there... 
+
+00:13:56,512 --> 00:14:03,892 [Speaker 1]
+You know, I know we want her to a-answer some of these questions, but does it really block us right now? 
+
+00:14:03,892 --> 00:14:09,502 [Speaker 4]
+Um, I think, like, knowing the data files would be useful. Um, but- 
+
+00:14:09,502 --> 00:14:09,552 [Speaker 1]
+Sure. 
+
+00:14:09,552 --> 00:14:10,312 [Speaker 4]
+Otherwise, 
+
+00:14:11,332 --> 00:14:11,732 [Speaker 4]
+I don't- 
+
+00:14:11,732 --> 00:14:13,431 [Speaker 1]
+We can still bring data in. 
+
+00:14:13,432 --> 00:14:15,912 [Speaker 4]
+The data is in DX graph now just from item- 
+
+00:14:15,912 --> 00:14:16,832 [Speaker 1]
+Oh, awesome. 
+
+00:14:16,832 --> 00:14:17,802 [Speaker 4]
+Um, in using- 
+
+00:14:17,802 --> 00:14:17,812 [Speaker 1]
+Okay. 
+
+00:14:17,812 --> 00:14:22,322 [Speaker 4]
+Like the, just the, um, SKU collection, like using the schema- 
+
+00:14:22,322 --> 00:14:22,322 [Speaker 1]
+Sure. 
+
+00:14:22,322 --> 00:14:25,312 [Speaker 4]
+And solution document, but that's in there now, so if anyone wants to look at it. 
+
+00:14:25,312 --> 00:14:27,442 [Speaker 1]
+Okay, awesome. Awesome. 
+
+00:14:27,442 --> 00:14:28,772 [Speaker 4]
+It's there. Um, yeah. So, 
+
+00:14:29,852 --> 00:14:35,992 [Speaker 4]
+no, I think, like, the main blockers would be, like, answering some of the questions about the relationships or getting validation. 
+
+00:14:35,992 --> 00:14:36,652 [Speaker 1]
+Okay. 
+
+00:14:36,652 --> 00:14:40,412 [Speaker 4]
+Um, and then just confirming what the data is, I guess. 
+
+00:14:40,412 --> 00:14:40,942 [Speaker 1]
+Yeah. 
+
+00:14:40,942 --> 00:14:40,992 [Speaker 4]
+Yeah. 
+
+00:14:40,992 --> 00:14:56,772 [Speaker 1]
+Yeah. And what... I think what would be useful is, um, according to the solution document, we're saying that we will build some one-to-many relationships and some dynamic relationships. So I would start creating a few sample relationships. 
+
+00:14:56,772 --> 00:14:57,192 [Speaker 4]
+Mm-hmm. 
+
+00:14:57,192 --> 00:15:05,452 [Speaker 1]
+Um, even if they're incorrect, 'cause we can always delete those relationships. They're just temporary or, or they-they're just metadata- 
+
+00:15:05,452 --> 00:15:05,652 [Speaker 4]
+Mm-hmm. 
+
+00:15:05,652 --> 00:15:11,752 [Speaker 1]
+Essentially, that can easily be deleted. So just play, uh, playing around with the one-to-many- 
+
+00:15:11,752 --> 00:15:11,892 [Speaker 4]
+Yeah. 
+
+00:15:11,892 --> 00:15:29,282 [Speaker 1]
+May be useful to you. Um, the dynamic relationships, there is a... They're a bit tricky, um, because if you have, um, I think if there is some sort of a circular reference, it can actually break the graph. 
+
+00:15:29,282 --> 00:15:29,332 [Speaker 4]
+Okay. 
+
+00:15:29,332 --> 00:15:43,412 [Speaker 1]
+So what the team is actually working, 'cause typically we end up creating those relationships, the, the platform team does that part 'cause it's, it's just not as unbreakable as some of the other features. Um, but 
+
+00:15:44,512 --> 00:15:51,152 [Speaker 1]
+I would just validate the relationship before you go configure it with Herschel. 
+
+00:15:52,192 --> 00:15:52,692 [Speaker 4]
+Okay. 
+
+00:15:52,692 --> 00:16:42,432 [Speaker 1]
+Like, the, the syntax of it. Um, under the hood, it is a Rango, um, DB that we're using for the, for the graph. So there is a SQL, uh, reference for, uh, for the queries that you write for Arango that you can actually look up as well. And now that we have Claude, it can actually help you write some of those, um, queries. In the past, we had to do trial and error, and we broke a lot of things because we wrote queries that were just, you know, referencing all, uh, uh, stuff that it shouldn't be referencing, and it, it caused all sorts of problems. Um, I would look at, like, maybe some existing stuff like the electronics store. Do, do you have access to the electronics store by any chance? 
+
+00:16:42,432 --> 00:16:42,782 [Speaker 4]
+I don't. 
+
+00:16:42,782 --> 00:16:48,952 [Speaker 1]
+I should give you... Okay. So I'll give you a demo, um, username and password. 
+
+00:16:48,952 --> 00:16:49,212 [Speaker 4]
+Okay. 
+
+00:16:49,212 --> 00:17:01,412 [Speaker 1]
+Uh, and if you log in with that into the DX graph in, in the staging, um, application, you can actually see the electronics store and then go into the data model- 
+
+00:17:01,412 --> 00:17:01,672 [Speaker 4]
+Okay. 
+
+00:17:01,672 --> 00:17:08,592 [Speaker 1]
+Um, a-and the schema and relationships area, and you can actually see how those relationships were set up- 
+
+00:17:08,592 --> 00:17:08,732 [Speaker 4]
+Okay. 
+
+00:17:08,732 --> 00:17:09,692 [Speaker 1]
+As well. 
+
+00:17:09,692 --> 00:17:09,972 [Speaker 4]
+Sounds good. 
+
+00:17:09,972 --> 00:17:13,652 [Speaker 1]
+That may help, may be helpful for you to, uh, implement it. 
+
+00:17:13,712 --> 00:17:14,252 [Speaker 4]
+Yeah. Sounds good. 
+
+00:17:14,252 --> 00:17:14,552 [Speaker 1]
+Right. 
+
+00:17:14,552 --> 00:17:25,592 [Speaker 4]
+I think, um, all of the one-to-many relationships that are, like, defined in the solution design document are ones that we don't have data that we would be... That I would be able to implement. 
+
+00:17:25,592 --> 00:17:26,602 [Speaker 1]
+Oh, okay. 
+
+00:17:26,602 --> 00:17:30,812 [Speaker 4]
+'Cause it's, like, to the configuration collection which- 
+
+00:17:30,812 --> 00:17:32,392 [Speaker 1]
+Ah. Hold on. Hold on. 
+
+00:17:32,392 --> 00:17:32,482 [Speaker 4]
+[crosstalking] 
+
+00:17:32,482 --> 00:17:44,992 [Speaker 1]
+So there is a... There is one other document, and I'm not sure if you saw it, which was also created, uh, by Claude. Lovecheck compatibility rules. 
+
+00:17:44,992 --> 00:17:45,612 [Speaker 4]
+Yes. Yeah. 
+
+00:17:46,952 --> 00:17:50,572 [Speaker 1]
+So that one, um, may give you some ideas 
+
+00:17:51,812 --> 00:17:59,592 [Speaker 1]
+about what, uh, what those rules should be. Um, and maybe you wanna just play around with a couple of those. 
+
+00:17:59,592 --> 00:18:01,212 [Speaker 4]
+Yeah. Okay. Yeah. I can implement these. Yeah. 
+
+00:18:02,392 --> 00:18:02,571 [Speaker 4]
+Sounds good. 
+
+00:18:02,572 --> 00:18:03,652 [Speaker 1]
+Does that make sense? 
+
+00:18:03,652 --> 00:18:04,232 [Speaker 4]
+Mm-hmm. 
+
+00:18:04,232 --> 00:18:30,712 [Speaker 1]
+Yeah. And, and so one, one of the things I noticed in the data, and maybe that's some-something to clarify with them as well, is there's some weirdFields that seem to combine... Like for example, I think it was color that I noticed. Color sometimes actually refers to the product category right in it, or product name or type inside it. 
+
+00:18:30,712 --> 00:18:30,762 [Speaker 5]
+Mm-hmm. 
+
+00:18:30,762 --> 00:18:33,542 [Speaker 1]
+We probably don't want that in the pin. 
+
+00:18:33,542 --> 00:18:34,292 [Speaker 5]
+Mm-hmm. 
+
+00:18:34,292 --> 00:18:39,222 [Speaker 1]
+We probably wanna cl- like, there's some data cleansing that is needed. 
+
+00:18:39,222 --> 00:18:39,442 [Speaker 5]
+Mm-hmm. 
+
+00:18:39,442 --> 00:19:12,462 [Speaker 1]
+And we need to confirm, um, because I, I think the way, the reason why it's done that way right now is nobody's really managing that data. It's just there because they set up some hard-coded rules in the front end that use that field by breaking it up into some logic, right? Okay, so this f-fabric is only available, um, or this color is only available for this particular type of sectional. But that shouldn't be a color, 
+
+00:19:13,742 --> 00:19:39,322 [Speaker 1]
+um, attribute. That may have to be broken out into a separate attribute. So we should ask them, maybe when we're, l- you know, when we're loading that data, we may want to actually break it up into two different fields. So keep the original, like the way they gave it to us, but we should also have another field which just has color in it, like real color in it. 
+
+00:19:40,442 --> 00:20:00,242 [Speaker 1]
+Do you see what I mean? And so we may wanna use AI in that case, a one-time, um, sort of call to an LLM, um, or using some sort of natural language processing to pull apart those fields, um, based on what they actually mean. 
+
+00:20:01,482 --> 00:20:04,212 [Speaker 1]
+So I think we should call it out [chuckles] that- 
+
+00:20:04,212 --> 00:20:04,212 [Speaker 5]
+Yeah 
+
+00:20:04,212 --> 00:20:17,162 [Speaker 1]
+... this is not the way we wanna bring the data in. It's, it's not the right thing. So d- a little bit of analysis on that would also be good. Um, and let her know that the work is not just ingesting data, it's cleaning data- 
+
+00:20:17,162 --> 00:20:17,172 [Speaker 5]
+Mm-hmm 
+
+00:20:17,172 --> 00:20:22,741 [Speaker 1]
+... on the way in as well. And will that break something? Like does, does some front-end 
+
+00:20:23,782 --> 00:20:38,682 [Speaker 1]
+logic require those fields in, in that certain format that you already have? And do we need to keep those fields? Do we override them completely? Um, that, I think that's important as well. 
+
+00:20:40,482 --> 00:20:40,662 [Speaker 1]
+Cool? 
+
+00:20:43,142 --> 00:20:47,722 [Speaker 1]
+So I hope somebody wrote that down 'cause I don't know what I just said. [laughing] 
+
+00:20:47,722 --> 00:20:47,762 [Speaker 5]
+Yeah. [laughs] 
+
+00:20:47,762 --> 00:20:48,042 [Speaker 1]
+I don't know. 
+
+00:20:48,042 --> 00:20:49,682 [Speaker 5]
+I see a firefly in here. 
+
+00:20:49,682 --> 00:20:51,561 [Speaker 1]
+Oh, yeah. There you go. Yeah. 
+
+00:20:51,562 --> 00:20:51,721 [Speaker 5]
+Yeah. Yeah. 
+
+00:20:51,722 --> 00:20:54,002 [Speaker 1]
+You know, flying. Yeah. Um- 
+
+00:20:54,002 --> 00:20:54,072 [Speaker 5]
+That's cool. 
+
+00:20:54,072 --> 00:20:54,582 [Speaker 1]
+Okay, awesome. 
+
+00:20:54,582 --> 00:20:54,612 [Speaker 5]
+Yeah. 
+
+00:20:54,612 --> 00:21:01,982 [Speaker 1]
+I'll compile a little list. I'll get you guys to vet it and approve it, and then I'll fire it out to Amelia, and hopefully you can get an answer back to us before the long weekend. 
+
+00:21:03,742 --> 00:21:04,962 [Speaker 5]
+Awesome. 
+
+00:21:05,022 --> 00:21:05,742 [Speaker 1]
+All right. 
+
+00:21:05,742 --> 00:21:15,962 [Speaker 2]
+Do, do we also know, uh, what she wants to cover in this first meeting? Have we asked about, like, agenda or should we give the, uh, like a sample agenda? 
+
+00:21:15,962 --> 00:21:17,082 [Speaker 1]
+We should give- 
+
+00:21:17,082 --> 00:21:17,142 [Speaker 2]
+Yeah. 
+
+00:21:17,142 --> 00:21:17,802 [Speaker 5]
+We'll, we'll shape it. 
+
+00:21:17,802 --> 00:21:20,162 [Speaker 1]
+I think we sh- we should shape it. 
+
+00:21:20,162 --> 00:21:20,392 [Speaker 2]
+Yeah. 
+
+00:21:20,392 --> 00:21:21,902 [Speaker 1]
+Yeah. I don't think she knows- 
+
+00:21:21,902 --> 00:21:22,362 [Speaker 2]
+Yeah 
+
+00:21:22,362 --> 00:21:23,001 [Speaker 1]
+... what to ask. 
+
+00:21:23,002 --> 00:21:23,962 [Speaker 2]
+I'm sure she doesn't. 
+
+00:21:23,962 --> 00:21:24,402 [Speaker 5]
+No. 
+
+00:21:24,402 --> 00:21:24,822 [Speaker 2]
+But- 
+
+00:21:24,822 --> 00:21:25,952 [Speaker 1]
+I think we need to ask her 
+
+00:21:25,952 --> 00:21:32,902 [Speaker 2]
+... is that what you normally do? You, you give a, like a sample and then say, "Is there anything else you wanna cover as well?" Or something? 
+
+00:21:32,902 --> 00:21:33,682 [Speaker 1]
+Yeah. 
+
+00:21:33,682 --> 00:21:34,082 [Speaker 2]
+Yeah. 
+
+00:21:34,082 --> 00:21:34,402 [Speaker 1]
+Yeah. 
+
+00:21:34,402 --> 00:21:34,802 [Speaker 2]
+Cool. 
+
+00:21:34,802 --> 00:21:42,102 [Speaker 1]
+So that, that, uh, there is a, there is a PowerPoint in there, uh, in that, uh, folder already with- 
+
+00:21:42,102 --> 00:21:42,272 [Speaker 5]
+Mm-hmm 
+
+00:21:42,272 --> 00:21:45,922 [Speaker 1]
+... a sample kickoff, um, agenda. 
+
+00:21:45,922 --> 00:21:46,721 [Speaker 5]
+Yeah. 
+
+00:21:46,722 --> 00:21:49,422 [Speaker 1]
+We can follow that and update that- 
+
+00:21:49,422 --> 00:21:49,562 [Speaker 2]
+Cool 
+
+00:21:49,562 --> 00:21:50,781 [Speaker 1]
+... before the meet- before the meeting. 
+
+00:21:52,182 --> 00:21:56,311 [Speaker 5]
+Do we have a date for the kickoff meeting yet or is it- 
+
+00:21:56,311 --> 00:21:56,682 [Speaker 2]
+Not yet. 
+
+00:21:56,682 --> 00:21:57,332 [Speaker 1]
+No. 
+
+00:21:57,332 --> 00:21:57,342 [Speaker 5]
+Okay. 
+
+00:21:57,342 --> 00:21:58,702 [Speaker 1]
+We're trying to get that. 
+
+00:21:58,702 --> 00:21:59,362 [Speaker 5]
+Okay. 
+
+00:21:59,362 --> 00:22:06,822 [Speaker 1]
+Most likely early next week. Probably Tuesday is what I'm thinking. 'Cause Monday I, I have a feeling people will be off. 
+
+00:22:06,822 --> 00:22:07,982 [Speaker 5]
+Yeah. 
+
+00:22:07,982 --> 00:22:16,501 [Speaker 1]
+Um, as some people will be off there. I, I don't know if it's an official holiday there, but, um, some people take Monday to, you know, Friday and Monday- 
+
+00:22:16,502 --> 00:22:17,062 [Speaker 5]
+Mm-hmm 
+
+00:22:17,062 --> 00:22:20,561 [Speaker 1]
+... off. Um, so yeah, like, likely Tuesday. 
+
+00:22:22,062 --> 00:22:23,172 [Speaker 2]
+Um, before we finish- 
+
+00:22:23,172 --> 00:22:23,582 [Speaker 1]
+If, if the- 
+
+00:22:23,582 --> 00:22:23,842 [Speaker 2]
+Oh, sorry 
+
+00:22:23,842 --> 00:22:26,982 [Speaker 1]
+... contract can be done. Yeah, go ahead. 
+
+00:22:26,982 --> 00:22:39,952 [Speaker 2]
+I was gonna say, before we finish, could we go through all the documents that we need by certain dates, by that meeting, and then after the meeting or whatever? And then say, you know, who's working on it. And then, and then it'll be much clearer, 
+
+00:22:41,902 --> 00:22:43,262 [Speaker 2]
+you know, what the targets are. 
+
+00:22:43,262 --> 00:22:45,782 [Speaker 1]
+Oh, you mean, uh, in a spreadsheet? Like if we're sharing a spreadsheet. 
+
+00:22:45,782 --> 00:22:49,242 [Speaker 2]
+Yeah. Maybe in a spreadsheet or, um- 
+
+00:22:49,242 --> 00:22:49,612 [Speaker 1]
+With them? 
+
+00:22:49,612 --> 00:22:51,432 [Speaker 2]
+Well, without. With just between us. 
+
+00:22:51,432 --> 00:22:51,452 [Speaker 1]
+Sure. 
+
+00:22:51,452 --> 00:22:52,302 [Speaker 2]
+So, uh, 
+
+00:22:54,122 --> 00:22:59,562 [Speaker 2]
+like I know I'm updating the diagrams in, in the document or something. 
+
+00:22:59,562 --> 00:23:00,042 [Speaker 1]
+Yeah. 
+
+00:23:00,042 --> 00:23:00,602 [Speaker 2]
+That kind of thing. 
+
+00:23:00,602 --> 00:23:02,422 [Speaker 5]
+Mm-hmm. 
+
+00:23:02,422 --> 00:23:03,722 [Speaker 2]
+Is that, is that worth doing- 
+
+00:23:03,722 --> 00:23:03,812 [Speaker 1]
+Yeah. Okay 
+
+00:23:03,812 --> 00:23:05,542 [Speaker 2]
+... like a little bit of project planning or... 
+
+00:23:07,042 --> 00:23:08,182 [Speaker 2]
+Or should we just do it on Slack? 
+
+00:23:08,182 --> 00:23:11,642 [Speaker 1]
+So I don't need to be part of that. I think you guys- 
+
+00:23:11,642 --> 00:23:11,652 [Speaker 2]
+No 
+
+00:23:11,652 --> 00:23:22,002 [Speaker 1]
+... maybe David and Laurel, you could, and then br- uh, loop Morgan into that discussion. I'm gonna try to make myself... Like, wean myself off- 
+
+00:23:22,002 --> 00:23:22,182 [Speaker 5]
+[laughs] 
+
+00:23:22,182 --> 00:23:23,362 [Speaker 1]
+... slowly. 
+
+00:23:23,362 --> 00:23:23,412 [Speaker 5]
+Yeah. 
+
+00:23:23,412 --> 00:23:33,741 [Speaker 1]
+Um, right? Uh, I, I think that you guys have enough, um, context around the project that you could probably start to run with it- 
+
+00:23:33,742 --> 00:23:34,022 [Speaker 5]
+Mm-hmm 
+
+00:23:34,022 --> 00:23:51,022 [Speaker 1]
+... um, solo at this point. Um, but of course, if there's something you can't figure out, uh, you know, just message me on Slack. I just wanted to make sure that you guys are connected and, um, you know, have everything that you need to start with. 
+
+00:23:51,022 --> 00:23:54,242 [Speaker 2]
+Have we got a sample agenda? And then we can work backwards from that. 
+
+00:23:56,262 --> 00:24:01,982 [Speaker 5]
+Yes. I can send you the sample agenda. It's, yeah, the one that we have in the deck there. So I'll send that over to you. 
+
+00:24:01,982 --> 00:24:09,162 [Speaker 2]
+Perfect. And then do you have like a follow-up meeting after the, after the f- uh, like kickoff that you have a- 
+
+00:24:09,162 --> 00:24:09,352 [Speaker 5]
+Yeah. Just so we- 
+
+00:24:09,352 --> 00:24:10,112 [Speaker 2]
+... sample for as well? 
+
+00:24:10,112 --> 00:24:15,222 [Speaker 5]
+Yeah. Just we'll have a debrief, sync the, like our group here, and then we'll- 
+
+00:24:15,222 --> 00:24:15,292 [Speaker 2]
+Yeah 
+
+00:24:15,292 --> 00:24:19,492 [Speaker 5]
+... be booking the remaining calls that we'll need as like a follow-up requirement based on the kickoff
+
+00:24:20,554 --> 00:24:26,374 [Speaker 2]
+'Cause I, I mean, I can put down what I would do, but it might not be what you guys are doing. You're usually- 
+
+00:24:26,374 --> 00:24:28,574 [Speaker 1]
+Oh, but, but you know what? Go ahead. 
+
+00:24:28,574 --> 00:24:29,804 [Speaker 2]
+Okay. [laughs] 
+
+00:24:29,804 --> 00:24:31,434 [Speaker 1]
+David, like, don't hold back. 
+
+00:24:31,434 --> 00:24:31,713 [Speaker 5]
+Yeah. 
+
+00:24:31,714 --> 00:24:38,914 [Speaker 1]
+We all just need to work together collaboratively. It doesn't have to be a one-way thing at all. So- 
+
+00:24:38,994 --> 00:24:39,004 [Speaker 2]
+Okay. 
+
+00:24:39,004 --> 00:24:41,194 [Speaker 1]
+If you wanna be the first one, yeah. 
+
+00:24:41,194 --> 00:24:43,134 [Speaker 5]
+More than happy to, to accommodate that. 
+
+00:24:43,134 --> 00:24:43,874 [Speaker 1]
+Yeah. 
+
+00:24:43,874 --> 00:24:44,333 [Speaker 2]
+Cool. 
+
+00:24:44,334 --> 00:25:06,574 [Speaker 1]
+Yeah. For sure. Yeah. At the end of the day, the, the goal is to get this, uh, a successful implementation that makes sense and is in line with their expectations. So ideas can come from anywhere. It really shouldn't matter. Like, we don't have to be the ones to, um, to, to specify and prescribe everything. 
+
+00:25:06,574 --> 00:25:11,714 [Speaker 2]
+Yeah. But I, I mean, I, I'm just don't wanna miss anything out. That's the main, uh- 
+
+00:25:11,714 --> 00:25:12,764 [Speaker 1]
+Yeah. 
+
+00:25:12,764 --> 00:25:14,034 [Speaker 2]
+-thing I'm worried about- 
+
+00:25:14,034 --> 00:25:14,404 [Speaker 1]
+For sure. 
+
+00:25:14,404 --> 00:25:19,454 [Speaker 2]
+-is that you normally do it a certain way, and you have these things all in line. 
+
+00:25:19,454 --> 00:25:23,234 [Speaker 1]
+No. We don't have a way. We're pretty agile. We're a startup. 
+
+00:25:23,234 --> 00:25:24,914 [Speaker 2]
+Right. [laughs] 
+
+00:25:24,914 --> 00:25:28,734 [Speaker 1]
+We just wing it. We, we basically wing it. 
+
+00:25:28,734 --> 00:25:29,214 [Speaker 2]
+Cool. 
+
+00:25:29,214 --> 00:25:36,154 [Speaker 1]
+As like the day before most of the time. So this is a lot more planning that we've than we've actually ever done. 
+
+00:25:36,154 --> 00:25:37,134 [Speaker 2]
+All right. Okay. 
+
+00:25:37,134 --> 00:25:37,774 [Speaker 1]
+Something like- 
+
+00:25:37,774 --> 00:25:40,494 [Speaker 5]
+We're life in the fast lanes over here. So, 
+
+00:25:41,714 --> 00:25:42,304 [Speaker 5]
+um- 
+
+00:25:42,304 --> 00:25:42,304 [Speaker 1]
+Yeah. [laughs] 
+
+00:25:42,304 --> 00:25:46,354 [Speaker 5]
+-any suggestions you have, more than happy to, to figure out how we can make it work. 
+
+00:25:46,354 --> 00:25:47,374 [Speaker 2]
+Cool. Brilliant. 
+
+00:25:49,354 --> 00:25:49,384 [Speaker 1]
+Awesome. 
+
+00:25:49,384 --> 00:25:50,954 [Speaker 5]
+Okay. All right. 
+
+00:25:50,954 --> 00:25:57,674 [Speaker 2]
+So if you send the, the agenda, then, uh, Laurel and I can meet after that and, uh, work out what- 
+
+00:25:57,674 --> 00:25:58,594 [Speaker 5]
+Yeah. 
+
+00:25:58,594 --> 00:25:59,774 [Speaker 2]
+Cool. Brilliant. 
+
+00:25:59,774 --> 00:26:14,534 [Speaker 5]
+Yeah. So I'll send you-- I'll send over the list of questions that I wanna ask. You guys can vet whether or not, um, I have gathered what you have said correctly, and then, um, maybe start baking out that, uh, Excel sheet in terms of, like, who's working on what data set. 
+
+00:26:14,534 --> 00:26:26,014 [Speaker 1]
+Yeah. Yeah. Oh, uh, one other thing too, David. Um, I know because of you being part-time on the project, you probably wanna plan out your time a little bit better so you know exactly when- 
+
+00:26:26,014 --> 00:26:26,274 [Speaker 2]
+Yeah. 
+
+00:26:26,274 --> 00:26:34,194 [Speaker 1]
+-you're meeting the team. Um, I think you and Laurel should probably meet more often than the rest- 
+
+00:26:34,194 --> 00:26:34,324 [Speaker 2]
+Yeah. 
+
+00:26:34,324 --> 00:27:11,134 [Speaker 1]
+-of us. Um, even if it's thirty minutes a day, just to kinda go over progress, roadblocks, anything that Laurel may need from you or the other way around. Um, 'cause you're coming up with the actual solution and, and doing the implementation, the two of you. Um, so you probably don't need us, like Morgan and I, on everything. You probably need maybe Morgan once or twice a week. Um, and then maybe I'll join once a week, um, like one of those calls if we can maybe arrange it that way. 
+
+00:27:11,134 --> 00:27:11,274 [Speaker 2]
+Yeah. 
+
+00:27:11,274 --> 00:27:19,974 [Speaker 1]
+So that you guys are always on the same page about, you know, uh, what's going on. Don't, don't need to wait for everybody else. 
+
+00:27:19,974 --> 00:27:20,294 [Speaker 2]
+Cool. 
+
+00:27:20,294 --> 00:27:21,134 [Speaker 5]
+For sure. 
+
+00:27:21,134 --> 00:27:31,204 [Speaker 2]
+Uh, I was thinking maybe we could have some kind of dashboard that I can put together that so you know exactly where we are the whole time as well. 
+
+00:27:31,204 --> 00:27:31,234 [Speaker 1]
+Yeah. 
+
+00:27:31,234 --> 00:27:32,754 [Speaker 2]
+So you don't need to have a meeting or anything. 
+
+00:27:32,754 --> 00:27:32,764 [Speaker 1]
+Yeah. 
+
+00:27:32,764 --> 00:27:34,334 [Speaker 2]
+You can just, uh... 
+
+00:27:34,334 --> 00:27:38,414 [Speaker 1]
+Exactly. Uh, uh, just a list of things that you're working on- 
+
+00:27:38,414 --> 00:27:38,724 [Speaker 2]
+Yeah. 
+
+00:27:38,724 --> 00:27:49,364 [Speaker 1]
+-and what is due when, right? Like a status of every task, and I would break down those tasks fairly granularly just so that you know what done looks like. 
+
+00:27:49,364 --> 00:27:49,394 [Speaker 2]
+Yeah. 
+
+00:27:49,394 --> 00:27:51,174 [Speaker 1]
+And I think you would do that, David- 
+
+00:27:51,174 --> 00:27:51,243 [Speaker 2]
+Yeah. Yeah, yeah. 
+
+00:27:51,243 --> 00:28:13,114 [Speaker 1]
+-anyway. Like, so ingesting product data into the DX graph is a task or, you know, modeling the data, uh, based on the customer's requirements could be a task, right? And so you can actually then go through, um, uh, it in, in a very granular, very specific fashion with each other. 
+
+00:28:13,114 --> 00:28:13,474 [Speaker 2]
+Yeah. 
+
+00:28:13,474 --> 00:28:32,954 [Speaker 1]
+Um, and we can also know, um, where, where are we and if we have to go back to Amelia and let her know kind of the progress if, uh, when Morgan has to write a, like a s-- little status report, she can key it off of your, um, status or like a tracker of some sort- 
+
+00:28:32,954 --> 00:28:32,974 [Speaker 2]
+Yeah. 
+
+00:28:32,974 --> 00:28:34,294 [Speaker 1]
+-that you're creating. 
+
+00:28:34,294 --> 00:28:34,874 [Speaker 2]
+Cool. 
+
+00:28:34,874 --> 00:28:35,004 [Speaker 1]
+Yeah. 
+
+00:28:36,054 --> 00:28:37,594 [Speaker 1]
+Okay. Amazing. 
+
+00:28:37,594 --> 00:28:38,114 [Speaker 2]
+Brilliant. 
+
+00:28:38,114 --> 00:28:42,414 [Speaker 1]
+See how organized we are [laughs] for a startup. 
+
+00:28:42,414 --> 00:28:44,374 [Speaker 5]
+Yeah. Love it. 
+
+00:28:44,374 --> 00:28:53,474 [Speaker 1]
+It's not bad. Not bad at all. [laughs] All right. Thank you so much, David, for, um, you know, jumping on the call in a, with a short notice. 
+
+00:28:53,474 --> 00:28:54,094 [Speaker 2]
+No worries. 
+
+00:28:54,094 --> 00:29:02,834 [Speaker 1]
+Um, and Laurel, thanks so much for going through all of that data with all the ambiguity, um, and still working through it. 
+
+00:29:02,834 --> 00:29:10,774 [Speaker 5]
+I'll, I'll keep looking at it and, like, start looking at individual fields and everything, and I'll update you, Morgan, on if there's any new things that come up. 
+
+00:29:10,774 --> 00:29:12,114 [Speaker 1]
+Like, anything glaring. 
+
+00:29:12,114 --> 00:29:14,354 [Speaker 5]
+Yeah. For sure. Sounds good. 
+
+00:29:14,354 --> 00:29:14,374 [Speaker 1]
+Yeah. 
+
+00:29:14,374 --> 00:29:14,893 [Speaker 5]
+Perfect. 
+
+00:29:14,894 --> 00:29:15,234 [Speaker 2]
+Brilliant. 
+
+00:29:15,234 --> 00:29:15,974 [Speaker 5]
+Thank you all. 
+
+00:29:15,974 --> 00:29:16,654 [Speaker 2]
+See you. 
+
+00:29:16,654 --> 00:29:18,594 [Speaker 1]
+All right. Thank you so much. 
+
+00:29:18,594 --> 00:29:19,014 [Speaker 5]
+Bye. 
+
+00:29:19,014 --> 00:29:36,954 [Speaker 2]
+Cheers. [mouse clicking] 
+
+00:29:39,394 --> 00:32:05,304 [Speaker 2]
+[sighs] [mouse clicking] [keyboard clicking]

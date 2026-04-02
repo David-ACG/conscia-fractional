@@ -9,13 +9,17 @@ import { Button } from "@/components/ui/button";
 import { RecordingPanel } from "./recording-panel";
 import { LiveTranscript } from "./live-transcript";
 import { processRecordingAction } from "@/lib/actions/recording";
+import { linkMeetingToEventAction } from "@/lib/actions/calendar";
 import type { TranscriptSegment } from "@/lib/types/transcription";
+import type { MeetingPreFillData } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface RecordingContainerProps {
   onComplete?: () => void;
   onDiscard: () => void;
   className?: string;
+  /** Pre-fill data from a calendar event — links the recording to that event after save */
+  prefillData?: MeetingPreFillData | null;
 }
 
 type Phase = "setup" | "recording" | "review" | "saving";
@@ -27,6 +31,7 @@ export function RecordingContainer({
   onComplete,
   onDiscard,
   className,
+  prefillData,
 }: RecordingContainerProps) {
   const router = useRouter();
   const [phase, setPhase] = React.useState<Phase>("setup");
@@ -169,12 +174,25 @@ export function RecordingContainer({
     formData.append("audio", audioBlob, "recording.webm");
     formData.append("duration", String(durationSeconds));
 
+    // Pass pre-fill metadata so the recording service can set the CRM customer
+    if (prefillData?.crm_customer_id) {
+      formData.append("crm_customer_id", prefillData.crm_customer_id);
+    }
+
     const result = await processRecordingAction(formData);
 
     if ("error" in result) {
       setPhase("review");
       toast.error(`Processing failed: ${result.error}`);
       return;
+    }
+
+    // Link the completed meeting back to its calendar event
+    if (prefillData?.source_event_id) {
+      await linkMeetingToEventAction(
+        result.meetingId,
+        prefillData.source_event_id,
+      );
     }
 
     toast.success("Recording processed successfully");

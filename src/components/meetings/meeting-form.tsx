@@ -37,13 +37,18 @@ import {
   type MeetingFormData,
 } from "@/lib/validations/meetings";
 import { createMeeting, updateMeeting } from "@/lib/actions/meetings";
-import type { Meeting, CrmCustomer } from "@/lib/types";
+import { linkMeetingToEventAction } from "@/lib/actions/calendar";
+import type { Meeting, CrmCustomer, MeetingPreFillData } from "@/lib/types";
 
 interface MeetingFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   meeting?: Meeting | null;
   customers: Pick<CrmCustomer, "id" | "name">[];
+  /** Pre-fill values from a calendar event */
+  prefillData?: MeetingPreFillData | null;
+  /** Called when the user clears the pre-fill banner */
+  onClear?: () => void;
 }
 
 function toDatetimeLocal(iso: string | null): string {
@@ -58,9 +63,12 @@ export function MeetingForm({
   onOpenChange,
   meeting,
   customers,
+  prefillData,
+  onClear,
 }: MeetingFormProps) {
   const [loading, setLoading] = React.useState(false);
   const isEdit = !!meeting;
+  const isPrefilled = Boolean(prefillData && !meeting);
 
   const form = useForm<MeetingFormData>({
     resolver: zodResolver(meetingSchema),
@@ -85,22 +93,42 @@ export function MeetingForm({
 
   React.useEffect(() => {
     if (open) {
-      form.reset({
-        title: meeting?.title ?? "",
-        meeting_date: meeting?.meeting_date
-          ? toDatetimeLocal(meeting.meeting_date)
-          : "",
-        duration_minutes: meeting?.duration_minutes ?? undefined,
-        crm_customer_id: meeting?.crm_customer_id ?? "",
-        attendees: meeting?.attendees ?? [],
-        summary: meeting?.summary ?? "",
-        transcript: meeting?.transcript ?? "",
-        recording_url: meeting?.recording_url ?? "",
-        platform: meeting?.platform ?? undefined,
-        is_client_visible: meeting?.is_client_visible ?? false,
-      });
+      if (prefillData && !meeting) {
+        // Pre-fill from calendar event
+        form.reset({
+          title: prefillData.title,
+          meeting_date: toDatetimeLocal(prefillData.date),
+          duration_minutes: prefillData.duration,
+          crm_customer_id: prefillData.crm_customer_id ?? "",
+          attendees: prefillData.participants.map((p) => ({
+            name: p.name,
+            email: p.email,
+            role: "",
+          })),
+          summary: "",
+          transcript: "",
+          recording_url: "",
+          platform: undefined,
+          is_client_visible: false,
+        });
+      } else {
+        form.reset({
+          title: meeting?.title ?? "",
+          meeting_date: meeting?.meeting_date
+            ? toDatetimeLocal(meeting.meeting_date)
+            : "",
+          duration_minutes: meeting?.duration_minutes ?? undefined,
+          crm_customer_id: meeting?.crm_customer_id ?? "",
+          attendees: meeting?.attendees ?? [],
+          summary: meeting?.summary ?? "",
+          transcript: meeting?.transcript ?? "",
+          recording_url: meeting?.recording_url ?? "",
+          platform: meeting?.platform ?? undefined,
+          is_client_visible: meeting?.is_client_visible ?? false,
+        });
+      }
     }
-  }, [open, meeting, form]);
+  }, [open, meeting, prefillData, form]);
 
   async function onSubmit(data: MeetingFormData) {
     setLoading(true);
@@ -121,6 +149,19 @@ export function MeetingForm({
       return;
     }
 
+    // Link the new meeting back to its calendar event if pre-filled
+    if (
+      !isEdit &&
+      prefillData?.source_event_id &&
+      "meetingId" in result &&
+      result.meetingId
+    ) {
+      await linkMeetingToEventAction(
+        result.meetingId,
+        prefillData.source_event_id,
+      );
+    }
+
     toast.success(isEdit ? "Meeting updated" : "Meeting created");
     onOpenChange(false);
   }
@@ -136,6 +177,28 @@ export function MeetingForm({
               : "Log a new meeting with notes and attendees."}
           </DialogDescription>
         </DialogHeader>
+
+        {isPrefilled && (
+          <div
+            className="flex items-center justify-between rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm dark:border-blue-800 dark:bg-blue-950/30"
+            data-testid="prefill-banner"
+          >
+            <span className="text-blue-800 dark:text-blue-200">
+              Pre-filled from calendar event:{" "}
+              <strong>{prefillData!.title}</strong>
+            </span>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="ml-2 h-7 px-2 text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-100"
+              onClick={onClear}
+              data-testid="prefill-clear-btn"
+            >
+              Clear
+            </Button>
+          </div>
+        )}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

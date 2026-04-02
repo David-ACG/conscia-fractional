@@ -19,6 +19,11 @@ vi.mock("@/lib/services/google-auth-service", () => ({
   createOAuth2Client: (...args: unknown[]) => mockCreateOAuth2Client(...args),
 }));
 
+const mockBatchLinkEvents = vi.fn().mockResolvedValue(undefined);
+vi.mock("@/lib/services/calendar-link-service", () => ({
+  batchLinkEvents: (...args: unknown[]) => mockBatchLinkEvents(...args),
+}));
+
 const mockUpsert = vi.fn();
 const mockUpdate = vi.fn();
 const mockContains = vi.fn();
@@ -124,8 +129,13 @@ describe("GET /api/cron/calendar-sync", () => {
       .fn()
       .mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) });
 
+    const upsertSelectChain = {
+      select: vi
+        .fn()
+        .mockResolvedValue({ data: [{ id: "ce-1" }], error: null }),
+    };
     const calEventsChain = {
-      upsert: vi.fn().mockResolvedValue({ error: null }),
+      upsert: vi.fn().mockReturnValue(upsertSelectChain),
     };
 
     mockFrom.mockImplementation((table: string) => {
@@ -198,8 +208,13 @@ describe("GET /api/cron/calendar-sync", () => {
       .fn()
       .mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) });
 
+    const upsertSelectChain2 = {
+      select: vi
+        .fn()
+        .mockResolvedValue({ data: [{ id: "ce-ok" }], error: null }),
+    };
     const calEventsChain = {
-      upsert: vi.fn().mockResolvedValue({ error: null }),
+      upsert: vi.fn().mockReturnValue(upsertSelectChain2),
     };
 
     mockFrom.mockImplementation((table: string) => {

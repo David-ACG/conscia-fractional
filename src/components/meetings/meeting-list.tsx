@@ -54,7 +54,12 @@ import { logMeetingToTimesheet, deleteMeeting } from "@/lib/actions/meetings";
 import { processUploadedRecordingAction } from "@/lib/actions/recording";
 import type { TranscriptSegment } from "@/lib/types/transcription";
 import { formatDuration } from "@/lib/utils";
-import type { Meeting, CrmCustomer, MeetingAttendee } from "@/lib/types";
+import type {
+  Meeting,
+  CrmCustomer,
+  MeetingAttendee,
+  MeetingPreFillData,
+} from "@/lib/types";
 
 type MeetingWithCustomer = Meeting & {
   crm_customer: { name: string } | null;
@@ -65,6 +70,10 @@ interface MeetingListProps {
   customers: Pick<CrmCustomer, "id" | "name">[];
   timesheetMeetingIds: Set<string>;
   meetingTaskCounts?: Record<string, number>;
+  /** Pre-fill data from a calendar event (passed when navigating from calendar) */
+  prefillData?: MeetingPreFillData | null;
+  /** When true, auto-open the recording sheet instead of the form */
+  recordMode?: boolean;
 }
 
 const platformConfig: Record<
@@ -114,12 +123,17 @@ export function MeetingList({
   customers,
   timesheetMeetingIds,
   meetingTaskCounts = {},
+  prefillData,
+  recordMode,
 }: MeetingListProps) {
   const [search, setSearch] = React.useState("");
   const [platformFilter, setPlatformFilter] = React.useState<string>("all");
   const [formOpen, setFormOpen] = React.useState(false);
   const [editingMeeting, setEditingMeeting] =
     React.useState<MeetingWithCustomer | null>(null);
+  const [activePrefillData, setActivePrefillData] =
+    React.useState<MeetingPreFillData | null>(prefillData ?? null);
+  const hasAutoOpened = React.useRef(false);
   const [detailMeeting, setDetailMeeting] =
     React.useState<MeetingWithCustomer | null>(null);
   const [loggingId, setLoggingId] = React.useState<string | null>(null);
@@ -130,6 +144,18 @@ export function MeetingList({
   const [transcriptOpen, setTranscriptOpen] = React.useState(false);
   const [recordingOpen, setRecordingOpen] = React.useState(false);
   const [uploadOpen, setUploadOpen] = React.useState(false);
+
+  // Auto-open form or recording sheet when arriving from calendar
+  React.useEffect(() => {
+    if (!prefillData || hasAutoOpened.current) return;
+    hasAutoOpened.current = true;
+    if (recordMode) {
+      setRecordingOpen(true);
+    } else {
+      setEditingMeeting(null);
+      setFormOpen(true);
+    }
+  }, [prefillData, recordMode]);
 
   const filtered = React.useMemo(() => {
     let result = meetings;
@@ -408,6 +434,8 @@ export function MeetingList({
         onOpenChange={handleCloseForm}
         meeting={editingMeeting}
         customers={customers}
+        prefillData={editingMeeting ? null : activePrefillData}
+        onClear={() => setActivePrefillData(null)}
       />
 
       {/* Detail sheet */}
@@ -473,6 +501,7 @@ export function MeetingList({
             <RecordingContainer
               onComplete={() => setRecordingOpen(false)}
               onDiscard={() => setRecordingOpen(false)}
+              prefillData={activePrefillData}
             />
           </div>
         </SheetContent>

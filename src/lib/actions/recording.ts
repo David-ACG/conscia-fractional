@@ -50,6 +50,12 @@ export async function processRecordingAction(
   const durationSeconds = parseInt(durationStr, 10);
   if (isNaN(durationSeconds)) return { error: "Invalid duration" };
 
+  const crmCustomerIdRaw = formData.get("crm_customer_id");
+  const crmCustomerId =
+    typeof crmCustomerIdRaw === "string" && crmCustomerIdRaw
+      ? crmCustomerIdRaw
+      : undefined;
+
   try {
     const result = await processRecording({
       segments,
@@ -57,6 +63,7 @@ export async function processRecordingAction(
       durationSeconds,
       userId: user.id,
       clientId,
+      crmCustomerId,
     });
 
     revalidatePath("/meetings");

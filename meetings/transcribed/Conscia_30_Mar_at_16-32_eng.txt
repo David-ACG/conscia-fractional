@@ -1,0 +1,1964 @@
+00:00:00,500 --> 00:00:06,860 [Sana]
+Or maybe we record it. Um, maybe that's a better thing to do. Oh, Harshil's here. Look at that. 
+
+00:00:06,860 --> 00:00:08,300 [Harshil]
+Speak of the devil. [laughs] 
+
+00:00:08,300 --> 00:00:10,260 [Sana]
+[laughs] We are the devil. 
+
+00:00:10,260 --> 00:00:11,640 [Harshil]
+I promise. [laughs] 
+
+00:00:11,640 --> 00:00:20,550 [Sana]
+[laughs] All right. Awesome. Uh, Harshil and Laurel, I don't think you've met. And David, you haven't met Harshil either. 
+
+00:00:20,550 --> 00:00:22,720 [Harshil]
+Hi. Uh, no, I think I've met David. Yeah. 
+
+00:00:22,720 --> 00:00:26,919 [Sana]
+You have met David. Okay. Okay. At some point in the past. [chuckles] 
+
+00:00:26,920 --> 00:00:29,090 [Harshil]
+Yeah. Yeah. Nice to meet you again. And, yeah. 
+
+00:00:29,090 --> 00:00:29,120 [Sana]
+[laughs] 
+
+00:00:29,120 --> 00:00:31,680 [Harshil]
+Nice to meet you as well, Laurel. Nice to meet you too. 
+
+00:00:32,960 --> 00:00:43,360 [Sana]
+Awesome. We, we, we gotta plan, um, a team meeting. We're-- It's kind of funny, we're meeting for the first time a lot of these times, like, for a customer. Um- 
+
+00:00:43,360 --> 00:00:43,480 [Harshil]
+[laughs] 
+
+00:00:43,480 --> 00:00:47,540 [Sana]
+... and the customer has met us before, but we haven't met each other. So this is- 
+
+00:00:47,540 --> 00:00:48,230 [Harshil]
+[laughs] 
+
+00:00:48,230 --> 00:01:04,220 [Sana]
+... this is on me. Things are just moving way too quickly and, and I'm just trying to get everybody to know everybody and, and, you know, move quickly. But it's, uh, it's tough. Um, but it, it's all good. I think it, it, uh, it's a good thing- 
+
+00:01:04,220 --> 00:01:04,340 [Harshil]
+Yeah 
+
+00:01:04,340 --> 00:01:22,150 [Sana]
+... that we're actually working on some really exciting, um, projects together. Um, so I just wanted to kick this off. Um, uh, Harshil, we wanted to bring you into the loop, um, on, um... Which one is this? Luvsac. Sorry. [laughs] 
+
+00:01:22,150 --> 00:01:23,200 [Harshil]
+[laughs] 
+
+00:01:23,200 --> 00:01:28,970 [Sana]
+Um, Luvsac. Okay. Watch one more project, and I'm not gonna keep track of anything that's happening. 
+
+00:01:28,970 --> 00:01:28,970 [Harshil]
+[laughs] 
+
+00:01:28,970 --> 00:01:47,780 [Sana]
+This is gonna be bad. Um, so, uh, for Luvsac, um, uh, you probably saw my notes. Uh, David, uh, is gonna be the solution architect, um, on the project. Laurel is gonna be hands-on implementation. Her first, very first, uh, implementation- 
+
+00:01:47,780 --> 00:01:47,790 [Harshil]
+[laughs] 
+
+00:01:47,790 --> 00:02:34,500 [Sana]
+... is probably one of the most exciting ones as well because we're using Consea in a pretty interesting way, um, both the Xgraph and the Xengine, uh, in this case. So this will be a really good, um, experience for [clears throat] Laurel. And, uh, Harshil's been with us for a few years now and knows everything, a-anything and everything that you need to ask him about, um, both the Xgraph and the DX engine and how to get the data in and out of, you know, the, the platforms, et cetera. So, um, if we need any kind of help on how to or can we do this with Consea, um, Harshil's gonna be able to answer that, right? No pressure, Harshil. 
+
+00:02:35,540 --> 00:02:35,750 [Sana]
+[laughs] 
+
+00:02:35,750 --> 00:02:36,900 [Harshil]
+[laughs] 
+
+00:02:36,900 --> 00:02:49,579 [Sana]
+And Morgan's gonna be leading the project and managing all of us, um, as we move through, uh, this project. It's pretty quick. Uh, it's about, what is it, three months? 
+
+00:02:49,580 --> 00:02:50,109 [Harshil]
+Yeah, three months. 
+
+00:02:50,109 --> 00:03:00,750 [Sana]
+In total? Yeah. And so, uh, Morgan's gonna be keeping an eye on, uh, you know, making sure we're all doing our job, um, including myself. Keep me honest. 
+
+00:03:01,760 --> 00:03:26,140 [Sana]
+Um, yeah. So, uh, what we wanted to discuss here today was, you know, what is the immediate plan for us to move forward? I know we're-- Morgan, we're still waiting on the sales and, um, the, the SAS agreement with them. It should be coming shortly. They ha-- They said they have a couple of... Actually, I did see some emails coming. I just haven't seen- 
+
+00:03:26,140 --> 00:03:26,620 [Harshil]
+Yeah 
+
+00:03:26,620 --> 00:04:47,539 [Sana]
+... uh, what she's asking. But we should be able to close that soon. Um, but we-- There are some things that I think we can start to do on our side without officially kicking off the project, um, with the client. They have provided us data. We have solution architecture diagrams David's been working on a bunch of those as well. Uh, I think we've internally consumed most of that information that we've been putting into that Luvsac, um, folder, so we have an idea of what we're trying to do. Um, and so I think at this point, what would be really good, and Harshil, that's your first request for you, is, uh, to set up Luvsac, um, as a customer, uh, for both the Xgraph and the Xengine. Um, and I think it would be probably good to just copy over what we gave to Aieta, and I think you created one for Laurel, uh, as well, one, one sandbox. Um, it's good to just have those recipes that we have in there, so in case we need to copy anything over into a new environment that we're gonna have for development purposes. Uh, you know, I, I don't know, David, if you know, but there is this concept of environments in- 
+
+00:04:47,540 --> 00:04:47,860 [Harshil]
+Oh, yeah 
+
+00:04:47,860 --> 00:06:22,564 [Sana]
+... uh, in Concisa DX engine. Um, and so you could use an environment for whatever purposes. It's really just a set of configurations, um, that you, uh, that, that you want to keep together, and you can migrate from one environment to another. So you can basically publish the entire configuration to another environment. And we'll have, like, six different environments, each with its own recipes of different types, like how to stitch data, how to do checkout, uh, for instance, um, or how to create rules. Um, it's just to kinda keep it nice and packaged when we're doing demos for our customers so things don't get all kinda mixed up. But for our purposes, for the implementation, it would be good for us to, um, use those as references and potentially... I think you can copy components and flows within, um, within, uh, environments or between environments as well, right? It's not just, like, a all or nothing. It's specific pieces that you can copy over. Right. Um, just so you don't have to do everythingFrom scratch, uh, all the time. Um, so what I was thinking was, and you guys tell me if, if you think otherwise, but we have their, uh, product data, uh, already. Uh, and I think that they gave us some of their rules. Let me just pull this up. 
+
+00:06:23,664 --> 00:06:25,924 [Sana]
+Uh, one second. So Lovesac 
+
+00:06:28,024 --> 00:06:59,664 [Sana]
+data files that they shared. So, so far, they've shared the export from Magento to search, which probably is the full product data enriched that they, that they search, uh, against, um, as well as the item full file. I don't know what the difference is between those two. I haven't done the analysis, um, of those two. But one of those files, I'm guessing, is the one that we would be importing, uh, into the DX graph, 
+
+00:07:00,904 --> 00:07:36,194 [Sana]
+um, directly. Um, and then there's one-- there's a delta file which I don't think we have to worry about just yet. That is when we sync the data on an ongoing basis, um, we're gonna have to use that file to override, um, anything that is needed. Um, and then we have the bundle SKUs. So that's not the rules, but it's just here's a, here's a list of bundles, and here's a list of, you know, SKUs that fall within that bundle. So it's more of a relationship that we're creating between SKUs and 
+
+00:07:37,244 --> 00:07:38,794 [Sana]
+potentially a bundles, um, 
+
+00:07:40,064 --> 00:08:41,184 [Sana]
+uh, bundles collection, right? So it's, it's just a one-to-many relationship from, from SKUs to bundle or bundles to SKUs. Um, yeah, so if we can even just start with that to begin with, start to bring those, uh, two files in for now, the bundles and the SKUs file, at least you start to see what that structure looks like. You can start to play with, um, you know, inspector cards, set up some, you know, just sample inspector cards to see, uh, the data profile within, uh, the DX graph. Um, and then, uh, in the meantime, we're gonna start to have those conversations about, um, you know, what-- Where do we get the rules from? For instance, do we extract those rules ourselves? Do they have those rules? Um, all of those conversations we'll start to have and, and bring the, that data in once this other stuff is in 
+
+00:08:42,424 --> 00:09:24,374 [Sana]
+as well. Um, so in terms of like the implementation, we... You know, Laurel, you're kind of the, the go-to person, um, for that. Uh, David will, uh, guide you on in terms of the, the data modeling, the overall architecture, and sort of represent Consea's position on how we're gonna do this implementation, uh, in front of, um, uh, Emilia and team. Um, but the-- for anything specific to the implementation, they'll probably come to you and say, you know, "We gave you this data. What happened to it? Where did it go, Laurel?" I'm just kidding. [laughing] 
+
+00:09:24,374 --> 00:09:25,604 [Speaker 2]
+[laughing] 
+
+00:09:25,604 --> 00:09:29,164 [Sana]
+Where are these two rows? [laughing] Can you bring those in? 
+
+00:09:30,624 --> 00:09:44,844 [Sana]
+Just kidding. Um, yeah. So does that-- Is that clear, kinda the immediate next steps? I know we don't have like the long-term plan just yet, but I just wanna get started on it so that we're, uh, staying ahead- 
+
+00:09:44,844 --> 00:09:46,404 [Speaker 2]
+Out in front of the work. 
+
+00:09:46,404 --> 00:09:47,124 [Sana]
+Yeah. 
+
+00:09:47,184 --> 00:09:49,004 [Speaker 2]
+Yeah. 
+
+00:09:49,004 --> 00:09:54,444 [Sana]
+Morgan, do you see any kind of weird thing coming from Emilia that's gonna get in the way of- 
+
+00:09:54,444 --> 00:09:55,004 [Speaker 2]
+Absolutely not. 
+
+00:09:55,004 --> 00:09:56,464 [Sana]
+What we need to do? 
+
+00:09:56,464 --> 00:10:14,324 [Speaker 2]
+We sent those data files over. She's ready to move fast, and I know that. Like if we push for something, she would make it happen. So, um, I think we'll be good on that front. I think right now the only thing that they're looking at in terms of the feedback is how we're structuring the Sal cost accounts. It's not like a- 
+
+00:10:14,324 --> 00:10:17,484 [Sana]
+Okay, perfect. All right. So that's fine. We'll figure that out. 
+
+00:10:17,484 --> 00:10:17,624 [Speaker 2]
+Um- 
+
+00:10:17,624 --> 00:10:25,064 [Speaker 3]
+And when are we meeting Emilia? What date are we meeting Emilia? I actually thought she was gonna be on this call. [laughs] 
+
+00:10:25,064 --> 00:10:25,684 [Sana]
+Oh, no, no. 
+
+00:10:25,684 --> 00:10:25,694 [Speaker 3]
+Right. 
+
+00:10:25,694 --> 00:10:27,344 [Sana]
+This is an internal call. Yeah. 
+
+00:10:27,344 --> 00:10:27,784 [Speaker 3]
+Yeah. 
+
+00:10:27,784 --> 00:10:27,914 [Sana]
+Yeah. 
+
+00:10:27,914 --> 00:10:28,044 [Speaker 2]
+Yeah. 
+
+00:10:28,044 --> 00:10:29,744 [Sana]
+We're gonna have an in-call. 
+
+00:10:29,744 --> 00:10:32,434 [Speaker 2]
+Getting on a call I think like middle of this week, so- 
+
+00:10:32,434 --> 00:10:32,444 [Speaker 3]
+Right. 
+
+00:10:32,444 --> 00:10:34,224 [Speaker 2]
+Probably Wednesday, I would say. 
+
+00:10:34,224 --> 00:10:34,404 [Speaker 3]
+Cool. 
+
+00:10:35,484 --> 00:10:36,544 [Speaker 3]
+'Cause she sounded a bit- 
+
+00:10:36,544 --> 00:10:36,964 [Sana]
+Yeah. But, um- 
+
+00:10:36,964 --> 00:10:40,184 [Speaker 3]
+Like she might delay it or something in her email that she sent today. 
+
+00:10:42,384 --> 00:10:53,344 [Sana]
+Yeah, she said that the official kickoff may be next week with her team, but I have a feeling she's gonna want just her even, uh, maybe one other person to meet us this week. 
+
+00:10:53,344 --> 00:10:53,544 [Speaker 3]
+Right. 
+
+00:10:53,544 --> 00:11:10,324 [Speaker 2]
+So they have a more direct like team. So it's her and, um, a guy named Tate. Uh, so they've been kind of our main points of contact. They'll be the ones running the project. So we'll likely have more of like a, an alignment kickoff with them. And then when they bring in their, their bigger team, that will be the kickoff likely aiming for next week. 
+
+00:11:11,504 --> 00:11:33,344 [Sana]
+Right. Right. Um, so with my friend Claude, I did actually create, um, a kickoff deck or like, like a template for that deck, uh, based on all of the materials that we have, uh, put together in the, in the folder so far. I don't know if you see it, um, Morgan, but- 
+
+00:11:33,344 --> 00:11:33,563 [Speaker 2]
+Yeah. 
+
+00:11:33,564 --> 00:11:37,384 [Sana]
+Hold on. Let, let me just, uh, pull that up here. 
+
+00:11:37,384 --> 00:11:39,164 [Speaker 2]
+Yeah. 
+
+00:11:39,164 --> 00:11:39,664 [Sana]
+Where did it go? 
+
+00:11:41,124 --> 00:11:44,244 [Sana]
+Oh, I'm looking at whole trend through. Wow. 
+
+00:11:44,244 --> 00:11:44,444 [Speaker 2]
+[laughs] 
+
+00:11:44,444 --> 00:11:45,144 [Sana]
+I'm losing it. 
+
+00:11:46,464 --> 00:11:48,724 [Sana]
+Uh, okay, yes. Kickoff. There we go. 
+
+00:11:50,964 --> 00:11:56,924 [Sana]
+Okay. Um, I can share it, I guess, here. Let me just... 
+
+00:11:58,224 --> 00:12:27,692 [Sana]
+It actually did a pretty decent job with our branding. I was quite surprised. Um, one thing to note, I thinkWe're probably gonna have to just use Google Slides. That's the easiest way to share on Google Drive. And since we all have access to this folder, instead of having like links to Canva and giving access to various folks to Canva, it's easier to give, um, access to Google Drive. So we may have to, for like project-related stuff, 
+
+00:12:28,752 --> 00:13:04,812 [Sana]
+use Google Drive. Uh, it also is more conducive to like using as context within, um, uh, you know, within Claude and, uh, like AI generally. You could just link to that file rather than Canva, which has all these images and whatnot. It's, it's too rich, and I, I don't think it actually acts very well in, in... And Laurel, you could correct me if I'm wrong, but, um, [phone ringing] is the... You know, do, do you think that this would be easier for us as an input 
+
+00:13:05,872 --> 00:13:08,651 [Sana]
+for using AI? 
+
+00:13:08,651 --> 00:13:15,592 [Speaker 4]
+I would assume yes because it's more text, so it doesn't have to like look at the image like you said. But, um, I haven't actually directly tested that, so no. [chuckles] 
+
+00:13:15,592 --> 00:13:16,292 [Sana]
+Okay. Okay. 
+
+00:13:16,292 --> 00:13:18,112 [Speaker 4]
+But what you said seems to make sense. So I think so. [chuckles] 
+
+00:13:19,252 --> 00:13:26,052 [Sana]
+Okay. Awesome. Um, yeah. So this, uh, Morgan, is just a template. 
+
+00:13:26,052 --> 00:13:26,382 [Speaker 4]
+Mm-hmm. 
+
+00:13:26,382 --> 00:13:51,671 [Sana]
+Like, I-- this could have given a lot of wrong information in there as well, [chuckles] but I thought it would be a good starting point for you to just, um, have a look so you don't have to work through that whole deck from scratch. We can create, you know, um... or, or use this as a starting point and then update it with diagrams that David and Laurel have as well, and any other information that we wanna add to it. 
+
+00:13:53,212 --> 00:13:53,222 [Speaker 4]
+Yeah. 
+
+00:13:53,222 --> 00:14:15,232 [Sana]
+Um, but I, I feel like it did a pretty decent job. So let's see here. Like, it has the agenda, why are we here, what's the solution, project scope, team and governance, open questions, next steps. Uh, what are we delivering, right? So the three pieces. Product graph, which is actually the DX graph. Um, 
+
+00:14:16,592 --> 00:14:18,092 [Sana]
+well, the product 
+
+00:14:20,232 --> 00:14:50,252 [Sana]
+graph is okay to say. Actually, it kinda sounds cool to say that. Um, and then, um, you know, the DX engine, what its, uh, role is, and then the real-time APIs, um, that we're publishing. Uh, why are we here? So this is just re-really just repeating their problem statement from their deck, right? Um, and then the solution. 
+
+00:14:51,972 --> 00:15:07,492 [Sana]
+This is what we see as a solution to their problems. Um, this, you know, uh, maybe David and Laurel, if you can take a look at that and make sure it's positioned right, the way we're thinking of, um, their solution. 
+
+00:15:08,552 --> 00:15:33,662 [Sana]
+Uh, an end-to-end architecture. So this is just a diagram that it created, but, you know, using our branding and, and whatnot. But you may wanna add the more detailed diagram after this as well, uh, or update this in any way that you think, um, seems fit, uh, seems to fit our current understanding of their architecture. 
+
+00:15:33,662 --> 00:15:33,662 [Speaker 4]
+Yeah. 
+
+00:15:35,632 --> 00:15:36,012 [Sana]
+Cool. 
+
+00:15:37,052 --> 00:15:46,572 [Sana]
+Um, yeah. Project scope. Uh, so this, I think, Morgan, it got from the, uh, the SO and our- 
+
+00:15:46,572 --> 00:15:46,712 [Speaker 4]
+Right. 
+
+00:15:46,712 --> 00:15:51,032 [Sana]
+Um, I think what we've communicated to them. Like, I don't know if we need to update that, 
+
+00:15:52,072 --> 00:15:54,252 [Sana]
+uh, at all, but have a look- 
+
+00:15:54,252 --> 00:15:54,932 [Speaker 4]
+Right 
+
+00:15:54,932 --> 00:15:55,822 [Sana]
+... at this as well. 
+
+00:15:58,292 --> 00:16:01,992 [Sana]
+Let's see. Implementation timeline. This should be in line with what we've 
+
+00:16:03,132 --> 00:16:04,472 [Sana]
+told them. I hope. 
+
+00:16:04,472 --> 00:16:04,672 [Speaker 4]
+Yeah. 
+
+00:16:05,892 --> 00:16:11,942 [Sana]
+That's the thing, like AI does everything very confidently, and I'm just scared of it sometimes. 
+
+00:16:11,942 --> 00:16:11,952 [Speaker 4]
+Mm-hmm. 
+
+00:16:11,952 --> 00:16:16,302 [Sana]
+Is it gonna put something in there that's like completely wrong? [chuckles] 
+
+00:16:16,302 --> 00:16:16,302 [Speaker 4]
+Yeah. 
+
+00:16:16,302 --> 00:16:20,612 [Sana]
+So we do have to review everything that comes out of it, um, for sure. 
+
+00:16:21,711 --> 00:16:39,532 [Sana]
+Okay. And team and governance. So I actually updated some of this here already. Harshal, you're here, you can see a platform engineer. Laurel, solution architect is David. Project lead, uh, that is you, Morgan. 
+
+00:16:43,132 --> 00:16:52,952 [Sana]
+Um, uh, and then, uh, executive sponsor on our side is myself. QA, I don't know if we need to like put a different person in there, 
+
+00:16:54,052 --> 00:17:03,392 [Sana]
+uh, for QA, or is it just... do we just say that's the solution engineer who's making sure that this is done right in the last- 
+
+00:17:03,392 --> 00:17:03,652 [Speaker 4]
+Yeah. 
+
+00:17:03,652 --> 00:17:05,132 [Sana]
+Um, part of the project. 
+
+00:17:05,132 --> 00:17:06,072 [Speaker 4]
+For now. 
+
+00:17:06,072 --> 00:17:13,092 [Sana]
+Yeah. We didn't, we didn't have a separate resource, right, for QA? Okay. So then maybe we'll put Laurel in there. 
+
+00:17:14,852 --> 00:17:20,572 [Sana]
+Laurel plus Harshal, maybe that's what we should say. Where Harshal, you can make sure that we're doing all the right things. 
+
+00:17:22,552 --> 00:17:22,752 [Sana]
+[chuckles] 
+
+00:17:23,952 --> 00:17:24,952 [Sana]
+These are governance 
+
+00:17:26,032 --> 00:17:28,872 [Sana]
+from a platform standpoint. 
+
+00:17:28,872 --> 00:17:29,472 [Speaker 4]
+Perfect. 
+
+00:17:30,752 --> 00:17:31,032 [Sana]
+Cool. 
+
+00:17:32,152 --> 00:17:41,572 [Sana]
+Um, this, we'll have to update the, the open questions. That was just based on what we, uh, what AI thought needs to be 
+
+00:17:42,832 --> 00:18:00,952 [Sana]
+looked at. But I think we should probably make sure that if we already know some of these answers, let's not put it in there and add anything that we don't know, um, in those open questions. So, um, again, I think Laurel and David, you can go in and update those 
+
+00:18:02,172 --> 00:18:02,672 [Sana]
+as well. 
+
+00:18:04,692 --> 00:18:10,764 [Speaker 5]
+Should we put the questions to you first just in caseThey've, they've said something already. 
+
+00:18:10,764 --> 00:18:10,794 [Sana]
+Sorry, which way? 
+
+00:18:10,794 --> 00:18:15,494 [Speaker 5]
+Should we, uh, like I was doing, I was writing the questions in this-- in Slack first. 
+
+00:18:15,494 --> 00:18:16,364 [Sana]
+Oh, yeah. 
+
+00:18:16,364 --> 00:18:20,274 [Speaker 5]
+So that it goes through you, and then you can say whether it's, uh- 
+
+00:18:20,274 --> 00:18:20,284 [Sana]
+Sure. 
+
+00:18:20,284 --> 00:18:21,144 [Speaker 5]
+They've already answered it- 
+
+00:18:21,144 --> 00:18:21,154 [Sana]
+Yeah 
+
+00:18:21,154 --> 00:18:22,524 [Speaker 5]
+...or something. Yeah. Cool. 
+
+00:18:22,524 --> 00:18:29,423 [Sana]
+Yeah. Yeah. Let's do that. I can answer whatever I can, and then whatever is left, we can add in the, uh, open questions. 
+
+00:18:30,544 --> 00:18:31,284 [Speaker 6]
+Okay. 
+
+00:18:31,284 --> 00:18:34,884 [Sana]
+And then, uh, Morgan, this one is your slide. [chuckles] This one. 
+
+00:18:34,884 --> 00:18:34,924 [Speaker 6]
+Yeah. 
+
+00:18:34,924 --> 00:18:39,584 [Sana]
+The next steps, um, based on where we are now. 
+
+00:18:39,584 --> 00:18:40,644 [Speaker 6]
+Yep. Yep. 
+
+00:18:40,644 --> 00:18:41,524 [Sana]
+So... 
+
+00:18:44,104 --> 00:18:48,294 [Sana]
+Awesome. Uh, any questions? Thank you, Clyde, right? 
+
+00:18:48,294 --> 00:18:48,424 [Harshil]
+Yes. 
+
+00:18:50,044 --> 00:18:50,964 [Sana]
+[laughing] 
+
+00:18:50,964 --> 00:18:51,524 [Speaker 5]
+[laughing] 
+
+00:18:51,524 --> 00:18:52,584 [Harshil]
+Yeah. Uh, I didn't- 
+
+00:18:52,584 --> 00:18:55,544 [Sana]
+That's another team member that I didn't add, actually. [laughing] 
+
+00:18:55,544 --> 00:18:56,944 [Harshil]
+Yeah. 
+
+00:18:59,044 --> 00:19:02,224 [Speaker 6]
+And so we're preparing this for the kickoff meeting, the kickoff meeting- 
+
+00:19:02,224 --> 00:19:02,294 [Sana]
+Yeah 
+
+00:19:02,294 --> 00:19:05,044 [Speaker 6]
+...which will be scheduled for next week. Okay. 
+
+00:19:05,044 --> 00:19:13,394 [Sana]
+Yeah. I think it's gonna be next week. This, this we'll probably walk through next week. We may... I, I don't know. Morgan, you're gonna work with Amelia to figure out- 
+
+00:19:13,394 --> 00:19:13,394 [Speaker 6]
+Yes 
+
+00:19:13,394 --> 00:19:13,624 [Sana]
+...when, 
+
+00:19:14,644 --> 00:19:16,344 [Sana]
+when we can meet. Maybe- 
+
+00:19:16,344 --> 00:19:16,404 [Speaker 6]
+Yeah 
+
+00:19:16,404 --> 00:19:18,064 [Sana]
+...this week. Who knows? 
+
+00:19:18,064 --> 00:19:18,224 [Speaker 6]
+Yeah. 
+
+00:19:19,824 --> 00:19:28,464 [Speaker 6]
+Yeah. Yeah, I'll, uh, get on her case. I've been-- we'll be going back and forth on the contract front anyways, so I'll make sure to pop back in soon. 
+
+00:19:28,464 --> 00:19:34,484 [Speaker 5]
+And have you got any examples from other customers of this kind of deck so that we can see what a finished deck looks like? 
+
+00:19:36,424 --> 00:19:46,414 [Sana]
+So we had, um... Let's see. Just thinking. Most of our implementations so far have been done by others. 
+
+00:19:46,414 --> 00:19:47,624 [Speaker 5]
+By partners, right. 
+
+00:19:47,624 --> 00:20:34,864 [Sana]
+Um, yes. And so this one we're kinda taking on ourselves, and we're-- It's never been this official, um, in the past. It's always been either, like, someone like EPAM or Apply just kind of running with the projects on their own, and we don't get that much visibility into their decks. We did one with the government before. Um, I can share that. I feel like this deck is better than the one that we had in the past. Um, and I did tell Clyde about some of the things that I wanna include, um, in this deck based on what we've done in the past already. So there... I don't have another example that is 
+
+00:20:36,124 --> 00:20:37,924 [Sana]
+as polished, I would say. 
+
+00:20:37,924 --> 00:20:42,154 [Speaker 5]
+Okay. And you haven't got any from other partners that, that they showed in front of you? 
+
+00:20:42,154 --> 00:20:43,884 [Sana]
+They don't typically share. 
+
+00:20:43,884 --> 00:20:44,284 [Speaker 5]
+Oh, okay. 
+
+00:20:44,284 --> 00:20:50,663 [Sana]
+They don't typically share their stuff. They just go and do it, and they use us as a, like a platform. 
+
+00:20:50,664 --> 00:20:50,824 [Speaker 5]
+Yeah. 
+
+00:20:50,824 --> 00:20:57,904 [Sana]
+And then they go build on that. 'Cause they have a much wider understanding of what the customer wants- 
+
+00:20:57,904 --> 00:20:58,064 [Speaker 5]
+Yeah 
+
+00:20:58,064 --> 00:21:13,964 [Sana]
+...than we typically have. But this time we ha-- we're kinda directly in the line of fire ourselves. Um, you know, so we're gonna learn from this and improve, hopefully, based on what, um, what we see- 
+
+00:21:13,964 --> 00:21:13,994 [Speaker 5]
+Cool 
+
+00:21:13,994 --> 00:21:14,624 [Sana]
+...happening. 
+
+00:21:16,144 --> 00:21:27,064 [Sana]
+Yeah. But, you know, feel free to add a slide if you... You know, David, if you've seen something that should be there and we don't have it, we should probably just add that. 
+
+00:21:27,064 --> 00:21:27,404 [Speaker 6]
+Yeah. 
+
+00:21:27,404 --> 00:21:27,844 [Speaker 5]
+Yeah. 
+
+00:21:27,844 --> 00:21:28,344 [Sana]
+As well. 
+
+00:21:29,404 --> 00:21:30,344 [Speaker 5]
+I, I was just, uh, 
+
+00:21:31,384 --> 00:21:37,024 [Speaker 5]
+th-thinking that there might have been more from the past, but i-if there's, if there isn't, that's absolutely fine. 
+
+00:21:38,584 --> 00:21:38,904 [Sana]
+Mm-hmm. 
+
+00:21:40,444 --> 00:21:40,604 [Speaker 5]
+Cool. 
+
+00:21:40,604 --> 00:21:41,044 [Sana]
+Yeah. 
+
+00:21:42,464 --> 00:21:44,224 [Sana]
+Anything else? 
+
+00:21:44,224 --> 00:21:45,764 [Harshil]
+Uh, yeah, one question. 
+
+00:21:45,764 --> 00:21:46,504 [Sana]
+Yeah. Yeah. 
+
+00:21:46,504 --> 00:21:54,374 [Harshil]
+Um, so, um, Wayne did tell me about the, uh, uh, requirement, the hierarchy, um, requirement. 
+
+00:21:54,374 --> 00:21:55,024 [Sana]
+Mm-hmm. Mm-hmm. 
+
+00:21:55,024 --> 00:22:04,624 [Harshil]
+Um, do you guys recall any other requirement, um, that they have are, um, fairly big, uh, uh, you know, um, nice to have? 
+
+00:22:05,924 --> 00:22:08,294 [Sana]
+You mean from a product, uh, feature- 
+
+00:22:08,294 --> 00:22:08,294 [Harshil]
+Yeah 
+
+00:22:08,294 --> 00:22:10,184 [Sana]
+...enhancement standpoint? 
+
+00:22:10,184 --> 00:22:10,404 [Harshil]
+Feature, yeah. 
+
+00:22:11,544 --> 00:22:21,804 [Sana]
+Um, hierarchy is a big one. So, [clears throat] just for context... Uh, actually, just give me one second. I'm just gonna charge my laptop here. Dying. 
+
+00:22:23,484 --> 00:22:24,184 [Sana]
+I can't... 
+
+00:22:26,043 --> 00:22:51,084 [Sana]
+Um, so one of the things that Amelia discussed with us, um, is, uh, that she, you know, wants an easy way to manage the, the product hierarchy. So we're gonna have, you know, a taxonomy collection or thr- you know, three different taxonomy collections that will... Actually, maybe we sh- Do you have the DX graph in front of you, um, Harshal? 
+
+00:22:52,124 --> 00:22:56,364 [Sana]
+Like, is it open right now? Otherwise, I can go in. 
+
+00:22:56,364 --> 00:22:58,184 [Harshil]
+No, it's not. 
+
+00:22:58,184 --> 00:23:00,364 [Sana]
+Okay. Let me see if I can... 
+
+00:23:03,344 --> 00:23:04,324 [Sana]
+I can try to go in. 
+
+00:23:07,444 --> 00:23:08,744 [Sana]
+Just a second here. 
+
+00:23:09,824 --> 00:23:10,683 [Sana]
+[phone ringing] 
+
+00:23:12,724 --> 00:23:16,164 [Sana]
+Okay. So you should be able to see my screen here. 
+
+00:23:19,384 --> 00:23:20,644 [Sana]
+Do you guys see my screen? 
+
+00:23:20,644 --> 00:23:21,004 [Speaker 6]
+Yep. 
+
+00:23:21,004 --> 00:23:21,204 [Speaker 5]
+Yeah. 
+
+00:23:22,704 --> 00:23:55,884 [Sana]
+Okay. So this is one of our sample customers, um, and there's this concept of taxonomies that we're gonna be using for, um, LabSac. Right? So if... Initially, when we started talking about the DX graph, uh, and the PIM solution with LabSac, the big thing was they wanna bring in the product catalog, and they wanna manage taxonomies. That's all Amelia thought we need to do with the PIM. Right? Um, and then we showed her, um, this, 
+
+00:23:57,264 --> 00:23:59,224 [Sana]
+uh... Oh, sorry. Where did I go? 
+
+00:24:00,284 --> 00:24:37,472 [Sana]
+Um, we, we showed her the fact that we can create taxonomies, um, within the DX graph, and it just looks like any other collection except that we can... Here, I think maybe this is the one whereUh, we can manage rules within the taxonomy, right? So for each of the values in the, um, in the taxonomy, you can set up rules like categories equal to digital SLR cameras or, you know, we have all these different ways of, um, of, of adding rules. You can have, uh, all these logical 
+
+00:24:38,652 --> 00:24:42,652 [Sana]
+combinations of things that you can add, um, to it- 
+
+00:24:42,652 --> 00:24:42,942 [Harshil]
+Mm-hmm. 
+
+00:24:42,942 --> 00:24:46,192 [Sana]
+-like this, right? Um, like that. 
+
+00:24:47,692 --> 00:24:47,872 [Harshil]
+Yes. 
+
+00:24:47,872 --> 00:25:23,372 [Sana]
+For instance. Um, which is great, she appreciates that. But one thing that is not, uh, very user-friendly to her right now is that this doesn't look like a hierarchy. It looks kinda like just any other collection [notification sound] right now. Even though we have this idea of a category path, we can, you know, take a look at, uh, like, for instance, look at it like this. Oops. I don't know what I just did here. Sorry. Just moved away from this. Hold on. 
+
+00:25:24,472 --> 00:25:24,812 [Sana]
+Uh, 
+
+00:25:26,632 --> 00:26:19,692 [Sana]
+categories. Yeah. So if you look at it this way, like sort by the category path, you can actually see it somewhat in a hierarchy, but she wants more than that, something a little bit more like drag and drop, better UI for them to actually manage, um, parent-child relationships, etc. So what I asked Dwayne and Harshal, um, to work on is a widget that is going to present this hierarchy in a nicer way than that. Um, so that ba-basically, the customer can go to another tab and actually look at this hierarchy in a more visual, uh, format. Harshal, maybe you could show kind of an example of what that format would look like, uh, quickly. I'll just take away. 
+
+00:26:22,292 --> 00:26:42,572 [Sana]
+So that's just kind of happening behind the scenes, and that's why we need platform folks to be close to this project because we're making some changes to the, the product to help, um, the customer and, and to do something very specific for LabSac. Um, so here we go. 
+
+00:26:44,612 --> 00:26:46,932 [Sana]
+So this is- 
+
+00:26:46,932 --> 00:26:47,572 [Harshil]
+Uh, we- 
+
+00:26:47,572 --> 00:26:48,012 [Sana]
+Yeah. 
+
+00:26:48,012 --> 00:26:53,112 [Harshil]
+-um, going to use this, uh, library to just create, uh, 
+
+00:26:54,972 --> 00:27:06,372 [Harshil]
+it's, um, drag and drop. Uh, and right now, uh, this is just for a single tree, but we'll have multiple, uh, root nodes. Uh, so we're just, uh, working through that. 
+
+00:27:07,492 --> 00:27:22,632 [Harshil]
+Um, uh, and this does have the drag and drop thing, so if you want to, you know, uh, change hierarchies, uh, you just nest it somewhere. Um, it does allow you to do it, um, in a really intuitive way. And- 
+
+00:27:22,632 --> 00:27:22,992 [Sana]
+Mm-hmm. 
+
+00:27:22,992 --> 00:27:25,572 [Harshil]
+-uh, I think the biggest, uh, 
+
+00:27:26,652 --> 00:27:38,712 [Harshil]
+thing was just having a whole overview of, uh, the data hierarchy versus, uh, you know, just picking one thing and seeing, um, where it is placed. So, uh- 
+
+00:27:38,712 --> 00:27:38,822 [Sana]
+Right. 
+
+00:27:38,822 --> 00:28:07,232 [Harshil]
+-instead of just having, uh, a really large canvas. So just like the visualizer in the, um, DX engine where we map out our, um, both, uh, components and connecting those, we'll have something similar with DX Graph. So all the root level, um, categories, uh, would be at the top and every, uh, subcategory that it's nested, uh, would be shown in this, um, uh, hierarchy. 
+
+00:28:08,532 --> 00:28:17,892 [Sana]
+Right. Uh, and also, uh, Harshal, when we click on a specific level, um, are we gonna see the details of that show up anywhere? 
+
+00:28:19,312 --> 00:28:19,972 [Harshil]
+Um- 
+
+00:28:19,972 --> 00:28:20,742 [Sana]
+Or that's not the plan right now? 
+
+00:28:20,742 --> 00:28:29,852 [Harshil]
+It depends if that's required. Uh, yeah, because, uh, right now I think, uh, the main thing is to, uh, just see if we can expand it to, uh- 
+
+00:28:29,852 --> 00:28:30,052 [Sana]
+Okay. 
+
+00:28:30,052 --> 00:28:37,652 [Harshil]
+-accommodate for all root categories. Um, but if, um, being able to, um, edit or just see more- 
+
+00:28:37,652 --> 00:28:38,792 [Sana]
+Yeah. 
+
+00:28:38,792 --> 00:28:42,572 [Harshil]
+-um, if, if that's a requirement, we can, um, uh- 
+
+00:28:42,572 --> 00:28:48,332 [Sana]
+Is that a really difficult thing to do? I know this-- maybe it's too much to ask for right now. 
+
+00:28:48,332 --> 00:28:54,712 [Harshil]
+A little bit. I'll, I'll see how easy it is, but because we, um, using graphs, um, 
+
+00:28:55,932 --> 00:28:58,062 [Harshil]
+uh, it's because it's a more- 
+
+00:28:58,062 --> 00:28:59,602 [Sana]
+It could be a little bit complicated. 
+
+00:28:59,602 --> 00:29:00,152 [Harshil]
+-full... Yeah. 
+
+00:29:01,972 --> 00:30:03,512 [Sana]
+Yeah. So I think in, in the beginning, we'll start with... That we'll still have the grid view of the taxonomy, and if we need to edit specific details, we can go into each of the nodes and update it there. But what we can say is that it's in our roadmap to make that canvas a little bit more elaborate. So when you click on a specific node, you can go update it. Uh, you can update the rules associated with that node as well. So there's two things, right? One is the information about the node, like what's the title, subtitle, any metadata associated with each of those nodes. But then the rules typically are edited by right-clicking and clicking on Edit Rule Criteria. And we probably would want those rules eventually to be edited, um, within the same taxonomy canvas as well. So we don't have to promise to them yet that it's all gonna be 
+
+00:30:04,672 --> 00:30:12,822 [Sana]
+immediately available. Um, hopefully by next week we have just the basic, um, taxonomy. 
+
+00:30:12,822 --> 00:30:14,832 [Harshil]
+Yeah, at least the... Yeah. 
+
+00:30:14,832 --> 00:30:14,992 [Sana]
+Yeah. 
+
+00:30:14,992 --> 00:30:15,062 [Harshil]
+Visual hierarchy. 
+
+00:30:15,062 --> 00:30:29,756 [Sana]
+So we at least have some visual hierarchy.Uh, right away. Uh, is it gonna be accessible, Harshal, from, um... Like, wh-wh-where, where would we have the link to see that, um, that hierarchy? 
+
+00:30:30,796 --> 00:30:31,056 [Harshil]
+Um, 
+
+00:30:32,596 --> 00:30:37,336 [Harshil]
+Phi will, um, most probably create a new page for it because it, um- 
+
+00:30:37,336 --> 00:30:37,855 [Sana]
+Okay 
+
+00:30:37,855 --> 00:30:44,636 [Harshil]
+... doesn't really, uh, sit well with any of the existing pages, so it, it would have to be in a new tab. 
+
+00:30:44,636 --> 00:30:47,906 [Sana]
+Okay. So you would click on something on the taxonomy- 
+
+00:30:49,036 --> 00:30:49,186 [Harshil]
+Yeah, so- 
+
+00:30:49,186 --> 00:30:49,186 [Sana]
+Uh, page 
+
+00:30:49,186 --> 00:30:54,176 [Harshil]
+... yeah, taxonomy, or we'll just add a new link at the, uh, uh, top nav bar. 
+
+00:30:55,856 --> 00:31:02,496 [Sana]
+Okay. But it won't, it won't link from the list of taxonomies. Oh, okay, you mean from here? 
+
+00:31:02,496 --> 00:31:19,696 [Harshil]
+Yeah, so like, uh, in the, um, taxonomy because we want to show all root level. Uh, so maybe it, it, it can be either narrow the, um, uh, specifications. So instead, let's say if we, um, select Google, um, categories- 
+
+00:31:19,696 --> 00:31:20,336 [Sana]
+Yeah 
+
+00:31:20,336 --> 00:31:35,736 [Harshil]
+... uh, then there's a maybe a collapsible widget, uh, somewhere on the top that will only show, um, uh, categories, uh, uh, for this particular, um, collection or, um, taxonomy. And- 
+
+00:31:35,736 --> 00:31:35,796 [Sana]
+Okay 
+
+00:31:35,796 --> 00:31:39,096 [Harshil]
+... when we switch, it also switches, uh, 
+
+00:31:40,136 --> 00:31:49,096 [Harshil]
+the root, uh, nodes that are available. Um, so that's one thing. And the other thing is we just have a new page that displays everything. 
+
+00:31:49,096 --> 00:31:49,376 [Sana]
+Mm. 
+
+00:31:50,536 --> 00:31:59,226 [Sana]
+I mean, it may be better to have it unified in one, one page. Um, so like maybe as a collapsible widget 
+
+00:32:00,356 --> 00:32:02,976 [Sana]
+that shows up at the top of that grid 
+
+00:32:04,316 --> 00:32:13,436 [Sana]
+somehow, and then we can close it when we're done moving things around. Um, and then we would have to refresh the grid, I'm guessing 
+
+00:32:14,616 --> 00:32:19,776 [Sana]
+to, to show kind of the, the updated hierarchy. 
+
+00:32:19,776 --> 00:32:24,956 [Harshil]
+Yeah. Because, uh, w-we're, uh, still just working on the UI part. Um, 
+
+00:32:26,336 --> 00:32:35,836 [Harshil]
+after you move it around, we, um, we still need to implement, uh, the underlying, uh, logic to update the database. 
+
+00:32:36,876 --> 00:32:37,136 [Harshil]
+Um- 
+
+00:32:38,236 --> 00:32:38,276 [Sana]
+Right. 
+
+00:32:38,276 --> 00:32:39,395 [Harshil]
+So, uh- 
+
+00:32:39,396 --> 00:32:42,636 [Sana]
+Okay. But that is what's the plan for like- 
+
+00:32:42,636 --> 00:32:43,115 [Harshil]
+Yeah. 
+
+00:32:43,116 --> 00:32:45,996 [Sana]
+Without that, it would probably be useless anyway, without, without moving- 
+
+00:32:45,996 --> 00:32:47,416 [Harshil]
+Yeah. That, that's why I just wanted- 
+
+00:32:47,416 --> 00:32:47,436 [Sana]
+Data 
+
+00:32:47,436 --> 00:32:54,956 [Harshil]
+... to know what's the, um, depth or what are all the features that we need so that we can, uh, assign- 
+
+00:32:54,956 --> 00:32:55,456 [Sana]
+Right 
+
+00:32:55,456 --> 00:32:55,496 [Harshil]
+... uh, resources. 
+
+00:32:55,496 --> 00:33:04,215 [Sana]
+We should probably set up that meeting to discuss that, um, as well. Maybe, uh, we, we should probably all be there for that piece. 
+
+00:33:05,236 --> 00:33:05,556 [Speaker 5]
+For sure. 
+
+00:33:05,556 --> 00:33:06,816 [Sana]
+Um, as well. 
+
+00:33:06,816 --> 00:33:10,365 [Harshil]
+I, I'd be to agree as well because right now we're just- 
+
+00:33:10,365 --> 00:33:10,365 [Sana]
+Yeah 
+
+00:33:10,365 --> 00:33:14,496 [Harshil]
+... we're focusing on the, the UI, um, aspect of it. Um- 
+
+00:33:14,496 --> 00:33:15,116 [Sana]
+Right 
+
+00:33:15,116 --> 00:33:16,836 [Harshil]
+... it, it's good to know that, um, 
+
+00:33:18,236 --> 00:33:21,395 [Harshil]
+uh, what, um, other enhancements, uh, that we- 
+
+00:33:21,396 --> 00:33:35,576 [Sana]
+We want in the future. Right. Right. Um, yeah, sorry. So that was just a bit of a digression. So that's just another feature we're trying to add right now, hopefully in time for, um, the kickoff with them next week. 
+
+00:33:35,576 --> 00:33:36,036 [Speaker 5]
+Mm-hmm. 
+
+00:33:36,036 --> 00:33:54,116 [Sana]
+Um, so that we can actually showcase a new way of visualizing, um, the hierarchy, um, as part of this project. We, we have not promised, um, Amelia that yet. We haven't said that we're doing this. We're just kinda surprising her- 
+
+00:33:54,116 --> 00:33:54,356 [Speaker 5]
+Cool 
+
+00:33:54,356 --> 00:34:09,916 [Sana]
+... with it. She'll be happy to see that there is something, um, that she wanted, it's w-which is already available, uh, in, in the product. But for now, um, one thing, uh, Harshal, that I noticed is that in that taxonomy, like here, 
+
+00:34:11,016 --> 00:34:52,316 [Sana]
+there used to be a field, uh, or like a-- an option to add a child [clears throat] um, [clears throat] to the, uh, to the taxonomy collection, right? So right now, like there isn't really a way to add a parent-child relationship at all. Um, there used to be a menu item there. I think it's something that we need to, uh, enable. So when you do create that collection or the, or the, um, the DX graph, um, customer for love SAC, if you could just make sure that that capability is, uh, enabled to, to, to add a co-- Um... 
+
+00:34:53,396 --> 00:34:54,276 [Sana]
+Oh. 
+
+00:34:54,276 --> 00:34:55,636 [Speaker 5]
+Oh, sorry. I didn't- 
+
+00:34:55,636 --> 00:34:56,016 [Sana]
+David. Just- 
+
+00:34:56,016 --> 00:34:56,826 [Speaker 5]
+I didn't want to stop you. 
+
+00:34:56,826 --> 00:34:57,856 [Sana]
+Oh, that's just the Fireflies notes. 
+
+00:34:57,856 --> 00:34:58,136 [Speaker 5]
+Yeah. 
+
+00:34:58,136 --> 00:34:59,836 [Sana]
+Okay. [laughs] Yeah, no worries. 
+
+00:35:01,716 --> 00:35:02,386 [Speaker 5]
+I was, I was just gonna- 
+
+00:35:02,386 --> 00:35:03,136 [Sana]
+Did you wanna add something? 
+
+00:35:03,136 --> 00:35:03,896 [Speaker 5]
+I was gonna add- 
+
+00:35:03,896 --> 00:35:04,136 [Sana]
+Yeah 
+
+00:35:04,136 --> 00:35:07,676 [Speaker 5]
+... um, th-there's another two kind of blockers that, um, 
+
+00:35:09,996 --> 00:35:12,656 [Speaker 5]
+that Claude and I found. [laughs] 
+
+00:35:12,656 --> 00:35:13,956 [Sana]
+Oh, okay. [laughs] 
+
+00:35:13,956 --> 00:35:15,075 [Speaker 5]
+Uh, so the- 
+
+00:35:15,076 --> 00:35:15,206 [Sana]
+Uh, okay 
+
+00:35:15,206 --> 00:35:20,636 [Speaker 5]
+... the bottom one is the hierarchy one that you've, you've mentioned that there's three competing proposals 
+
+00:35:21,876 --> 00:35:27,776 [Speaker 5]
+and, and you're gonna work that out with the, the UI and everything. So that's, that seems fine. But the, the- 
+
+00:35:27,776 --> 00:35:27,876 [Sana]
+Mm-hmm 
+
+00:35:27,876 --> 00:35:30,976 [Speaker 5]
+... number one is the, um... 
+
+00:35:34,696 --> 00:35:42,336 [Speaker 5]
+There's a-- There was a question around the physical adjacency rules, and actually that's already half answered in the, um, 
+
+00:35:43,436 --> 00:35:44,916 [Speaker 5]
+sectional builder guide. 
+
+00:35:46,396 --> 00:35:46,816 [Sana]
+Mm-hmm. 
+
+00:35:46,816 --> 00:35:47,996 [Speaker 5]
+You can actually work out 
+
+00:35:49,176 --> 00:35:53,476 [Speaker 5]
+a, a table that, um, that we could give them. 
+
+00:35:55,016 --> 00:35:56,996 [Sana]
+Like a compatibility table- 
+
+00:35:56,996 --> 00:35:57,156 [Speaker 5]
+Yeah 
+
+00:35:57,156 --> 00:35:58,135 [Sana]
+... of certain, um- 
+
+00:35:58,136 --> 00:35:58,206 [Speaker 5]
+Yeah 
+
+00:35:58,206 --> 00:36:00,356 [Sana]
+... configurations and certain components? 
+
+00:36:00,356 --> 00:36:01,106 [Speaker 5]
+Yeah. 
+
+00:36:01,106 --> 00:36:01,136 [Sana]
+Okay. 
+
+00:36:01,136 --> 00:36:08,416 [Speaker 5]
+So I did a draft one. Uh, it seemed quite short [laughs] from what I was expecting, but, uh, 
+
+00:36:09,596 --> 00:36:11,356 [Speaker 5]
+uh, I'll look at that more closely again. 
+
+00:36:12,416 --> 00:36:12,656 [Speaker 5]
+Um- 
+
+00:36:12,656 --> 00:36:13,176 [Sana]
+Okay 
+
+00:36:13,176 --> 00:36:18,096 [Speaker 5]
+... the other one was the compatibility rules have not been validated by love SAC. 
+
+00:36:18,096 --> 00:36:19,156 [Sana]
+Mm-hmm. 
+
+00:36:19,156 --> 00:36:21,788 [Speaker 5]
+Um-Have you already sent them? 
+
+00:36:21,788 --> 00:36:22,608 [Sana]
+Yeah. 
+
+00:36:22,608 --> 00:36:23,428 [Speaker 5]
+To the, to- 
+
+00:36:23,428 --> 00:36:24,528 [Sana]
+No, we haven't. 
+
+00:36:24,528 --> 00:36:24,887 [Speaker 5]
+Oh, okay. 
+
+00:36:24,888 --> 00:36:26,008 [Sana]
+We have not shared that yet. 
+
+00:36:26,008 --> 00:36:26,588 [Speaker 5]
+Fine. Fine. 
+
+00:36:26,588 --> 00:36:50,118 [Sana]
+No. So this is just created by analyzing the data that we have. Um, you can tell Amelia that that's how they were created. I don't think she was even expecting us to be able to extract those rules. I had asked, um, I think, Morgan, you and I, when we were on a call with Amelia, we, we asked her for, uh, the 3KIT rule. 
+
+00:36:50,118 --> 00:36:52,407 [Speaker 2]
+Yeah. 3KIT rules, yeah. 
+
+00:36:52,408 --> 00:37:13,068 [Sana]
+Right? And if she can export them or they can figure out a way to export them somehow. Um, I think it's gonna be tough for them to do that. It's probably all hard-coded for all I know, um, right now. But somebody on their team needs to then look at our rules and say, "Yeah, is this right or wrong?" 
+
+00:37:13,068 --> 00:37:13,448 [Speaker 2]
+Mm-hmm. 
+
+00:37:13,448 --> 00:37:14,228 [Sana]
+At the very least, 
+
+00:37:15,388 --> 00:37:38,698 [Sana]
+right? So when we do implement them... Um, or maybe-- you know, maybe for the, for the sake of the POC, that's not needed. I don't know. I mean, may-maybe for now, the... Like, we implement some sample rules and show them how they would work. Um, but for the, for the purpose of the POC, they're okay with that, and they will only, 
+
+00:37:40,138 --> 00:37:45,008 [Sana]
+uh, look at those rules in the future when we're ready to go to production. 
+
+00:37:45,008 --> 00:37:45,468 [Speaker 5]
+Right. 
+
+00:37:45,468 --> 00:37:45,908 [Speaker 2]
+Yeah. 
+
+00:37:45,908 --> 00:37:50,288 [Sana]
+With the DX engine. I, I don't know. That's-- I think that's all to clarify. 
+
+00:37:50,288 --> 00:37:58,418 [Speaker 2]
+Yeah. And we can flag it as a risk, and that would be the workaround, right? So, um, if they can't pull that out quick- rather quickly and validate- 
+
+00:37:58,418 --> 00:37:58,558 [Sana]
+Oh, yeah 
+
+00:37:58,558 --> 00:38:00,028 [Speaker 2]
+... we can find the- 
+
+00:38:00,028 --> 00:38:01,208 [Sana]
+Yeah. 
+
+00:38:01,208 --> 00:38:01,238 [Speaker 2]
+Yeah. 
+
+00:38:01,238 --> 00:38:04,798 [Sana]
+Yeah, 'cause those rules were gonna be in the, uh, in the DX graph. 
+
+00:38:04,798 --> 00:38:04,808 [Speaker 2]
+Yeah. 
+
+00:38:04,808 --> 00:38:06,608 [Sana]
+Those are relationships, right? 
+
+00:38:08,508 --> 00:38:08,728 [Speaker 2]
+Yeah. 
+
+00:38:08,728 --> 00:38:09,338 [Speaker 5]
+Yeah. 
+
+00:38:09,338 --> 00:38:20,508 [Sana]
+Yeah. And, and so we can show them that this is how we were going to do it, um, but we would at some point have to edit those rules to align with the reality. 
+
+00:38:20,508 --> 00:38:22,268 [Speaker 2]
+Yeah. Yeah. 
+
+00:38:22,268 --> 00:38:28,988 [Sana]
+Yeah. Yeah. I think as long as we call those things out, that's more important than getting it right- 
+
+00:38:28,988 --> 00:38:29,108 [Speaker 5]
+Right 
+
+00:38:29,108 --> 00:38:30,168 [Sana]
+... right now. 
+
+00:38:30,168 --> 00:38:31,428 [Speaker 2]
+Yeah. Flagging it early. 
+
+00:38:31,428 --> 00:38:36,958 [Sana]
+If there's, there's something missing, that's a bigger problem. Like, if we don't even know that it's missing- 
+
+00:38:36,958 --> 00:38:36,958 [Speaker 2]
+Yeah 
+
+00:38:36,958 --> 00:38:49,388 [Sana]
+... that's a bigger problem than we calling it out, "Look, we have incomplete information, and we need the full information from you guys." And they're aware that they have to come back with it at some point. 
+
+00:38:49,388 --> 00:38:49,588 [Speaker 2]
+Yeah. 
+
+00:38:50,848 --> 00:39:03,048 [Speaker 5]
+And, and the sort of detailed version that I had, um, of the... Well, not... It's not very detailed 'cause I, I didn't think anyone technical was gonna come on the call. But the- 
+
+00:39:03,048 --> 00:39:03,058 [Sana]
+Yeah 
+
+00:39:03,058 --> 00:39:06,648 [Speaker 5]
+... uh, [chuckles] the diagram that I had with all the notes on it, with the blockers and the- 
+
+00:39:06,648 --> 00:39:07,508 [Sana]
+Right 
+
+00:39:07,508 --> 00:39:07,848 [Speaker 5]
+... um, 
+
+00:39:09,068 --> 00:39:13,028 [Speaker 5]
+c-can they be raised as risks? It's got that 3KIT- 
+
+00:39:13,028 --> 00:39:14,928 [Sana]
+Can you bring that up for a second, David? 
+
+00:39:14,928 --> 00:39:15,228 [Speaker 5]
+Uh, 
+
+00:39:18,468 --> 00:39:20,938 [Speaker 5]
+what... C-shall I share the... 
+
+00:39:20,938 --> 00:39:23,348 [Sana]
+Sure. Yeah, you can just share it on this, on the screen, yeah. 
+
+00:39:23,348 --> 00:39:27,308 [Speaker 5]
+Or, or shall I, shall I just... Can I send it via this? 
+
+00:39:28,948 --> 00:39:29,128 [Speaker 5]
+No. 
+
+00:39:30,328 --> 00:39:31,928 [Speaker 5]
+Shall I put it in Slack? 
+
+00:39:31,928 --> 00:39:37,888 [Speaker 2]
+Sure, that would be great. Then at least we have after the call, and then I can share it right to my screen if you wanna walk through it. 
+
+00:39:37,888 --> 00:39:40,128 [Sana]
+Mm-hmm. 
+
+00:39:43,728 --> 00:39:44,528 [Speaker 5]
+There. 
+
+00:39:47,388 --> 00:39:59,068 [Speaker 2]
+Okay. Got that. And now... 
+
+00:40:05,968 --> 00:40:06,648 [Speaker 2]
+Okay, it's up. 
+
+00:40:09,048 --> 00:40:15,708 [Speaker 5]
+Yeah. So, I mean, these are the ones I mentioned. The, the blocker on the, the top right is the hierarchy, then the compatibility rules- 
+
+00:40:16,728 --> 00:40:17,008 [Speaker 2]
+Mm-hmm 
+
+00:40:17,008 --> 00:40:22,268 [Speaker 5]
+... which you've... Uh, and then the risk is the 3KIT coesis- coexistence is undefined. 
+
+00:40:23,668 --> 00:40:24,468 [Speaker 2]
+Yeah. 
+
+00:40:24,468 --> 00:40:27,088 [Speaker 5]
+Um, and then there's the, 
+
+00:40:28,268 --> 00:40:31,608 [Speaker 5]
+uh, OMS path is undefined. 
+
+00:40:31,608 --> 00:40:31,788 [Speaker 2]
+Yeah. 
+
+00:40:32,808 --> 00:40:33,168 [Speaker 5]
+Uh... 
+
+00:40:35,368 --> 00:40:42,208 [Sana]
+So I think when we explain to them what our understanding of their architecture is- 
+
+00:40:42,208 --> 00:40:42,888 [Speaker 5]
+Yeah 
+
+00:40:42,888 --> 00:40:47,707 [Sana]
+... I wouldn't call it as a risk. I would call it more-- call it out as a question- 
+
+00:40:47,708 --> 00:40:47,738 [Speaker 5]
+Yeah. Question. Sorry 
+
+00:40:47,738 --> 00:40:53,928 [Sana]
+... 'cause we don't wanna raise alarms. Uh, we wanna say, "You know, here are some things we're wondering how 
+
+00:40:55,128 --> 00:40:56,348 [Sana]
+you're thinking about it." 
+
+00:40:56,348 --> 00:40:56,708 [Speaker 5]
+Yeah. 
+
+00:40:56,708 --> 00:41:00,967 [Sana]
+'Cause then that is softer. It will land more softly with them. 
+
+00:41:00,968 --> 00:41:04,707 [Speaker 5]
+Yeah. I should've said to Claude to be softer. [laughs] 
+
+00:41:04,708 --> 00:41:29,568 [Sana]
+So, yeah, tell Claude to be softer. [laughing] Don't be an alarmist. Don't be an alarmist. 'Cause we're, we're still in the beginning of building that relationship with them, so we wanna, you know, show that we're... we understand that there are some things missing, but we'll work it out with you. That's the, that's the tone, especially because we're implementing this for them. Um- 
+
+00:41:29,568 --> 00:41:29,928 [Speaker 2]
+Yeah 
+
+00:41:29,928 --> 00:41:33,468 [Sana]
+... like, we're almost an SI in this case since- 
+
+00:41:33,468 --> 00:41:33,578 [Speaker 5]
+Yeah 
+
+00:41:33,578 --> 00:41:34,527 [Sana]
+... with them. Um- 
+
+00:41:34,528 --> 00:41:35,768 [Speaker 5]
+And then the other one was- 
+
+00:41:35,768 --> 00:41:35,838 [Sana]
+Right. Um- 
+
+00:41:35,838 --> 00:41:41,408 [Speaker 5]
+... uh, we don't know whether i-if that, the data, the source backends are going through, 
+
+00:41:43,048 --> 00:41:46,268 [Speaker 5]
+uh, Celigo, is it? C-E-L- 
+
+00:41:46,268 --> 00:41:46,468 [Sana]
+Right 
+
+00:41:46,468 --> 00:41:47,648 [Speaker 5]
+... I-G-O? Yeah. 
+
+00:41:47,648 --> 00:41:59,338 [Sana]
+Yeah. So I think we need to know what their plan is for giving us the data. So as far as we're concerned, we-- they can either give us the data as a batch or s- all their data files 
+
+00:42:00,548 --> 00:42:10,238 [Sana]
+as batch files in whatever format, JSON or CSV or whatnot. They can generate it from Celigo and put it in our bucket, right? 
+
+00:42:10,238 --> 00:42:10,308 [Speaker 2]
+Mm-hmm. 
+
+00:42:10,308 --> 00:42:30,651 [Sana]
+There's a... We, we'll give them a way to upload on a regular basis into the Concea bucket. Um, or they say, "Here's an APIThat you can call to go pull that data through a web service, and we'll loop through it and pull it into, uh, the DX graph that way. 
+
+00:42:30,652 --> 00:42:30,982 [Speaker 7]
+Yeah. 
+
+00:42:30,982 --> 00:42:43,862 [Sana]
+Right? So those are the two methods that we wanna say are acceptable. We just find out from them what's the easiest way for this project, um, for, for them to give us that data. 
+
+00:42:43,862 --> 00:42:43,931 [Speaker 7]
+Sure. 
+
+00:42:43,932 --> 00:42:47,572 [Sana]
+Uh, if it is in fact the API, then we'll go get it from the API. 
+
+00:42:48,612 --> 00:42:52,772 [Sana]
+Um, otherwise, yeah. Da-data files are always the easiest- 
+
+00:42:52,772 --> 00:42:52,872 [Speaker 7]
+Yeah 
+
+00:42:52,872 --> 00:42:53,892 [Sana]
+... to work with. 
+
+00:42:53,892 --> 00:42:55,592 [Harshil]
+Yes. Yeah. 
+
+00:42:55,592 --> 00:43:02,852 [Sana]
+Yeah. And also, I think from an auditing standpoint, right, we can go and check what they gave us. Like if something goes wrong- [phone beeping] 
+
+00:43:02,852 --> 00:43:03,272 [Harshil]
+Invalidate 
+
+00:43:03,272 --> 00:43:05,612 [Sana]
+... it's easier to vali-- yeah, validate 
+
+00:43:06,952 --> 00:43:15,072 [Sana]
+w-what data they provided versus what we pulled into the DX graph. And I think it's always also the easiest for the customer to provide- 
+
+00:43:15,072 --> 00:43:15,152 [Harshil]
+Yeah 
+
+00:43:15,152 --> 00:43:17,112 [Sana]
+... to us as well. 
+
+00:43:17,112 --> 00:43:17,492 [Speaker 7]
+Mm-hmm. 
+
+00:43:17,492 --> 00:43:17,992 [Harshil]
+Yeah. 
+
+00:43:17,992 --> 00:43:33,191 [Sana]
+And we, we can start to... As long as they can confirm that the f- the file that they've provided to us, the format's not gonna change. That is the file that they're gonna upload on a daily basis or hourly basis. 
+
+00:43:33,192 --> 00:43:33,222 [Harshil]
+Mm-hmm. 
+
+00:43:33,222 --> 00:43:37,752 [Sana]
+We can st-start to do the development against that format. 
+
+00:43:37,752 --> 00:43:39,312 [Speaker 7]
+Yeah. We can simulate it. 
+
+00:43:40,952 --> 00:43:41,152 [Sana]
+Yeah. 
+
+00:43:42,632 --> 00:43:42,652 [Sana]
+Yeah. 
+
+00:43:42,652 --> 00:43:47,172 [Speaker 7]
+At what stage do we get access to their actual systems? Is that way off? 
+
+00:43:47,172 --> 00:43:48,762 [Sana]
+I don't think we will. 
+
+00:43:48,762 --> 00:43:48,771 [Speaker 7]
+We won't. 
+
+00:43:48,772 --> 00:44:06,472 [Sana]
+And I, I have a fe-- I, I think that we will get the data one way to us. We will just work from our bucket onwards. We will then expose endpoints to them so that they can integrate into Consea rather than us 
+
+00:44:07,692 --> 00:44:16,072 [Sana]
+pushing or pulling data from their systems. The only thing that they may do is say, "You can write to an OMS endpoint- 
+
+00:44:17,112 --> 00:44:17,812 [Speaker 7]
+Yeah 
+
+00:44:17,812 --> 00:44:32,232 [Sana]
+... where, y-you know, you need to push the bill of materials, for instance. Here's, here's a link or here's an API, um, endpoint that you can write to." But from data access, like read perspective, 
+
+00:44:33,292 --> 00:45:03,042 [Sana]
+I don't think there will be a need. Not from a data, uh, not, not from a data injection ETL standpoint, but for DX engine, um, to, uh, pull the data or push the data in real time for real-time calls, that may be necessary, but that's also still part of the POC, and we have not, we have not, um, said that we're gonna complete the integration with their systems as part of the POC for the DX engine. 
+
+00:45:03,042 --> 00:45:03,052 [Speaker 7]
+Right. 
+
+00:45:03,052 --> 00:45:11,732 [Sana]
+We're only getting the endpoints, like validation endpoint, the config ID to BOM explosion endpoint. Like, we're getting those ready, 
+
+00:45:12,792 --> 00:45:22,792 [Sana]
+and we-- they can confirm that they're ready in many other ways, right? They can even use their MCP server to go call through ChatGPT- 
+
+00:45:22,792 --> 00:45:22,812 [Speaker 7]
+Mm-hmm 
+
+00:45:22,812 --> 00:45:23,292 [Sana]
+... if they want, 
+
+00:45:24,612 --> 00:45:28,252 [Sana]
+um, just to see what that config ID results in. 
+
+00:45:28,252 --> 00:45:28,892 [Speaker 7]
+Yeah. 
+
+00:45:28,892 --> 00:45:38,692 [Sana]
+Um, that, that could be an integration that we just show. J-just, just to kind of mock it and, and show what that looks like. But by end of J-- uh, June, 
+
+00:45:39,792 --> 00:45:46,912 [Sana]
+I don't think that they're gonna be ready to integrate with it from their POS or through lovestat.com. 
+
+00:45:46,912 --> 00:45:47,121 [Speaker 7]
+Ah, okay. 
+
+00:45:47,121 --> 00:45:48,732 [Sana]
+I think that's second phase. 
+
+00:45:48,732 --> 00:45:50,932 [Speaker 7]
+Right. Cool. That's good to know. 
+
+00:45:50,932 --> 00:45:52,292 [Sana]
+Yeah. Yeah. 
+
+00:45:54,092 --> 00:45:55,972 [Sana]
+Any other clarification 
+
+00:45:57,032 --> 00:45:59,732 [Sana]
+needed? I feel pretty good about where we are. 
+
+00:46:00,892 --> 00:46:03,582 [Sana]
+At least we know what we don't know. [laughs] 
+
+00:46:03,582 --> 00:46:05,612 [Speaker 7]
+[laughs] 
+
+00:46:05,612 --> 00:46:05,792 [Sana]
+Right? 
+
+00:46:07,852 --> 00:46:12,612 [Sana]
+Anything else? Harshil, any questions from what you've seen so far? 
+
+00:46:13,952 --> 00:46:18,072 [Harshil]
+Um, no, be- I just got access, um, a couple of hours ago, so I haven't done, um- 
+
+00:46:18,072 --> 00:46:20,582 [Sana]
+Oh, okay. Okay. So you haven't had a chance. 
+
+00:46:20,582 --> 00:46:34,892 [Harshil]
+Yeah. So I'll look at it and, um, just request, uh, if you feel that there's, um, a feature that we might need, uh, if you can just get that across as early as possible that'd be great because, um, right now it's- 
+
+00:46:34,892 --> 00:46:37,492 [Sana]
+Oh, you mean like a spec for that? 
+
+00:46:37,492 --> 00:46:52,892 [Harshil]
+Um, yeah, or at least just, uh, you know, a high-level overview. Obviously don't have the details, but at least, um, you know, a, just a high-level idea of, um, what we might need, uh, that would be great because we're also doing- 
+
+00:46:52,892 --> 00:46:53,792 [Sana]
+Okay. Okay. I'll think about that 
+
+00:46:53,792 --> 00:47:00,612 [Harshil]
+... um, hold on the side. Um, so, uh, it, it might be difficult, um, to, you know, just- 
+
+00:47:00,612 --> 00:47:01,012 [Sana]
+Mm-hmm 
+
+00:47:01,012 --> 00:47:04,512 [Harshil]
+... implement anything, um, immediately. Uh- 
+
+00:47:04,512 --> 00:47:05,282 [Sana]
+Right. Right. No, I understand 
+
+00:47:05,282 --> 00:47:08,812 [Harshil]
+... because the resources are distributed across projects, so. 
+
+00:47:08,812 --> 00:47:23,132 [Sana]
+Yeah. Yeah. No, I, I understand. I th- I think from, from my, um, understanding of what Amelia wants to see, as long as there's a way to visually, uh, drag and drop the hierarchy for now- 
+
+00:47:23,132 --> 00:47:23,142 [Harshil]
+Mm-hmm 
+
+00:47:23,142 --> 00:47:50,152 [Sana]
+... and there's a way to then edit, um, the details of the hierarchy and the rules in an obvious spot [laughs] on the page, um, th- I think that's fine. I, I like the idea of putting that new widget as a collapsible widget inside the taxonomies page, just so that it's not kind of off to its, uh, you know, off on, on its own page and it's not gonna be as, 
+
+00:47:51,272 --> 00:48:11,792 [Sana]
+um, friendly, user-friendly, um, and in-intuitive, um, than if, if you could just keep it together. Um, then we can justify the fact to her that, look, you can visually reorganize the hierarchy, but in order to go and edit the rules at the moment as a first step, you have to do it through the grid. 
+
+00:48:12,872 --> 00:48:13,672 [Harshil]
+Yeah. 
+
+00:48:13,672 --> 00:48:28,862 [Sana]
+Eventually, we will integrate all of that together and make the rules also editable from the hierarchy, um, visualizer directly. But we can say that that's coming. Don't worry about it, and she'll be happy.
+
+00:48:29,844 --> 00:48:31,604 [Speaker 5]
+I was just thinking if, if they've- 
+
+00:48:31,604 --> 00:48:32,124 [Sana]
+Yeah 
+
+00:48:32,124 --> 00:48:32,804 [Speaker 5]
+... uh, used, uh- 
+
+00:48:32,804 --> 00:48:33,084 [Sana]
+Yeah 
+
+00:48:33,084 --> 00:48:35,684 [Speaker 5]
+... or looked at PIMs, um, a- 
+
+00:48:35,684 --> 00:48:35,694 [Sana]
+[clears throat] 
+
+00:48:35,694 --> 00:48:40,344 [Speaker 5]
+... as competitors or whatever, they might have an idea, uh, of what they like the look of. 
+
+00:48:40,344 --> 00:48:41,324 [Sana]
+Of what it should look like. 
+
+00:48:41,324 --> 00:48:43,304 [Speaker 5]
+Yeah. So you could then say- 
+
+00:48:43,304 --> 00:48:43,314 [Sana]
+That's a good point 
+
+00:48:43,314 --> 00:48:45,123 [Speaker 5]
+... "Oh, we want it like whatever." 
+
+00:48:46,164 --> 00:48:46,504 [Speaker 5]
+Um. 
+
+00:48:46,504 --> 00:48:56,114 [Sana]
+That, that's a good point. So we, we could... Like, I was gonna do a little bit of research on, um, um... What's the other PIM that they're comparing us to? Um, 
+
+00:48:57,184 --> 00:48:58,864 [Sana]
+Morgan, what, what did- 
+
+00:48:58,864 --> 00:49:00,304 [Speaker 5]
+Pimly, one of them. 
+
+00:49:00,304 --> 00:49:01,564 [Sana]
+Pimly? Pimly was one of them. 
+
+00:49:02,744 --> 00:49:02,844 [Speaker 5]
+Okay. 
+
+00:49:02,844 --> 00:49:06,064 [Sana]
+Um, what was the other one that, uh- 
+
+00:49:06,064 --> 00:49:06,404 [Speaker 5]
+That one 
+
+00:49:06,404 --> 00:49:17,684 [Sana]
+... Emilia came from? My brain is not working right now. Let me see. PIM, top PIMs. I know it's one of... Hold on. So there's... 
+
+00:49:20,444 --> 00:49:23,284 [Sana]
+My God, not in River. Starts with S. 
+
+00:49:25,064 --> 00:49:26,624 [Speaker 5]
+Mm. Oh. 
+
+00:49:26,624 --> 00:49:30,144 [Sana]
+One second. [mouse clicking] [laughs] 
+
+00:49:30,144 --> 00:49:31,664 [Speaker 5]
+Salsify? 
+
+00:49:31,664 --> 00:49:32,444 [Sana]
+Salsify. 
+
+00:49:32,444 --> 00:49:32,464 [Speaker 5]
+Salsify. 
+
+00:49:32,464 --> 00:49:41,464 [Sana]
+There you go. Oh, gosh. That is the one. Um, Salsify is where-- like what Emilia has used in the past. 
+
+00:49:41,464 --> 00:49:41,923 [Speaker 5]
+Mm-hmm. 
+
+00:49:41,924 --> 00:49:58,824 [Sana]
+And so when she compares us to anything, it's usually Salsify. So from what I understand, Salsify does not have a way to edit rules at the node level anyway. Like, so you could create a hierarchy, 
+
+00:49:59,844 --> 00:50:22,904 [Sana]
+but you have to manually select, uh, for each record, um, like each product record in the catalog, what, um, w-w-what-- where it belongs in the hierarchy. And, and the difference with us is that you can apply the hierarchy to the products through actual rules. 
+
+00:50:25,444 --> 00:50:31,844 [Sana]
+That, that's my understanding, but I will confirm that, um, in, in Salsify documentation or ask Juan 
+
+00:50:32,864 --> 00:50:53,544 [Sana]
+to help us fig-figure out kinda where the gaps are. And I think in the roadmap, Harshal will probably have a little bit more to add, but for next week, I just wanna get just a basic visual for now that styles similar to the rest of the, 
+
+00:50:54,924 --> 00:51:17,184 [Sana]
+um, rest of the application and not in the black and white, hopefully, that we saw, uh, earlier. 'Cause we want it to look like the rest of the, the page and not stand out like a sore thumb, you know. 'Cause I, I... You know, it's, it's... Styling makes the biggest difference to business users. They're not able to see past 
+
+00:51:18,584 --> 00:51:19,514 [Sana]
+what things look like. [chuckles] 
+
+00:51:20,904 --> 00:51:25,404 [Sana]
+Um, so as long as it looks pretty, um, and it, it has the same, um, 
+
+00:51:26,784 --> 00:51:32,644 [Sana]
+kinda the same branding and, and the formatting as everything else, we'll be okay. 
+
+00:51:32,644 --> 00:51:34,324 [Harshil]
+Yeah. I think we'll, um, 
+
+00:51:35,504 --> 00:51:37,144 [Harshil]
+use the same, um, 
+
+00:51:38,304 --> 00:51:41,024 [Harshil]
+uh, UI aspect. Um, so, uh- 
+
+00:51:41,024 --> 00:51:41,034 [Sana]
+Yeah 
+
+00:51:41,034 --> 00:51:47,184 [Harshil]
+... if you remember how, uh, the old, um, uh, rules editor looked like- 
+
+00:51:47,184 --> 00:51:47,744 [Sana]
+Yes 
+
+00:51:47,744 --> 00:51:48,804 [Harshil]
+... uh, or the- 
+
+00:51:48,804 --> 00:51:48,814 [Sana]
+Yeah 
+
+00:51:48,814 --> 00:51:51,824 [Harshil]
+... only current, I think, the data model, um, as it is built. 
+
+00:51:51,824 --> 00:51:52,184 [Sana]
+Yeah. 
+
+00:51:52,184 --> 00:51:55,384 [Harshil]
+Um, so the styling would be the same. 
+
+00:51:55,384 --> 00:51:56,704 [Sana]
+So hold on. Let me just 
+
+00:51:58,624 --> 00:52:01,244 [Sana]
+see here. One second. 
+
+00:52:02,504 --> 00:52:05,664 [Sana]
+One sec. So can I share this? 
+
+00:52:09,084 --> 00:52:10,944 [Sana]
+You're talking about this one, right? 
+
+00:52:12,704 --> 00:52:15,864 [Harshil]
+Yeah. So it, it would be really similar to this one. 
+
+00:52:17,304 --> 00:52:17,604 [Sana]
+Yeah. 
+
+00:52:19,364 --> 00:52:21,324 [Sana]
+So like, basically like this. 
+
+00:52:22,674 --> 00:52:22,684 [Harshil]
+Yes. 
+
+00:52:22,684 --> 00:52:26,484 [Sana]
+Well, we can't really add anything, but if I add an, I think, an object 
+
+00:52:28,884 --> 00:52:31,004 [Sana]
+here, then I can add 
+
+00:52:32,324 --> 00:52:35,124 [Sana]
+a field into the object. 
+
+00:52:35,124 --> 00:52:36,224 [Harshil]
+Yes. 
+
+00:52:36,224 --> 00:52:41,124 [Sana]
+But I, I have to define everything in order to add anything under it. But yes, that's the, uh- 
+
+00:52:41,124 --> 00:52:50,864 [Harshil]
+So visually it would look like this, but instead of, uh... Because there's a lot of checks to make sure that, you know, uh, the data model doesn't go wrong. Um. 
+
+00:52:50,864 --> 00:52:51,764 [Sana]
+Okay. 
+
+00:52:51,764 --> 00:52:58,604 [Harshil]
+But over there, because it's, uh, meant to be a hierarchy, there would be, um, no checks per se. Um. 
+
+00:52:58,604 --> 00:52:59,464 [Sana]
+Right. 
+
+00:52:59,464 --> 00:53:04,504 [Harshil]
+So it would allow you to just link anything, um, anywhere. 
+
+00:53:04,504 --> 00:53:09,464 [Sana]
+Okay. So just, just so I understand, to confirm, there's gonna be another widget here, 
+
+00:53:10,524 --> 00:53:15,744 [Sana]
+right? Uh, maybe above the grid that will have, 
+
+00:53:16,884 --> 00:53:20,044 [Sana]
+um, like that will expand with the, 
+
+00:53:21,584 --> 00:53:24,144 [Sana]
+with the size of the hierarchy and collapse- 
+
+00:53:25,384 --> 00:53:25,754 [Harshil]
+Um, it will just have a- 
+
+00:53:25,754 --> 00:53:27,884 [Sana]
+... if like if we can minimize 
+
+00:53:27,884 --> 00:53:41,444 [Harshil]
+... toggle, um, maybe a button or a bar that does, does that thing. Um, but my only question is because let's say if we display, um, everything, so not just- 
+
+00:53:41,444 --> 00:53:41,464 [Sana]
+Mm-hmm 
+
+00:53:41,464 --> 00:53:45,884 [Harshil]
+... the selected category. Uh, if you want to show all the categories- 
+
+00:53:45,884 --> 00:53:46,084 [Sana]
+Mm-hmm 
+
+00:53:46,084 --> 00:53:49,264 [Harshil]
+... um, then it, it doesn't really make sense to put it- 
+
+00:53:49,264 --> 00:53:49,404 [Sana]
+Mm 
+
+00:53:49,404 --> 00:53:51,454 [Harshil]
+... in this place because, um- 
+
+00:53:51,454 --> 00:53:51,454 [Sana]
+Mm 
+
+00:53:51,454 --> 00:54:03,604 [Harshil]
+... right now it's we have selected a category. The records reflect the selected category, but the widget would not. Um, so if you want to show everything, it would make sense to be, um, in a different page. 
+
+00:54:03,604 --> 00:54:05,144 [Sana]
+On a separate page. Okay. 
+
+00:54:05,144 --> 00:54:11,544 [Harshil]
+Uh, if we only want to show, um, uh, the contents of the selected, um- 
+
+00:54:11,544 --> 00:54:13,004 [Sana]
+No, no. We don't want to show- 
+
+00:54:13,004 --> 00:54:13,014 [Harshil]
+category 
+
+00:54:13,014 --> 00:54:14,884 [Sana]
+... only the col- the, the- 
+
+00:54:14,884 --> 00:54:14,934 [Harshil]
+Yeah 
+
+00:54:14,934 --> 00:54:15,664 [Sana]
+... selected category- 
+
+00:54:15,664 --> 00:54:15,774 [Harshil]
+Then, uh, a new page 
+
+00:54:15,774 --> 00:54:18,764 [Sana]
+... 'cause it wouldn't-- it would just not work. 
+
+00:54:18,764 --> 00:54:18,924 [Harshil]
+Yeah. 
+
+00:54:18,924 --> 00:54:23,844 [Sana]
+Um, because they, they wanna be able to move the whole category around. 
+
+00:54:23,844 --> 00:54:24,844 [Harshil]
+Yeah. 
+
+00:54:24,844 --> 00:54:27,724 [Sana]
+Right? They wanna see everything so that they can drag- 
+
+00:54:28,784 --> 00:54:28,864 [Harshil]
+Right 
+
+00:54:28,864 --> 00:54:47,408 [Sana]
+... like a par-- you know, a child from P one into P two, for example.Yeah. Okay. So, so then when we click on Google categories, would there be-- or like one of the taxonomies, uh, will there be a button here to like- 
+
+00:54:48,568 --> 00:54:48,808 [Harshil]
+Yeah. 
+
+00:54:48,808 --> 00:54:49,338 [Sana]
+Um- 
+
+00:54:49,338 --> 00:55:10,508 [Harshil]
+So if we want to show everything, this, this wouldn't make sense because, um, just as you said, uh, the business people, they focus on, you know, how things look like. And it's, um, I'm, uh, it's a given that once you select a particular category and something shows up, 
+
+00:55:11,728 --> 00:55:14,748 [Harshil]
+those two things would be related. But because we're showing everything, 
+
+00:55:15,908 --> 00:55:19,908 [Harshil]
+uh, it might be just counterintuitive to do so. Uh, I can still- 
+
+00:55:19,908 --> 00:55:19,917 [Sana]
+Right 
+
+00:55:19,917 --> 00:55:34,008 [Harshil]
+... have it if you want it. Uh, we can still have it. Uh, but no matter what the category you select, um, the widget will stay the same, the data will stay the same. Or we could just have it in a new page where they can, um, 
+
+00:55:35,468 --> 00:55:36,668 [Harshil]
+do the drag and drop. 
+
+00:55:36,668 --> 00:55:36,708 [Sana]
+Right. 
+
+00:55:36,708 --> 00:55:45,827 [Harshil]
+Arrange whatever hierarchy they want, and then just, uh, maybe a link to, uh, come to the taxonomy page and- 
+
+00:55:45,828 --> 00:55:46,248 [Sana]
+Okay 
+
+00:55:46,248 --> 00:55:50,368 [Harshil]
+... uh, then perform whatever edits, uh, they need to. 
+
+00:55:50,368 --> 00:55:57,108 [Sana]
+Right. Right. Okay. Um, actually, Dwayne just shared a, um, a video with me, uh- 
+
+00:55:57,108 --> 00:55:57,248 [Harshil]
+Yeah 
+
+00:55:57,248 --> 00:56:02,608 [Sana]
+... for what that new hierarchy is gonna look like. So I'll just share that with you guys here. 
+
+00:56:04,188 --> 00:56:05,968 [Sana]
+Labtag here. 
+
+00:56:08,668 --> 00:56:10,508 [Sana]
+So you guys can quickly take a look. 
+
+00:56:15,848 --> 00:56:22,688 [Sana]
+[mouse clicking] 
+
+00:56:27,788 --> 00:56:29,468 [Sana]
+Does that make sense? 
+
+00:56:29,468 --> 00:56:30,248 [Speaker 2]
+Yeah, it looks good. 
+
+00:56:32,628 --> 00:56:43,548 [Sana]
+Okay. To the-- I think it's already kinda on the way to being completed. Um, but right now what we see is one top-level category, right? 
+
+00:56:44,628 --> 00:56:48,748 [Sana]
+Is that the selected category, or is it gonna be the whole hierarchy? 
+
+00:56:48,748 --> 00:56:51,708 [Harshil]
+So, uh, I think it would be the whole hierarchy. Um- 
+
+00:56:51,708 --> 00:57:07,008 [Sana]
+Okay. That's, that's what I wanted to make sure. Okay. [keyboard clicking] Okay. So it's not just like I cl- I clicked on one category, and then I am gonna only see what's below it. I see the full categorization, and I can move anything around anywhere. 
+
+00:57:08,488 --> 00:57:08,608 [Harshil]
+Yeah. 
+
+00:57:08,608 --> 00:57:08,908 [Sana]
+Okay. 
+
+00:57:08,908 --> 00:57:16,528 [Harshil]
+Um, but I'll, I'll just confirm it because, uh, this is running, uh, locally on, uh, Morsel's- 
+
+00:57:16,528 --> 00:57:16,848 [Sana]
+Okay 
+
+00:57:16,848 --> 00:57:20,088 [Harshil]
+... uh, environment, so I, I do not have access, uh, to what they use. 
+
+00:57:20,088 --> 00:57:20,388 [Sana]
+Okay. 
+
+00:57:21,888 --> 00:57:22,208 [Sana]
+Okay. 
+
+00:57:22,208 --> 00:57:23,608 [Harshil]
+Yeah. But I, I, I made sure that it- 
+
+00:57:23,608 --> 00:58:25,728 [Sana]
+Overall, from a styling standpoint, I think it's fine. Um, we just need to make sure that we can collapse that and, um, you know, you-- we can switch between the grid view and the, um, and that hierarchy view easily for now. Um, and then as a next step, like in the roadmap, we'll, we'll have a little bit more to that, like the integrated view, where we'll be able to, um, edit the rules, um, at the node level through a v- through the visual hierarchy. Um, maybe there's a button there that allows us to click and, you know, expand out the rules, um, section. Maybe there's another button to edit the actual details of each node, um, something like that, and, and we can work that out. But I think for now, this is sufficient. If we can get that out for next week, I think that's okay. 
+
+00:58:25,728 --> 00:58:30,048 [Harshil]
+Okay. Uh, yeah. Uh, we'll get it out to staging. Uh, we'll, we'll not- 
+
+00:58:30,048 --> 00:58:30,668 [Sana]
+Yeah 
+
+00:58:30,668 --> 00:58:31,868 [Harshil]
+... publish it to prod. 
+
+00:58:31,868 --> 00:58:41,148 [Sana]
+No, no, no, that's okay because we're gonna be... Uh, we're-- Wait, are we gonna be creating a s- a customer on staging or prod for LabSec? 
+
+00:58:43,448 --> 00:58:48,828 [Harshil]
+I, I would suggest for the, um, initial few weeks once we rule out- 
+
+00:58:48,828 --> 00:58:49,048 [Sana]
+Okay 
+
+00:58:49,048 --> 00:58:51,768 [Harshil]
+... you know, there's no additional features, uh- 
+
+00:58:51,768 --> 00:58:51,997 [Sana]
+Mm-hmm 
+
+00:58:51,997 --> 00:58:55,307 [Harshil]
+... that we need, we, we should just keep it on staging. Um- 
+
+00:58:55,307 --> 00:58:55,608 [Sana]
+Okay 
+
+00:58:55,608 --> 00:59:03,207 [Harshil]
+... once we're certain that, um, you know, no new features or, um, uh, enhancements are needed. Uh- 
+
+00:59:03,208 --> 00:59:03,708 [Sana]
+Okay 
+
+00:59:03,708 --> 00:59:10,428 [Harshil]
+... and that also gives us time to just, uh, uh, make sure that this would, uh, break nothing- 
+
+00:59:10,428 --> 00:59:10,507 [Sana]
+Okay 
+
+00:59:10,507 --> 00:59:15,007 [Harshil]
+... uh, on prod. Um, maybe we can just might. 
+
+00:59:16,988 --> 00:59:17,248 [Sana]
+Okay. 
+
+00:59:22,088 --> 00:59:32,068 [Sana]
+Awesome. Anything else from anyone? I think we're at end of time. Morgan, you and I just missed our entire meeting. [laughs] 
+
+00:59:32,068 --> 00:59:32,578 [Speaker 2]
+[laughs] 
+
+00:59:32,578 --> 00:59:32,628 [Harshil]
+[laughs] 
+
+00:59:32,628 --> 00:59:33,628 [Speaker 2]
+Our, our same. 
+
+00:59:33,628 --> 00:59:34,828 [Sana]
+Yeah. 
+
+00:59:34,828 --> 00:59:35,348 [Speaker 2]
+Yeah. All good. 
+
+00:59:35,348 --> 00:59:39,158 [Sana]
+Yeah. We'll, we'll have lunch, and we can keep [laughs] capturing. 
+
+00:59:39,158 --> 00:59:39,528 [Speaker 2]
+Continue. Okay. 
+
+00:59:39,528 --> 00:59:40,068 [Sana]
+Yeah. 
+
+00:59:40,068 --> 00:59:41,448 [Speaker 2]
+I'll make a point. 
+
+00:59:41,448 --> 00:59:42,668 [Sana]
+Yeah. 
+
+00:59:42,668 --> 00:59:43,328 [Speaker 2]
+Cool. 
+
+00:59:43,328 --> 00:59:44,528 [Sana]
+Awesome. Um- 
+
+00:59:44,528 --> 00:59:44,828 [Harshil]
+Brilliant. 
+
+00:59:44,828 --> 00:59:49,248 [Sana]
+All right. Excited to kick this off. I think we're, we're off to a good start. 
+
+00:59:49,248 --> 00:59:50,267 [Speaker 2]
+Yeah. We'll be good. 
+
+00:59:50,268 --> 00:59:51,188 [Sana]
+This will be good. 
+
+00:59:51,188 --> 00:59:51,368 [Harshil]
+Yeah. 
+
+00:59:51,368 --> 00:59:51,968 [Speaker 2]
+Lots of fun. 
+
+00:59:53,348 --> 00:59:53,528 [Speaker 2]
+Wonderful. 
+
+00:59:53,528 --> 00:59:55,548 [Sana]
+Amazing. Thank you, guys. 
+
+00:59:55,608 --> 00:59:56,848 [Harshil]
+Cheers. See you soon. 
+
+00:59:56,848 --> 00:59:57,688 [Speaker 2]
+Bye, everybody. 
+
+00:59:57,688 --> 01:00:18,448 [Sana]
+See you. Take care. Bye. [keyboard clicking] [object clattering]

@@ -1,5 +1,6 @@
 import { createAdminClient as createClient } from "@/lib/supabase/admin";
 import { getActiveClientId } from "@/lib/actions/clients";
+import { getEventForPreFill } from "@/lib/services/calendar-meeting-service";
 import { MeetingList } from "@/components/meetings/meeting-list";
 import type { Meeting, CrmCustomer } from "@/lib/types";
 
@@ -66,9 +67,22 @@ async function getMeetingsData() {
   };
 }
 
-export default async function MeetingsPage() {
+export default async function MeetingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from_event?: string; record?: string }>;
+}) {
   const { meetings, customers, timesheetMeetingIds, meetingTaskCounts } =
     await getMeetingsData();
+
+  const params = await searchParams;
+  const fromEventId = params.from_event;
+  const recordMode = params.record === "true";
+
+  // Pre-fill data from the calendar event (if navigated from calendar)
+  const prefillData = fromEventId
+    ? await getEventForPreFill(fromEventId)
+    : null;
 
   // Convert Set to array for serialization, reconstruct in client
   const timesheetIds = Array.from(timesheetMeetingIds);
@@ -85,6 +99,8 @@ export default async function MeetingsPage() {
           customers={customers}
           timesheetMeetingIds={new Set(timesheetIds)}
           meetingTaskCounts={meetingTaskCounts}
+          prefillData={prefillData}
+          recordMode={recordMode}
         />
       </div>
     </div>

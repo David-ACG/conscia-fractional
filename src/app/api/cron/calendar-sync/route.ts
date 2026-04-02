@@ -1,10 +1,8 @@
 // Local dev: curl -H "Authorization: Bearer YOUR_CRON_SECRET" http://localhost:3002/api/cron/calendar-sync
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import {
-  syncEvents,
-  matchAttendeesToCustomer,
-} from "@/lib/services/google-calendar-service";
+import { syncEvents } from "@/lib/services/google-calendar-service";
+import { batchLinkEvents } from "@/lib/services/calendar-link-service";
 import {
   createOAuth2Client,
   getValidAccessToken,
@@ -55,33 +53,42 @@ export async function GET(request: NextRequest) {
 
       const { events, nextSyncToken } = await syncEvents(auth, syncToken);
 
-      for (const event of events) {
-        const crm_customer_id = await matchAttendeesToCustomer(
-          event.attendees,
-          integration.user_id,
-        );
+      // Collect IDs of all upserted events to batch-link after the loop
+      const linkBatch: string[] = [];
 
-        await supabase.from("calendar_events").upsert(
-          {
-            user_id: integration.user_id,
-            integration_id: integration.id,
-            google_event_id: event.google_event_id,
-            title: event.title,
-            description: event.description,
-            start_time: event.start_time,
-            end_time: event.end_time,
-            location: event.location,
-            meeting_url: event.meeting_url,
-            attendees: event.attendees,
-            crm_customer_id,
-            status: event.status,
-            raw_data: event.raw_data,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "integration_id,google_event_id" },
-        );
+      for (const event of events) {
+        const { data: upserted } = await supabase
+          .from("calendar_events")
+          .upsert(
+            {
+              user_id: integration.user_id,
+              integration_id: integration.id,
+              google_event_id: event.google_event_id,
+              title: event.title,
+              description: event.description,
+              start_time: event.start_time,
+              end_time: event.end_time,
+              location: event.location,
+              meeting_url: event.meeting_url,
+              attendees: event.attendees,
+              status: event.status,
+              raw_data: event.raw_data,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "integration_id,google_event_id" },
+          )
+          .select("id");
+
+        if (upserted?.[0]?.id) {
+          linkBatch.push(upserted[0].id as string);
+        }
 
         totalSynced++;
+      }
+
+      // Link all synced events to CRM customers via the calendar-link service
+      if (linkBatch.length > 0) {
+        await batchLinkEvents(linkBatch);
       }
 
       // Store sync token and last sync time in integration metadata

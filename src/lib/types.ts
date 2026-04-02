@@ -281,6 +281,22 @@ export interface UserRole {
   client_id: string | null;
 }
 
+export interface MeetingPreFillParticipant {
+  contact_id?: string;
+  email: string;
+  name: string;
+}
+
+export interface MeetingPreFillData {
+  title: string;
+  date: string; // ISO string (start_time of calendar event)
+  duration: number; // minutes, rounded up to nearest 15
+  crm_customer_id: string | null;
+  participants: MeetingPreFillParticipant[];
+  meeting_url: string | null;
+  source_event_id: string;
+}
+
 export interface Integration {
   id: string;
   user_id: string;
