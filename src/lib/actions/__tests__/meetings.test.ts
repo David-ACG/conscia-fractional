@@ -38,6 +38,18 @@ vi.mock("@/lib/actions/clients", () => ({
   getActiveClientId: vi.fn(() => Promise.resolve("client-123")),
 }));
 
+// Mock SSR Supabase client (used for getting user in embed calls)
+vi.mock("@/lib/supabase/server", () => ({
+  createClient: vi.fn().mockResolvedValue({
+    auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null } }) },
+  }),
+}));
+
+// Mock auto-embed-service (not testing embedding here)
+vi.mock("@/lib/services/auto-embed-service", () => ({
+  embedMeeting: vi.fn().mockResolvedValue(undefined),
+}));
+
 describe("Meeting Actions", () => {
   beforeEach(() => {
     vi.clearAllMocks();

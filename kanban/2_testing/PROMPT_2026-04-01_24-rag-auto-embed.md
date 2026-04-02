@@ -326,3 +326,57 @@ Test:
 - [ ] Cron has retry limit (3 attempts) to prevent infinite loops
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_24-rag-auto-embed.md`
+
+---
+
+## Implementation Notes — 2026-04-02 13:45
+
+- **Commit:** 84286a5 feat(prompt-24): auto-embed meetings, drive files, assets + document management UI
+- **Tests:** 761 passed (77 test files)
+- **Verification URL:** http://localhost:3002/dashboard/crm/{customer-slug} → Ask tab
+- **Playwright check:** Not run (no live server at time of implementation)
+- **Changes summary:**
+  - `src/lib/services/text-extraction-service.ts` — PDF (pdf-parse), DOCX (mammoth), text/CSV/JSON extraction
+  - `src/lib/services/auto-embed-service.ts` — embedMeeting/embedDriveFile/embedAsset/embedNote + processDocument cron core
+  - `src/app/api/cron/embed-documents/route.ts` — GET cron, batch=10, 3-attempt retry, returns summary
+  - `src/components/crm/document-list.tsx` — collapsible list, source icons, status indicators, re-embed, file upload
+  - `src/app/api/documents/list/route.ts` — GET with embedded_count, total_chunks in response
+  - `src/app/api/documents/[id]/reembed/route.ts` — POST clears Qdrant points, resets embedded_at to null
+  - `src/app/api/documents/upload/route.ts` — modified to use text-extraction-service for PDF/DOCX
+  - `src/lib/actions/meetings.ts` — createMeetingFromTranscript now calls embedMeeting (non-blocking)
+  - `src/lib/actions/assets.ts` — createAsset now calls embedAsset when file_url present (non-blocking)
+  - `src/components/crm/document-chat.tsx` — DocumentList integrated above chat, uses /api/documents/list
+- **Deviations from plan:**
+  - Notes table has no crm_customer_id — embedNote sets crm_customer_id=null
+  - Drive file embedding integrated into auto-embed-service but not wired to drive-sync-service (drive sync only updates drive_files table, not embedding; would need separate wiring)
+- **Follow-up issues:**
+  - Wire embedDriveFile into drive-sync-service (call for new/modified files in syncFolder)
+  - Add embedNote trigger when notes are created/updated
+  - Playwright verification of the Ask tab DocumentList UI
+
+---
+
+## Testing Checklist — 2026-04-02 13:45
+
+**Check the changes:** http://localhost:3002 (navigate to a CRM customer → Ask tab)
+
+- [ ] Page loads without errors
+- [ ] DocumentList renders above chat with "Documents" header and "Upload Document" button
+- [ ] Upload a .txt file — document appears in list as "upload" type with "Processing…" status
+- [ ] After cron runs (`curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3002/api/cron/embed-documents`), document shows embedded date with green check
+- [ ] "Re-embed" button clears status back to "Processing…"
+- [ ] Upload a .pdf or .docx — should extract text and embed correctly
+- [ ] Create a meeting via transcript processing — document queued automatically
+- [ ] Create an asset with file_url — document queued automatically
+- [ ] Cron returns 401 without correct Authorization header
+- [ ] No console errors
+
+### Actions for David
+
+1. Navigate to a CRM customer page → "Ask" tab
+2. Upload a plain text file using "Upload Document" button, verify it appears in DocumentList
+3. Run the embedding cron manually: `curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3002/api/cron/embed-documents`
+4. Verify the document status changes from "Processing…" to a green embedded date
+5. Test asking a question in the chat about the uploaded document
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_24-rag-auto-embed.md`
