@@ -13,9 +13,13 @@ vi.mock("next/cache", () => ({
 }));
 
 const mockEq = vi.fn().mockReturnThis();
+const mockSingle = vi
+  .fn()
+  .mockResolvedValue({ data: { id: "asset-new" }, error: null });
+const mockSelect = vi.fn(() => ({ single: mockSingle }));
 const mockDelete = vi.fn(() => ({ eq: mockEq }));
 const mockUpdate = vi.fn(() => ({ eq: mockEq }));
-const mockInsert = vi.fn(() => ({ error: null }));
+const mockInsert = vi.fn(() => ({ error: null, select: mockSelect }));
 const mockFrom = vi.fn(() => ({
   insert: mockInsert,
   update: mockUpdate,
@@ -30,11 +34,24 @@ vi.mock("@/lib/actions/clients", () => ({
   getActiveClientId: vi.fn(() => Promise.resolve("client-123")),
 }));
 
+// Mock server Supabase client (used for getting user in embedAsset call)
+vi.mock("@/lib/supabase/server", () => ({
+  createClient: vi.fn().mockResolvedValue({
+    auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null } }) },
+  }),
+}));
+
+// Mock auto-embed-service so we don't need the full embedding stack
+vi.mock("@/lib/services/auto-embed-service", () => ({
+  embedAsset: vi.fn().mockResolvedValue(undefined),
+}));
+
 describe("Asset Actions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockInsert.mockReturnValue({ error: null });
+    mockInsert.mockReturnValue({ error: null, select: mockSelect });
     mockEq.mockReturnValue({ error: null });
+    mockSingle.mockResolvedValue({ data: { id: "asset-new" }, error: null });
   });
 
   describe("createAsset", () => {

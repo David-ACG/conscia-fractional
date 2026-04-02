@@ -2,12 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient as createClient } from "@/lib/supabase/admin";
+import { createClient as createUserClient } from "@/lib/supabase/server";
 import { getActiveClientId } from "@/lib/actions/clients";
 import {
   meetingSchema,
   type MeetingFormData,
 } from "@/lib/validations/meetings";
 import { notifyMeetingProcessed } from "@/lib/services/slack-notification-service";
+import { embedMeeting } from "@/lib/services/auto-embed-service";
 
 /** Round minutes up to the nearest 15-minute increment */
 function roundUpTo15(minutes: number): number {
@@ -244,6 +246,21 @@ export async function createMeetingFromTranscript(data: ProcessedTranscript) {
     await notifyMeetingProcessed(meetingId);
   } catch (error) {
     console.error("Slack notification failed:", error);
+  }
+
+  // Queue meeting transcript for embedding (non-blocking)
+  try {
+    const userClient = await createUserClient();
+    if (userClient) {
+      const {
+        data: { user },
+      } = await userClient.auth.getUser();
+      if (user && data.rawTranscript) {
+        await embedMeeting(meetingId, user.id);
+      }
+    }
+  } catch (embedErr) {
+    console.error("Meeting embedding queue failed (non-fatal):", embedErr);
   }
 
   return { success: true, meetingId };

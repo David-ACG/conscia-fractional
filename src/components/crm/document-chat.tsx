@@ -5,6 +5,7 @@ import { Send, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { SearchResult } from "@/lib/services/rag-service";
+import { DocumentList } from "@/components/crm/document-list";
 
 interface Source {
   name: string;
@@ -148,7 +149,9 @@ export function DocumentChat({ customerId, customerName }: DocumentChatProps) {
 
   // Check if documents exist for this customer
   React.useEffect(() => {
-    fetch(`/api/documents?crm_customer_id=${encodeURIComponent(customerId)}`)
+    fetch(
+      `/api/documents/list?crm_customer_id=${encodeURIComponent(customerId)}`,
+    )
       .then((r) => r.json())
       .then((data: { documents?: unknown[] }) => {
         setHasDocuments(
@@ -266,87 +269,93 @@ export function DocumentChat({ customerId, customerName }: DocumentChatProps) {
   }
 
   return (
-    <div className="flex h-[600px] flex-col rounded-lg border">
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.length === 0 && (
-          <div className="flex flex-col items-center gap-4 py-8 text-center">
-            <p className="text-sm font-medium">
-              Ask a question about {customerName}
-            </p>
-            <div className="flex flex-col gap-2 w-full max-w-sm">
-              {EXAMPLE_QUESTIONS.map((q) => (
-                <button
-                  key={q}
-                  onClick={() => {
-                    setInput(q);
-                    textareaRef.current?.focus();
-                  }}
-                  className="rounded-lg border px-3 py-2 text-sm text-left text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {messages.map((msg, i) =>
-          msg.role === "user" ? (
-            <div key={i} className="flex justify-end">
-              <div className="max-w-[85%] rounded-lg bg-primary px-4 py-3 text-sm text-primary-foreground">
-                {msg.content}
+    <div className="flex flex-col gap-4">
+      <DocumentList
+        customerId={customerId}
+        onDocumentChange={() => setHasDocuments(true)}
+      />
+      <div className="flex h-[600px] flex-col rounded-lg border">
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.length === 0 && (
+            <div className="flex flex-col items-center gap-4 py-8 text-center">
+              <p className="text-sm font-medium">
+                Ask a question about {customerName}
+              </p>
+              <div className="flex flex-col gap-2 w-full max-w-sm">
+                {EXAMPLE_QUESTIONS.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => {
+                      setInput(q);
+                      textareaRef.current?.focus();
+                    }}
+                    className="rounded-lg border px-3 py-2 text-sm text-left text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                  >
+                    {q}
+                  </button>
+                ))}
               </div>
             </div>
-          ) : (
-            <div key={i} className="flex justify-start">
-              <AssistantMessage message={msg} />
+          )}
+
+          {messages.map((msg, i) =>
+            msg.role === "user" ? (
+              <div key={i} className="flex justify-end">
+                <div className="max-w-[85%] rounded-lg bg-primary px-4 py-3 text-sm text-primary-foreground">
+                  {msg.content}
+                </div>
+              </div>
+            ) : (
+              <div key={i} className="flex justify-start">
+                <AssistantMessage message={msg} />
+              </div>
+            ),
+          )}
+
+          {loading && (
+            <div className="flex justify-start">
+              <div className="rounded-lg bg-muted">
+                <TypingIndicator />
+              </div>
             </div>
-          ),
-        )}
+          )}
 
-        {loading && (
-          <div className="flex justify-start">
-            <div className="rounded-lg bg-muted">
-              <TypingIndicator />
-            </div>
-          </div>
-        )}
-
-        <div ref={bottomRef} />
-      </div>
-
-      {/* Input */}
-      <div className="border-t p-3">
-        <div className="flex items-end gap-2">
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={loading}
-            placeholder={`Ask about ${customerName}…`}
-            rows={1}
-            className="flex-1 resize-none rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-            style={{ maxHeight: "120px", overflowY: "auto" }}
-            onInput={(e) => {
-              const el = e.currentTarget;
-              el.style.height = "auto";
-              el.style.height = `${el.scrollHeight}px`;
-            }}
-          />
-          <Button
-            size="icon"
-            onClick={() => void sendMessage()}
-            disabled={loading || !input.trim()}
-            aria-label="Send message"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
+          <div ref={bottomRef} />
         </div>
-        <p className="mt-1 text-xs text-muted-foreground">
-          Enter to send · Shift+Enter for new line
-        </p>
+
+        {/* Input */}
+        <div className="border-t p-3">
+          <div className="flex items-end gap-2">
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={loading}
+              placeholder={`Ask about ${customerName}…`}
+              rows={1}
+              className="flex-1 resize-none rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              style={{ maxHeight: "120px", overflowY: "auto" }}
+              onInput={(e) => {
+                const el = e.currentTarget;
+                el.style.height = "auto";
+                el.style.height = `${el.scrollHeight}px`;
+              }}
+            />
+            <Button
+              size="icon"
+              onClick={() => void sendMessage()}
+              disabled={loading || !input.trim()}
+              aria-label="Send message"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Enter to send · Shift+Enter for new line
+          </p>
+        </div>
       </div>
     </div>
   );

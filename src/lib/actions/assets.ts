@@ -2,8 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient as createClient } from "@/lib/supabase/admin";
+import { createClient as createUserClient } from "@/lib/supabase/server";
 import { getActiveClientId } from "@/lib/actions/clients";
 import { assetSchema, type AssetFormData } from "@/lib/validations/assets";
+import { embedAsset } from "@/lib/services/auto-embed-service";
 
 export async function createAsset(data: AssetFormData) {
   const parsed = assetSchema.safeParse(data);
@@ -17,20 +19,42 @@ export async function createAsset(data: AssetFormData) {
   const clientId = await getActiveClientId();
   if (!clientId) return { error: "No active client selected" };
 
-  const { error } = await supabase.from("assets").insert({
-    client_id: clientId,
-    name: parsed.data.name,
-    description: parsed.data.description || null,
-    asset_type: parsed.data.asset_type,
-    file_url: parsed.data.file_url || null,
-    file_name: parsed.data.file_name || null,
-    crm_customer_id: parsed.data.crm_customer_id || null,
-    is_client_visible: parsed.data.is_client_visible,
-  });
+  const { data: asset, error } = await supabase
+    .from("assets")
+    .insert({
+      client_id: clientId,
+      name: parsed.data.name,
+      description: parsed.data.description || null,
+      asset_type: parsed.data.asset_type,
+      file_url: parsed.data.file_url || null,
+      file_name: parsed.data.file_name || null,
+      crm_customer_id: parsed.data.crm_customer_id || null,
+      is_client_visible: parsed.data.is_client_visible,
+    })
+    .select("id")
+    .single();
 
   if (error) return { error: error.message };
 
   revalidatePath("/assets");
+
+  // Queue asset for embedding if it has a file_url (non-blocking)
+  if (asset?.id && parsed.data.file_url) {
+    try {
+      const userClient = await createUserClient();
+      if (userClient) {
+        const {
+          data: { user },
+        } = await userClient.auth.getUser();
+        if (user) {
+          await embedAsset(asset.id, user.id);
+        }
+      }
+    } catch (embedErr) {
+      console.error("Asset embedding queue failed (non-fatal):", embedErr);
+    }
+  }
+
   return { success: true };
 }
 

@@ -9,10 +9,12 @@ import {
   ensureCollection,
   COLLECTION_NAME,
 } from "@/lib/qdrant-client";
+import {
+  extractText,
+  getSupportedMimeTypes,
+} from "@/lib/services/text-extraction-service";
 
-const BINARY_TYPES = [
-  "application/pdf",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+const UNSUPPORTED_TYPES = [
   "application/msword",
   "application/vnd.ms-excel",
   "application/zip",
@@ -81,13 +83,39 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (textValue && typeof textValue === "string") {
       textContent = textValue;
     } else if (fileValue instanceof File) {
-      if (BINARY_TYPES.includes(fileValue.type)) {
+      const mimeType = fileValue.type || "text/plain";
+
+      if (UNSUPPORTED_TYPES.includes(mimeType)) {
         return NextResponse.json(
-          { error: "Binary file support coming soon" },
+          { error: `Unsupported file type: ${mimeType}` },
           { status: 400 },
         );
       }
-      textContent = await fileValue.text();
+
+      const supportedTypes = getSupportedMimeTypes();
+      if (!supportedTypes.includes(mimeType) && !mimeType.startsWith("text/")) {
+        return NextResponse.json(
+          {
+            error: `Unsupported file type: ${mimeType}. Supported: ${supportedTypes.join(", ")}`,
+          },
+          { status: 400 },
+        );
+      }
+
+      try {
+        const arrayBuffer = await fileValue.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        textContent = await extractText(buffer, mimeType);
+      } catch (extractErr) {
+        const message =
+          extractErr instanceof Error
+            ? extractErr.message
+            : "Extraction failed";
+        return NextResponse.json(
+          { error: `Failed to extract text: ${message}` },
+          { status: 400 },
+        );
+      }
     } else {
       return NextResponse.json(
         { error: "Either file or text is required" },
