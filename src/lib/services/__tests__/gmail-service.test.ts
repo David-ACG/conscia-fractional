@@ -30,7 +30,7 @@ import {
   getGmailClient,
   listMessages,
   listMessagesForCustomer,
-  type GmailMessageMeta,
+  hasFullAccess,
 } from "../gmail-service";
 
 // Helper: make a fake messages.get response
@@ -74,6 +74,36 @@ function makeGetResponse(
 
 beforeEach(() => {
   vi.clearAllMocks();
+});
+
+// ──────────────────────────────────────────────────────────
+// hasFullAccess
+// ──────────────────────────────────────────────────────────
+describe("hasFullAccess", () => {
+  it("returns true when gmail.readonly scope is present", () => {
+    expect(
+      hasFullAccess([
+        "https://www.googleapis.com/auth/gmail.readonly",
+        "https://www.googleapis.com/auth/calendar.readonly",
+      ]),
+    ).toBe(true);
+  });
+
+  it("returns false when only gmail.metadata scope is present", () => {
+    expect(
+      hasFullAccess(["https://www.googleapis.com/auth/gmail.metadata"]),
+    ).toBe(false);
+  });
+
+  it("returns false when no gmail scopes are present", () => {
+    expect(
+      hasFullAccess(["https://www.googleapis.com/auth/calendar.readonly"]),
+    ).toBe(false);
+  });
+
+  it("returns false for empty scopes array", () => {
+    expect(hasFullAccess([])).toBe(false);
+  });
 });
 
 // ──────────────────────────────────────────────────────────

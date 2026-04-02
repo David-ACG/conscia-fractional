@@ -1,5 +1,11 @@
 import { google, gmail_v1 } from "googleapis";
 
+const GMAIL_READONLY_SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
+
+export function hasFullAccess(scopes: string[]): boolean {
+  return scopes.includes(GMAIL_READONLY_SCOPE);
+}
+
 export interface GmailMessageMeta {
   id: string;
   threadId: string;

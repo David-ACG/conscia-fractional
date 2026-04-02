@@ -330,3 +330,198 @@ describe("EmailTab — multiple Gmail accounts", () => {
     });
   });
 });
+
+// ──────────────────────────────────────────────────────────
+// Tests: Search
+// ──────────────────────────────────────────────────────────
+
+describe("EmailTab — search", () => {
+  const regularMessages = [
+    makeMessage({ id: "msg-1", subject: "Regular Email" }),
+  ];
+  const searchMessages = [
+    makeMessage({ id: "msg-s1", subject: "Search Result Email" }),
+  ];
+
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("shows search input when Gmail is connected", async () => {
+    mockFetchSequence([
+      {
+        urlFragment: "gmail/integrations",
+        body: { integrations: [makeIntegration()] },
+      },
+      {
+        urlFragment: "gmail/messages",
+        body: {
+          messages: regularMessages,
+          contactEmails: [],
+          nextPageToken: undefined,
+        },
+      },
+    ]);
+
+    render(<EmailTab customerId="customer-1" />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("email-search-input")).toBeInTheDocument();
+    });
+  });
+
+  it("triggers debounced search after 500ms", async () => {
+    mockFetch.mockImplementation((url: string) => {
+      if (url.includes("gmail/integrations")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ integrations: [makeIntegration()] }),
+        });
+      }
+      if (url.includes("gmail/search")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            messages: searchMessages,
+            nextPageToken: undefined,
+          }),
+        });
+      }
+      if (url.includes("gmail/messages")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            messages: regularMessages,
+            contactEmails: [],
+            nextPageToken: undefined,
+          }),
+        });
+      }
+      return Promise.resolve({ ok: false, json: async () => ({}) });
+    });
+
+    render(<EmailTab customerId="customer-1" />);
+
+    // Wait for initial load
+    await waitFor(() => {
+      expect(screen.getByText("Regular Email")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByTestId("email-search-input");
+
+    // Type in search
+    fireEvent.change(searchInput, { target: { value: "subject:test" } });
+
+    // Advance past debounce
+    await vi.advanceTimersByTimeAsync(600);
+
+    await waitFor(() => {
+      expect(screen.getByText("Search Result Email")).toBeInTheDocument();
+    });
+
+    // Verify search API was called
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("gmail/search"),
+    );
+  });
+
+  it("clear search restores regular listing", async () => {
+    mockFetch.mockImplementation((url: string) => {
+      if (url.includes("gmail/integrations")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ integrations: [makeIntegration()] }),
+        });
+      }
+      if (url.includes("gmail/search")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            messages: searchMessages,
+            nextPageToken: undefined,
+          }),
+        });
+      }
+      if (url.includes("gmail/messages")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            messages: regularMessages,
+            contactEmails: [],
+            nextPageToken: undefined,
+          }),
+        });
+      }
+      return Promise.resolve({ ok: false, json: async () => ({}) });
+    });
+
+    render(<EmailTab customerId="customer-1" />);
+
+    // Wait for initial load
+    await waitFor(() => {
+      expect(screen.getByText("Regular Email")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByTestId("email-search-input");
+
+    // Type search and trigger
+    fireEvent.change(searchInput, { target: { value: "query" } });
+    await vi.advanceTimersByTimeAsync(600);
+
+    await waitFor(() => {
+      expect(screen.getByText("Search Result Email")).toBeInTheDocument();
+    });
+
+    // Clear search
+    const clearButton = screen.getByTestId("email-search-clear");
+    fireEvent.click(clearButton);
+
+    // Regular listing should reload
+    await waitFor(() => {
+      expect(screen.getByText("Regular Email")).toBeInTheDocument();
+    });
+  });
+});
+
+// ──────────────────────────────────────────────────────────
+// Tests: Email row click opens detail dialog
+// ──────────────────────────────────────────────────────────
+
+describe("EmailTab — email detail dialog", () => {
+  beforeEach(() => {
+    mockFetchSequence([
+      {
+        urlFragment: "gmail/integrations",
+        body: { integrations: [makeIntegration()] },
+      },
+      {
+        urlFragment: "gmail/messages",
+        body: {
+          messages: [makeMessage({ id: "msg-1", subject: "Clickable Email" })],
+          contactEmails: ["alice@acme.com"],
+          nextPageToken: undefined,
+        },
+      },
+    ]);
+  });
+
+  it("opens detail dialog when email row is clicked", async () => {
+    render(<EmailTab customerId="customer-1" />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Clickable Email")).toBeInTheDocument();
+    });
+
+    const row = screen.getByTestId("email-row");
+    fireEvent.click(row);
+
+    // Dialog should appear (it will show loading state)
+    await waitFor(() => {
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+    });
+  });
+});
