@@ -303,3 +303,43 @@ Test:
 - [ ] Cosine distance metric specified for Qdrant collection
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_22-rag-embedding-pipeline.md`
+
+---
+
+## Implementation Notes — 2026-04-02 12:40
+
+- **Commit:** 44d867e feat(prompt-22): qdrant setup + embedding pipeline + document chunking
+- **Tests:** 28/28 passed (qdrant-client: 5, embedding-service: 7, chunking-service: 11, document-service: 5)
+- **Verification URL:** http://localhost:3002 (server-side changes; no UI added in this prompt)
+- **Playwright check:** N/A — no UI changes; API route and service layer only
+- **Changes summary:**
+  - `src/lib/qdrant-client.ts` — singleton QdrantClient, ensureCollection, COLLECTION_NAME constant
+  - `src/lib/services/embedding-service.ts` — embed(), embedBatch() via Ollama qwen3-embedding:8b, 3-retry backoff
+  - `src/lib/services/chunking-service.ts` — chunkText() (2000-char/300-overlap, paragraph-aware), chunkDocument()
+  - `src/lib/services/document-service.ts` — getDocuments(), getDocument(), deleteDocument() (Supabase + Qdrant cleanup)
+  - `src/app/api/documents/upload/route.ts` — POST multipart: parse → chunk → embedBatch → upsert Qdrant → record Supabase
+  - `supabase/migrations/014_create_documents.sql` — documents table with RLS policies
+  - `.env.local.example` — added QDRANT_URL and OLLAMA_BASE_URL
+  - `package.json` — added @qdrant/js-client-rest
+- **Deviations from plan:** None
+- **Follow-up issues:** Binary file support (PDF/DOCX extraction) deferred to Prompt 24
+
+---
+
+## Testing Checklist — 2026-04-02 12:40
+
+**Check the changes:** http://localhost:3002 (API route; no UI)
+
+- [ ] `POST /api/documents/upload` accepts text and returns `{ document_id, chunk_count, name }`
+- [ ] `POST /api/documents/upload` with binary file returns 400 "Binary file support coming soon"
+- [ ] `POST /api/documents/upload` without auth returns 401
+- [ ] Document record appears in Supabase `documents` table after upload
+- [ ] Qdrant collection `fractionalbuddy_docs` is created on first upload
+- [ ] All 28 Vitest tests pass: `npm test`
+- [ ] No console errors
+
+### Actions for David
+
+Run `npm test` to verify all 28 tests pass locally. To test the upload endpoint manually, start the dev server (`npm run dev`) and POST to `http://localhost:3002/api/documents/upload` with a valid session cookie, `name` field, and either `text` or `file` field. Qdrant and Ollama must be reachable at their configured addresses for embedding to succeed.
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_22-rag-embedding-pipeline.md`
