@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { HardDrive, MessageSquare, Mail } from "lucide-react";
+import {
+  HardDrive,
+  MessageSquare,
+  Mail,
+  MessageCircleQuestion,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +22,7 @@ import { AssetCard } from "@/components/assets/asset-card";
 import { DriveFilesTab } from "@/components/crm/drive-files-tab";
 import { SlackMessagesTab } from "@/components/crm/slack-messages-tab";
 import { EmailTab } from "@/components/crm/email-tab";
+import { DocumentChat } from "@/components/crm/document-chat";
 import type {
   CrmCustomer,
   Meeting,
@@ -192,6 +198,10 @@ export function CustomerTabs({
         <TabsTrigger value="email" className="flex items-center gap-1.5">
           <Mail className="h-3.5 w-3.5" />
           Email
+        </TabsTrigger>
+        <TabsTrigger value="ask" className="flex items-center gap-1.5">
+          <MessageCircleQuestion className="h-3.5 w-3.5" />
+          Ask
         </TabsTrigger>
       </TabsList>
 
@@ -469,6 +479,11 @@ export function CustomerTabs({
       {/* Email Tab */}
       <TabsContent value="email">
         <EmailTab customerId={customer.id} />
+      </TabsContent>
+
+      {/* Ask Tab */}
+      <TabsContent value="ask">
+        <DocumentChat customerId={customer.id} customerName={customer.name} />
       </TabsContent>
     </Tabs>
   );
