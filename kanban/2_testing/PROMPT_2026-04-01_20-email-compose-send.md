@@ -208,3 +208,54 @@ Test:
 - [ ] Reply threading headers (In-Reply-To, References) correctly specified
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_20-email-compose-send.md`
+
+---
+
+## Implementation Notes — 2026-04-02 12:15
+
+- **Commit:** ffeaddd feat(prompt-20): email compose + send with Gmail API integration
+- **Tests:** 646 passed (64 test files), 0 failed
+- **Verification URL:** http://localhost:3002/dashboard/settings (gmail.send scope button), CRM detail page email tab (compose button)
+- **Playwright check:** N/A (no deployed URL for local dev)
+- **Changes summary:**
+  - Added `hasSendAccess`, `sendEmail`, `createDraft`, `buildRfc2822Message` to `gmail-service.ts`
+  - Created `POST /api/integrations/google/gmail/send` route with scope validation
+  - Created `POST /api/integrations/google/gmail/draft` route with scope validation
+  - Created `GET /api/crm/customers/[customerId]/contacts` route for contact lookup
+  - Updated `/api/integrations/google/gmail/integrations` to return `sendIntegrations` array
+  - Updated email detail route to include `id`, `threadId`, `messageIdHeader` in response
+  - Created `EmailCompose` dialog component with reply mode, sender selector, draft support
+  - Added "Compose" button to `email-tab.tsx` next to search
+  - Wired "Reply" button in `email-detail-dialog.tsx` with full thread context
+  - Added "Add Email Send Access" button to `google-integrations.tsx` with note about verification
+  - Added scope labels for `gmail.readonly` and `gmail.send`
+  - 28 new tests (16 gmail-service, 12 email-compose)
+- **Deviations from plan:** Created `/api/crm/customers/[customerId]/contacts` endpoint (not in plan) to support contact pre-population in compose form
+- **Follow-up issues:** None
+
+---
+
+## Testing Checklist — 2026-04-02 12:15
+
+**Check the changes:** http://localhost:3002 (CRM detail page > Email tab)
+
+- [ ] Page loads without errors
+- [ ] "Compose" button visible next to search bar in email tab
+- [ ] Compose dialog opens with To pre-populated from customer contacts
+- [ ] "Add Email Send Access" button visible in Settings when Gmail connected without send scope
+- [ ] Reply button in email detail opens compose with "Re:" subject and quoted snippet
+- [ ] Send dispatches email via Gmail API (requires gmail.send scope)
+- [ ] Save Draft creates draft in Gmail
+- [ ] Error toast shown when sending without gmail.send scope
+- [ ] Multiple Google accounts show "From" selector in compose
+- [ ] No console errors
+
+### Actions for David
+
+- Run `npm run dev` and navigate to a CRM customer detail page
+- Check the Email tab for the new Compose button
+- Check Settings page for "Add Email Send Access" button on a connected Google account
+- If you have gmail.send scope on a test user, test sending an email and saving a draft
+- Verify reply from email detail dialog pre-fills correctly
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_20-email-compose-send.md`
