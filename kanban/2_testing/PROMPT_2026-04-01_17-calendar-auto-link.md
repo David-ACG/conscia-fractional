@@ -220,3 +220,48 @@ Test:
 - [ ] Pre-fill data flow (calendar event → meeting form) is fully described
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_17-calendar-auto-link.md`
+
+---
+
+## Implementation Notes — 2026-04-02 11:22
+
+- **Commit:** 08ef6d6 feat(prompt-17): auto-link calendar events to customers + meeting pre-fill
+- **Tests:** 575 passed (59 test files) — 28 new tests added
+- **Verification URL:** http://localhost:3002/meetings?from_event=<event-id>
+- **Changes summary:**
+  - `src/lib/services/calendar-link-service.ts` — new: linkEventToCustomer, batchLinkEvents, relinkIfAttendeesChanged
+  - `src/lib/services/calendar-meeting-service.ts` — new: linkMeetingToEvent, getEventForPreFill (duration rounded up to 15 min)
+  - `src/lib/types.ts` — added MeetingPreFillData, MeetingPreFillParticipant interfaces
+  - `src/app/api/calendar/events/[id]/route.ts` — new: GET endpoint with user ownership check
+  - `src/lib/actions/calendar.ts` — new: linkMeetingToEventAction server action
+  - `src/app/api/cron/calendar-sync/route.ts` — replaced inline matchAttendeesToCustomer with batchLinkEvents
+  - `src/app/(dashboard)/meetings/page.tsx` — reads ?from_event & ?record searchParams, fetches prefillData server-side
+  - `src/components/meetings/meeting-list.tsx` — accepts prefillData/recordMode, auto-opens form or recording sheet
+  - `src/components/meetings/meeting-form.tsx` — pre-fill banner with Clear button, links meeting to event on create
+  - `src/components/meetings/recording-container.tsx` — accepts prefillData, passes crm_customer_id, links after save
+  - `src/lib/actions/recording.ts` — reads optional crm_customer_id from FormData
+- **Deviations from plan:** batchLinkEvents runs for all synced events (not just new/changed) for simplicity; attendee-changed detection via relinkIfAttendeesChanged is available but cron uses batch-all approach
+- **Follow-up issues:** None
+
+---
+
+## Testing Checklist — 2026-04-02 11:22
+
+**Check the changes:** http://localhost:3002/calendar → click an event → "Create Meeting Record" or "Record Meeting"
+
+- [ ] Page loads without errors
+- [ ] Clicking "Create Meeting Record" on a calendar event navigates to /meetings?from_event=<id>
+- [ ] Meeting form opens automatically with pre-filled title, date, duration, customer, attendees
+- [ ] "Pre-filled from calendar event: <title>" banner appears with Clear button
+- [ ] Clear button dismisses the banner and resets the form
+- [ ] Creating the meeting links it back (calendar_events.meeting_id is set)
+- [ ] Clicking "Record Meeting" opens the recording sheet with pre-fill metadata
+- [ ] After recording, meeting is linked to the calendar event
+- [ ] Calendar sync now auto-links new events via contacts.crm_customer_id
+- [ ] No console errors
+
+### Actions for David
+
+Check the URL above and tick the boxes. To verify auto-linking, trigger a calendar sync (`curl -H "Authorization: Bearer <CRON_SECRET>" http://localhost:3002/api/cron/calendar-sync`) and check that calendar_events.crm_customer_id is populated for events with known attendees.
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_17-calendar-auto-link.md`
