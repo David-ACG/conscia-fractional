@@ -202,3 +202,46 @@ Test:
 - [ ] Security: user_id filter is mandatory, never optional
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_23-rag-chat-ui.md`
+
+---
+
+## Implementation Notes — 2026-04-02 13:15
+
+- **Commit:** b415b92 feat(prompt-23): rag chat ui with retrieval - ask tab on crm customer pages
+- **Tests:** 725 passed (73 test files) — all green
+- **Verification URL:** http://localhost:3002/dashboard/crm/[slug] — click "Ask" tab
+- **Playwright check:** not applicable (no local dev server in build context)
+- **Changes summary:**
+  - `src/lib/services/rag-service.ts` — `search()` embeds query, searches Qdrant with mandatory `user_id` filter + optional `crm_customer_id` filter; `generateAnswer()` calls Claude `claude-sonnet-4-20250514` via Anthropic SDK with formatted context and source deduplication
+  - `src/app/api/documents/search/route.ts` — POST endpoint: auth check, validates query, calls rag-service, optionally looks up customer name and generates answer
+  - `src/components/crm/document-chat.tsx` — chat UI: user messages (right, blue), assistant messages (left, grey) with sources as FileText badges, "Show context" toggle revealing chunks with scores, typing indicator (3 animated dots), auto-scroll, Enter to send / Shift+Enter for newline, empty states for no-docs and no-messages
+  - `src/components/crm/customer-tabs.tsx` — added "Ask" tab with `MessageCircleQuestion` icon rendering `<DocumentChat>`
+  - `src/lib/services/__tests__/rag-service.test.ts` — 14 tests covering search filters, security, sorting, empty results, generateAnswer context formatting, source deduplication
+  - `src/components/crm/__tests__/document-chat.test.tsx` — 16 tests covering all UI states and interactions
+- **Deviations from plan:** None — all acceptance criteria met
+- **Follow-up issues:** None
+
+---
+
+## Testing Checklist — 2026-04-02 13:15
+
+**Check the changes:** http://localhost:3002/dashboard/crm/[any-customer-slug]
+
+- [ ] Page loads without errors
+- [ ] "Ask" tab visible with question-mark chat icon in CRM customer detail tabs
+- [ ] Clicking "Ask" tab shows DocumentChat component
+- [ ] If no documents: shows "No documents found" empty state with link to Documents page
+- [ ] If documents exist: shows example questions and "Ask a question about [Customer]" prompt
+- [ ] Type a question and press Enter — user message appears right-aligned (blue)
+- [ ] Assistant response appears left-aligned (grey) after a moment
+- [ ] Source badges visible below assistant response (document name + type)
+- [ ] "Show context" toggle reveals retrieved chunks with relevance scores
+- [ ] Clicking example question populates the input field
+- [ ] Input clears after sending
+- [ ] No console errors
+
+### Actions for David
+
+Check the URL above by navigating to any CRM customer detail page and clicking the "Ask" tab. You need `ANTHROPIC_API_KEY` set in `.env.local` for answer generation to work. Qdrant must be running at `QDRANT_URL` and Ollama at `OLLAMA_BASE_URL` for search to work.
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_23-rag-chat-ui.md`
