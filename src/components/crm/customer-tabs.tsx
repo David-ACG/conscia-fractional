@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { HardDrive, MessageSquare } from "lucide-react";
+import { HardDrive, MessageSquare, Mail } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
 import { AssetCard } from "@/components/assets/asset-card";
 import { DriveFilesTab } from "@/components/crm/drive-files-tab";
 import { SlackMessagesTab } from "@/components/crm/slack-messages-tab";
+import { EmailTab } from "@/components/crm/email-tab";
 import type {
   CrmCustomer,
   Meeting,
@@ -187,6 +188,10 @@ export function CustomerTabs({
         <TabsTrigger value="slack" className="flex items-center gap-1.5">
           <MessageSquare className="h-3.5 w-3.5" />
           Slack
+        </TabsTrigger>
+        <TabsTrigger value="email" className="flex items-center gap-1.5">
+          <Mail className="h-3.5 w-3.5" />
+          Email
         </TabsTrigger>
       </TabsList>
 
@@ -459,6 +464,11 @@ export function CustomerTabs({
       {/* Slack Tab */}
       <TabsContent value="slack">
         <SlackMessagesTab customerId={customer.id} />
+      </TabsContent>
+
+      {/* Email Tab */}
+      <TabsContent value="email">
+        <EmailTab customerId={customer.id} />
       </TabsContent>
     </Tabs>
   );

@@ -16,12 +16,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { removeGoogleIntegration } from "@/lib/actions/integrations";
 import type { DecryptedIntegration } from "@/lib/services/integration-service";
 
@@ -174,78 +168,70 @@ export function GoogleIntegrationsSection({
   }
 
   return (
-    <TooltipProvider>
-      <div className="flex flex-col gap-4">
-        {integrations.map((integration) => (
-          <div
-            key={integration.id}
-            className="rounded-md border p-3 flex flex-col gap-2"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <GoogleIcon />
-                <span className="text-sm font-medium">
-                  {integration.account_identifier}
-                </span>
-              </div>
-              <DisconnectConfirmDialog
-                integrationId={integration.id}
-                email={integration.account_identifier ?? "this account"}
-                onDisconnected={() => router.refresh()}
-              />
+    <div className="flex flex-col gap-4">
+      {integrations.map((integration) => (
+        <div
+          key={integration.id}
+          className="rounded-md border p-3 flex flex-col gap-2"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <GoogleIcon />
+              <span className="text-sm font-medium">
+                {integration.account_identifier}
+              </span>
             </div>
-
-            <p className="text-xs text-muted-foreground">
-              {formatRelativeDate(integration.created_at)}
-            </p>
-
-            <div className="flex flex-wrap gap-1">
-              {integration.scopes.map((scope) => {
-                const label = SCOPE_LABELS[scope];
-                return label ? (
-                  <Badge key={scope} variant="secondary" className="text-xs">
-                    {label}
-                  </Badge>
-                ) : null;
-              })}
-            </div>
-
-            <div className="flex gap-2 mt-1">
-              {integration.scopes.includes(
-                "https://www.googleapis.com/auth/calendar.readonly",
-              ) ? null : (
-                <Button asChild size="sm" variant="outline" className="text-xs">
-                  <a href="/api/auth/google?scopes=calendar.readonly">
-                    Add Calendar Access
-                  </a>
-                </Button>
-              )}
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled
-                      className="text-xs"
-                    >
-                      Add Gmail Access
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>Coming in Phase 5</TooltipContent>
-              </Tooltip>
-            </div>
+            <DisconnectConfirmDialog
+              integrationId={integration.id}
+              email={integration.account_identifier ?? "this account"}
+              onDisconnected={() => router.refresh()}
+            />
           </div>
-        ))}
 
-        <Button asChild size="sm" variant="outline" className="w-fit">
-          <a href="/api/auth/google?scopes=drive.readonly">
-            + Connect Another Account
-          </a>
-        </Button>
-      </div>
-    </TooltipProvider>
+          <p className="text-xs text-muted-foreground">
+            {formatRelativeDate(integration.created_at)}
+          </p>
+
+          <div className="flex flex-wrap gap-1">
+            {integration.scopes.map((scope) => {
+              const label = SCOPE_LABELS[scope];
+              return label ? (
+                <Badge key={scope} variant="secondary" className="text-xs">
+                  {label}
+                </Badge>
+              ) : null;
+            })}
+          </div>
+
+          <div className="flex gap-2 mt-1 flex-wrap">
+            {integration.scopes.includes(
+              "https://www.googleapis.com/auth/calendar.readonly",
+            ) ? null : (
+              <Button asChild size="sm" variant="outline" className="text-xs">
+                <a href="/api/auth/google?scopes=calendar.readonly">
+                  Add Calendar Access
+                </a>
+              </Button>
+            )}
+
+            {integration.scopes.includes(
+              "https://www.googleapis.com/auth/gmail.metadata",
+            ) ? null : (
+              <Button asChild size="sm" variant="outline" className="text-xs">
+                <a href="/api/auth/google?scopes=gmail.metadata">
+                  Add Gmail Access
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      ))}
+
+      <Button asChild size="sm" variant="outline" className="w-fit">
+        <a href="/api/auth/google?scopes=drive.readonly">
+          + Connect Another Account
+        </a>
+      </Button>
+    </div>
   );
 }
