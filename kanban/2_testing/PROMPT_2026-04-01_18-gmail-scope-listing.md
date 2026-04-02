@@ -177,3 +177,52 @@ Test:
 - [ ] Incremental OAuth uses include_granted_scopes=true
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_18-gmail-scope-listing.md`
+
+---
+
+## Implementation Notes — 2026-04-02 11:35
+
+- **Commit:** 98ffcc6 feat(prompt-18): Gmail scope addition + email listing per customer
+- **Tests:** 599 passed (61 test files) — all passing
+- **Verification URL:** http://localhost:3002/dashboard/crm/[slug] → Email tab
+- **Playwright check:** N/A — no local server running; component and service tests pass
+- **Changes summary:**
+  - Created `src/lib/services/gmail-service.ts` — `getGmailClient`, `listMessages`, `listMessagesForCustomer`
+  - Created `src/app/api/integrations/google/gmail/integrations/route.ts` — lists Gmail-scoped Google accounts for current user
+  - Created `src/app/api/integrations/google/gmail/messages/route.ts` — fetches emails for all contacts of a CRM customer, returns contactEmails for direction indicator
+  - Created `src/components/crm/email-tab.tsx` — EmailTab component with skeleton loading, Gmail empty state, no-emails empty state, incoming/outgoing direction indicator, "Open in Gmail" links, pagination (Load More), multi-account selector
+  - Modified `src/app/(dashboard)/settings/google-integrations.tsx` — enabled "Add Gmail Access" button (was disabled with Coming in Phase 5 tooltip), removed unused Tooltip imports
+  - Modified `src/components/crm/customer-tabs.tsx` — added Email tab with Mail icon
+  - Created `src/lib/services/__tests__/gmail-service.test.ts` — tests for getGmailClient, listMessages (query/format, empty, metadata parsing, pagination, sorting, errors), listMessagesForCustomer (OR query, single contact, no contacts, pagination)
+  - Created `src/components/crm/__tests__/email-tab.test.tsx` — tests for no-gmail empty state, no-emails empty state, email list rendering, Open in Gmail links, direction indicators, Load More pagination, multi-account selector
+- **Deviations from plan:** None — OAuth callback already had include_granted_scopes=true and scope merging via storeTokens; no callback modification needed
+- **Follow-up issues:** None
+
+---
+
+## Testing Checklist — 2026-04-02 11:35
+
+**Check the changes:** http://localhost:3002/dashboard/settings and http://localhost:3002/dashboard/crm/[slug]
+
+- [ ] Settings page loads without errors
+- [ ] Connected Google account shows "Add Gmail Access" button (when gmail.metadata scope not yet granted)
+- [ ] "Add Gmail Access" button redirects to Google OAuth consent screen
+- [ ] After granting Gmail access, Gmail scope badge appears on the integration card
+- [ ] CRM customer detail page shows "Email" tab with Mail icon
+- [ ] Email tab shows "Connect Gmail" empty state when no Gmail integration exists
+- [ ] Email tab shows emails with subject, from, date, snippet when Gmail connected and contacts exist
+- [ ] "Open in Gmail" links open correct Gmail URLs
+- [ ] Direction indicator (Incoming/Outgoing) shows correctly
+- [ ] "Load More" button loads next page of results
+- [ ] Multiple Google accounts show account selector dropdown
+- [ ] No console errors
+
+### Actions for David
+
+1. Go to http://localhost:3002/dashboard/settings — confirm "Add Gmail Access" button is visible on your connected Google account
+2. Click "Add Gmail Access" and grant the gmail.metadata scope in Google OAuth
+3. Open a CRM customer with contacts that have email addresses
+4. Click the new "Email" tab — should list emails to/from those contacts
+5. Check "Open in Gmail" links open the correct messages
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_18-gmail-scope-listing.md`
