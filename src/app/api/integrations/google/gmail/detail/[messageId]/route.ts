@@ -13,11 +13,14 @@ export interface GmailAttachmentMeta {
 }
 
 export interface GmailDetailResponse {
+  id: string;
+  threadId: string;
   subject: string;
   from: string;
   to: string;
   cc?: string;
   date: string;
+  messageIdHeader?: string;
   body_text?: string;
   body_html?: string;
   snippet?: string;
@@ -182,7 +185,16 @@ export async function GET(
       format: fullAccess ? "full" : "metadata",
       ...(fullAccess
         ? {}
-        : { metadataHeaders: ["Subject", "From", "To", "Cc", "Date"] }),
+        : {
+            metadataHeaders: [
+              "Subject",
+              "From",
+              "To",
+              "Cc",
+              "Date",
+              "Message-ID",
+            ],
+          }),
     });
 
     const msg = res.data;
@@ -193,17 +205,21 @@ export async function GET(
     const to = getHeader(headers, "To");
     const cc = getHeader(headers, "Cc");
     const date = getHeader(headers, "Date");
+    const messageIdHeader = getHeader(headers, "Message-ID");
 
     if (fullAccess && msg.payload) {
       const { text, html } = extractBodies(msg.payload);
       const attachments = extractAttachments(msg.payload);
 
       const response: GmailDetailResponse = {
+        id: msg.id ?? "",
+        threadId: msg.threadId ?? "",
         subject,
         from,
         to,
         ...(cc ? { cc } : {}),
         date,
+        messageIdHeader: messageIdHeader || undefined,
         body_text: text,
         body_html: html,
         attachments,
@@ -215,10 +231,13 @@ export async function GET(
 
     // Metadata-only response
     const response: GmailDetailResponse = {
+      id: msg.id ?? "",
+      threadId: msg.threadId ?? "",
       subject,
       from,
       to,
       date,
+      messageIdHeader: messageIdHeader || undefined,
       snippet: msg.snippet ?? "",
       attachments: [],
       hasFullAccess: false,

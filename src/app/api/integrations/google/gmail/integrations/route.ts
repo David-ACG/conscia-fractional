@@ -7,6 +7,8 @@ const GMAIL_SCOPES = [
   "https://www.googleapis.com/auth/gmail.readonly",
 ];
 
+const GMAIL_SEND_SCOPE = "https://www.googleapis.com/auth/gmail.send";
+
 export async function GET() {
   const supabase = await createClient();
   if (!supabase) {
@@ -44,8 +46,16 @@ export async function GET() {
     (i.scopes as string[]).some((s) => GMAIL_SCOPES.includes(s)),
   );
 
+  const sendIntegrations = gmailIntegrations.filter((i) =>
+    (i.scopes as string[]).includes(GMAIL_SEND_SCOPE),
+  );
+
   return NextResponse.json({
     integrations: gmailIntegrations.map((i) => ({
+      id: i.id,
+      account_identifier: i.account_identifier,
+    })),
+    sendIntegrations: sendIntegrations.map((i) => ({
       id: i.id,
       account_identifier: i.account_identifier,
     })),

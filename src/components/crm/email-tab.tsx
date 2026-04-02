@@ -8,6 +8,7 @@ import {
   ArrowUpRight,
   Search,
   X,
+  PenSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
 import { EmailDetailDialog } from "./email-detail-dialog";
+import { EmailCompose, type ReplyContext } from "./email-compose";
 import type { GmailMessageMeta } from "@/lib/services/gmail-service";
 
 interface GmailIntegration {
@@ -153,6 +155,10 @@ export function EmailTab({ customerId }: EmailTabProps) {
     null,
   );
   const [detailOpen, setDetailOpen] = useState(false);
+
+  // Compose dialog state
+  const [composeOpen, setComposeOpen] = useState(false);
+  const [replyContext, setReplyContext] = useState<ReplyContext | undefined>();
 
   // Fetch Gmail integrations on mount
   useEffect(() => {
@@ -300,6 +306,23 @@ export function EmailTab({ customerId }: EmailTabProps) {
     setDetailOpen(true);
   }
 
+  function handleCompose() {
+    setReplyContext(undefined);
+    setComposeOpen(true);
+  }
+
+  function handleReply(ctx: ReplyContext) {
+    setDetailOpen(false);
+    setReplyContext(ctx);
+    setComposeOpen(true);
+  }
+
+  function handleEmailSent() {
+    // Refresh the message list
+    setIsSearchActive(false);
+    setSearchQuery("");
+  }
+
   // Loading integrations
   if (loadingIntegrations) {
     return <EmailSkeleton />;
@@ -339,27 +362,38 @@ export function EmailTab({ customerId }: EmailTabProps) {
         </div>
       )}
 
-      {/* Search input */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search emails... (subject:, from:, has:attachment)"
-          value={searchQuery}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          className="pl-9 pr-9"
-          aria-label="Search emails"
-          data-testid="email-search-input"
-        />
-        {searchQuery && (
-          <button
-            onClick={handleClearSearch}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="Clear search"
-            data-testid="email-search-clear"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        )}
+      {/* Search + Compose */}
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search emails... (subject:, from:, has:attachment)"
+            value={searchQuery}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="pl-9 pr-9"
+            aria-label="Search emails"
+            data-testid="email-search-input"
+          />
+          {searchQuery && (
+            <button
+              onClick={handleClearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Clear search"
+              data-testid="email-search-clear"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={handleCompose}
+          data-testid="email-compose-button"
+        >
+          <PenSquare className="h-4 w-4 mr-1.5" />
+          Compose
+        </Button>
       </div>
 
       {loadingMessages && <EmailSkeleton />}
@@ -411,8 +445,18 @@ export function EmailTab({ customerId }: EmailTabProps) {
           integrationId={selectedIntegrationId}
           open={detailOpen}
           onOpenChange={setDetailOpen}
+          onReply={handleReply}
         />
       )}
+
+      {/* Compose dialog */}
+      <EmailCompose
+        customerId={customerId}
+        open={composeOpen}
+        onOpenChange={setComposeOpen}
+        replyTo={replyContext}
+        onSent={handleEmailSent}
+      />
     </div>
   );
 }

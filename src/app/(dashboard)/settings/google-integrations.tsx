@@ -38,6 +38,8 @@ const SCOPE_LABELS: Record<string, string> = {
   "https://www.googleapis.com/auth/drive.readonly": "Drive",
   "https://www.googleapis.com/auth/calendar.readonly": "Calendar",
   "https://www.googleapis.com/auth/gmail.metadata": "Gmail",
+  "https://www.googleapis.com/auth/gmail.readonly": "Gmail (Full)",
+  "https://www.googleapis.com/auth/gmail.send": "Gmail Send",
 };
 
 function formatRelativeDate(dateStr: string): string {
@@ -223,6 +225,28 @@ export function GoogleIntegrationsSection({
                 </a>
               </Button>
             )}
+
+            {(integration.scopes.includes(
+              "https://www.googleapis.com/auth/gmail.metadata",
+            ) ||
+              integration.scopes.includes(
+                "https://www.googleapis.com/auth/gmail.readonly",
+              )) &&
+            !integration.scopes.includes(
+              "https://www.googleapis.com/auth/gmail.send",
+            ) ? (
+              <div className="flex flex-col gap-1">
+                <Button asChild size="sm" variant="outline" className="text-xs">
+                  <a href="/api/auth/google?scopes=gmail.send">
+                    Add Email Send Access
+                  </a>
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  Send access requires Google verification. Until verified, only
+                  test users can send.
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
       ))}

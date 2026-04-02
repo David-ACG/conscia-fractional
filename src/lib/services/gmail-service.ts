@@ -1,6 +1,7 @@
 import { google, gmail_v1 } from "googleapis";
 
 const GMAIL_READONLY_SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
+const GMAIL_SEND_SCOPE = "https://www.googleapis.com/auth/gmail.send";
 
 export function hasFullAccess(scopes: string[]): boolean {
   return scopes.includes(GMAIL_READONLY_SCOPE);
@@ -94,3 +95,74 @@ export async function listMessagesForCustomer(
 
   return listMessages(gmail, query, maxResults, pageToken);
 }
+
+export function hasSendAccess(scopes: string[]): boolean {
+  return scopes.includes(GMAIL_SEND_SCOPE);
+}
+
+export interface SendEmailParams {
+  to: string;
+  cc?: string;
+  bcc?: string;
+  subject: string;
+  body: string;
+  threadId?: string;
+  inReplyTo?: string;
+  references?: string;
+}
+
+function buildRfc2822Message(params: SendEmailParams): string {
+  const lines: string[] = [
+    'Content-Type: text/plain; charset="UTF-8"',
+    "MIME-Version: 1.0",
+    `To: ${params.to}`,
+  ];
+
+  if (params.cc) lines.push(`Cc: ${params.cc}`);
+  if (params.bcc) lines.push(`Bcc: ${params.bcc}`);
+  lines.push(`Subject: ${params.subject}`);
+  if (params.inReplyTo) lines.push(`In-Reply-To: ${params.inReplyTo}`);
+  if (params.references) lines.push(`References: ${params.references}`);
+  lines.push("", params.body);
+
+  return lines.join("\r\n");
+}
+
+export async function sendEmail(
+  gmail: gmail_v1.Gmail,
+  params: SendEmailParams,
+): Promise<{ messageId: string }> {
+  const raw = Buffer.from(buildRfc2822Message(params)).toString("base64url");
+
+  const res = await gmail.users.messages.send({
+    userId: "me",
+    requestBody: {
+      raw,
+      ...(params.threadId ? { threadId: params.threadId } : {}),
+    },
+  });
+
+  return { messageId: res.data.id ?? "" };
+}
+
+export async function createDraft(
+  gmail: gmail_v1.Gmail,
+  params: Pick<SendEmailParams, "to" | "subject" | "body" | "threadId">,
+): Promise<{ draftId: string }> {
+  const raw = Buffer.from(buildRfc2822Message(params)).toString("base64url");
+
+  const res = await gmail.users.drafts.create({
+    userId: "me",
+    requestBody: {
+      message: {
+        raw,
+        ...(params.threadId ? { threadId: params.threadId } : {}),
+      },
+    },
+  });
+
+  return { draftId: res.data.id ?? "" };
+}
+
+// Exported for testing
+export { buildRfc2822Message as _buildRfc2822Message };

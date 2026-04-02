@@ -22,6 +22,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import DOMPurify from "dompurify";
+import type { ReplyContext } from "./email-compose";
 
 interface AttachmentMeta {
   filename: string;
@@ -31,11 +32,14 @@ interface AttachmentMeta {
 }
 
 interface EmailDetail {
+  id: string;
+  threadId: string;
   subject: string;
   from: string;
   to: string;
   cc?: string;
   date: string;
+  messageIdHeader?: string;
   body_text?: string;
   body_html?: string;
   snippet?: string;
@@ -49,6 +53,7 @@ interface EmailDetailDialogProps {
   integrationId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onReply?: (ctx: ReplyContext) => void;
 }
 
 function formatSize(bytes: number): string {
@@ -79,6 +84,7 @@ export function EmailDetailDialog({
   integrationId,
   open,
   onOpenChange,
+  onReply,
 }: EmailDetailDialogProps) {
   const [detail, setDetail] = useState<EmailDetail | null>(null);
   const [loading, setLoading] = useState(false);
@@ -236,7 +242,26 @@ export function EmailDetailDialog({
             )}
 
             <DialogFooter className="mt-4">
-              <Button variant="outline" size="sm" disabled>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={!onReply}
+                onClick={() => {
+                  if (onReply && detail) {
+                    onReply({
+                      messageId: detail.id,
+                      threadId: detail.threadId,
+                      subject: detail.subject,
+                      from: detail.from,
+                      snippet:
+                        detail.body_text?.slice(0, 500) ?? detail.snippet ?? "",
+                      inReplyTo: detail.messageIdHeader,
+                      references: detail.messageIdHeader,
+                    });
+                  }
+                }}
+                data-testid="reply-button"
+              >
                 <Reply className="h-4 w-4 mr-1.5" />
                 Reply
               </Button>

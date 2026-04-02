@@ -5,6 +5,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 // ──────────────────────────────────────────────────────────
 const mockMessagesList = vi.fn();
 const mockMessagesGet = vi.fn();
+const mockMessagesSend = vi.fn();
+const mockDraftsCreate = vi.fn();
 
 vi.mock("googleapis", () => {
   function MockOAuth2() {
@@ -18,6 +20,10 @@ vi.mock("googleapis", () => {
           messages: {
             list: (...args: unknown[]) => mockMessagesList(...args),
             get: (...args: unknown[]) => mockMessagesGet(...args),
+            send: (...args: unknown[]) => mockMessagesSend(...args),
+          },
+          drafts: {
+            create: (...args: unknown[]) => mockDraftsCreate(...args),
           },
         },
       })),
@@ -31,6 +37,10 @@ import {
   listMessages,
   listMessagesForCustomer,
   hasFullAccess,
+  hasSendAccess,
+  sendEmail,
+  createDraft,
+  _buildRfc2822Message,
 } from "../gmail-service";
 
 // Helper: make a fake messages.get response
@@ -308,6 +318,221 @@ describe("listMessagesForCustomer", () => {
 
     expect(mockMessagesList).toHaveBeenCalledWith(
       expect.objectContaining({ pageToken: "page-token-xyz" }),
+    );
+  });
+});
+
+// ──────────────────────────────────────────────────────────
+// hasSendAccess
+// ──────────────────────────────────────────────────────────
+describe("hasSendAccess", () => {
+  it("returns true when gmail.send scope is present", () => {
+    expect(
+      hasSendAccess([
+        "https://www.googleapis.com/auth/gmail.send",
+        "https://www.googleapis.com/auth/gmail.readonly",
+      ]),
+    ).toBe(true);
+  });
+
+  it("returns false when gmail.send scope is missing", () => {
+    expect(
+      hasSendAccess(["https://www.googleapis.com/auth/gmail.readonly"]),
+    ).toBe(false);
+  });
+
+  it("returns false for empty scopes", () => {
+    expect(hasSendAccess([])).toBe(false);
+  });
+});
+
+// ──────────────────────────────────────────────────────────
+// _buildRfc2822Message
+// ──────────────────────────────────────────────────────────
+describe("_buildRfc2822Message", () => {
+  it("builds basic message with required fields", () => {
+    const raw = _buildRfc2822Message({
+      to: "alice@example.com",
+      subject: "Test",
+      body: "Hello",
+    });
+
+    expect(raw).toContain("To: alice@example.com");
+    expect(raw).toContain("Subject: Test");
+    expect(raw).toContain('Content-Type: text/plain; charset="UTF-8"');
+    expect(raw).toContain("MIME-Version: 1.0");
+    expect(raw).toContain("Hello");
+  });
+
+  it("includes CC and BCC when provided", () => {
+    const raw = _buildRfc2822Message({
+      to: "alice@example.com",
+      cc: "bob@example.com",
+      bcc: "charlie@example.com",
+      subject: "Test",
+      body: "Body",
+    });
+
+    expect(raw).toContain("Cc: bob@example.com");
+    expect(raw).toContain("Bcc: charlie@example.com");
+  });
+
+  it("includes In-Reply-To and References for replies", () => {
+    const raw = _buildRfc2822Message({
+      to: "alice@example.com",
+      subject: "Re: Hello",
+      body: "Reply body",
+      inReplyTo: "<msg-id-123@mail.gmail.com>",
+      references: "<msg-id-123@mail.gmail.com>",
+    });
+
+    expect(raw).toContain("In-Reply-To: <msg-id-123@mail.gmail.com>");
+    expect(raw).toContain("References: <msg-id-123@mail.gmail.com>");
+  });
+
+  it("does not include reply headers when not provided", () => {
+    const raw = _buildRfc2822Message({
+      to: "alice@example.com",
+      subject: "New",
+      body: "Body",
+    });
+
+    expect(raw).not.toContain("In-Reply-To:");
+    expect(raw).not.toContain("References:");
+  });
+});
+
+// ──────────────────────────────────────────────────────────
+// sendEmail
+// ──────────────────────────────────────────────────────────
+describe("sendEmail", () => {
+  it("sends email with correct base64url-encoded raw message", async () => {
+    mockMessagesSend.mockResolvedValue({
+      data: { id: "sent-msg-1" },
+    });
+
+    const client = getGmailClient("token");
+    const result = await sendEmail(client, {
+      to: "alice@example.com",
+      subject: "Test Subject",
+      body: "Hello World",
+    });
+
+    expect(result.messageId).toBe("sent-msg-1");
+    expect(mockMessagesSend).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: "me",
+        requestBody: expect.objectContaining({
+          raw: expect.any(String),
+        }),
+      }),
+    );
+
+    // Verify the raw content is valid base64url
+    const callArgs = mockMessagesSend.mock.calls[0][0];
+    const decoded = Buffer.from(callArgs.requestBody.raw, "base64url").toString(
+      "utf-8",
+    );
+    expect(decoded).toContain("To: alice@example.com");
+    expect(decoded).toContain("Subject: Test Subject");
+    expect(decoded).toContain("Hello World");
+  });
+
+  it("includes threadId when replying", async () => {
+    mockMessagesSend.mockResolvedValue({
+      data: { id: "sent-msg-2" },
+    });
+
+    const client = getGmailClient("token");
+    await sendEmail(client, {
+      to: "alice@example.com",
+      subject: "Re: Thread",
+      body: "Reply",
+      threadId: "thread-abc",
+      inReplyTo: "<original@mail.gmail.com>",
+      references: "<original@mail.gmail.com>",
+    });
+
+    expect(mockMessagesSend).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requestBody: expect.objectContaining({
+          threadId: "thread-abc",
+        }),
+      }),
+    );
+
+    const callArgs = mockMessagesSend.mock.calls[0][0];
+    const decoded = Buffer.from(callArgs.requestBody.raw, "base64url").toString(
+      "utf-8",
+    );
+    expect(decoded).toContain("In-Reply-To: <original@mail.gmail.com>");
+    expect(decoded).toContain("References: <original@mail.gmail.com>");
+  });
+
+  it("propagates API errors", async () => {
+    mockMessagesSend.mockRejectedValue(new Error("Rate limit exceeded"));
+
+    const client = getGmailClient("token");
+    await expect(
+      sendEmail(client, {
+        to: "alice@example.com",
+        subject: "Test",
+        body: "Body",
+      }),
+    ).rejects.toThrow("Rate limit exceeded");
+  });
+});
+
+// ──────────────────────────────────────────────────────────
+// createDraft
+// ──────────────────────────────────────────────────────────
+describe("createDraft", () => {
+  it("creates draft via Gmail API", async () => {
+    mockDraftsCreate.mockResolvedValue({
+      data: { id: "draft-1" },
+    });
+
+    const client = getGmailClient("token");
+    const result = await createDraft(client, {
+      to: "bob@example.com",
+      subject: "Draft Subject",
+      body: "Draft body",
+    });
+
+    expect(result.draftId).toBe("draft-1");
+    expect(mockDraftsCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: "me",
+        requestBody: expect.objectContaining({
+          message: expect.objectContaining({
+            raw: expect.any(String),
+          }),
+        }),
+      }),
+    );
+  });
+
+  it("includes threadId in draft when provided", async () => {
+    mockDraftsCreate.mockResolvedValue({
+      data: { id: "draft-2" },
+    });
+
+    const client = getGmailClient("token");
+    await createDraft(client, {
+      to: "bob@example.com",
+      subject: "Re: Thread",
+      body: "Reply draft",
+      threadId: "thread-xyz",
+    });
+
+    expect(mockDraftsCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requestBody: expect.objectContaining({
+          message: expect.objectContaining({
+            threadId: "thread-xyz",
+          }),
+        }),
+      }),
     );
   });
 });
