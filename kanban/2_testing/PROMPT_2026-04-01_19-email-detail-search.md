@@ -188,3 +188,44 @@ Test:
 - [ ] DOMPurify used for HTML sanitisation (not raw dangerouslySetInnerHTML)
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_19-email-detail-search.md`
+
+---
+
+## Implementation Notes — 2026-04-02 12:00
+
+- **Commit:** bff4048 feat(prompt-19): email detail view + search with DOMPurify sanitisation
+- **Tests:** 622 passed (63 test files), 0 failures
+- **Verification URL:** http://localhost:3002 (CRM customer detail page, Email tab)
+- **Playwright check:** N/A (no running instance for browser test)
+- **Changes summary:**
+  - Added `hasFullAccess(scopes)` helper to `gmail-service.ts`
+  - Created email detail API at `src/app/api/integrations/google/gmail/detail/[messageId]/route.ts` with full MIME parsing (recursive multipart walk, base64url decoding, attachment extraction), scope-aware format selection (full vs metadata)
+  - Created email search API at `src/app/api/integrations/google/gmail/search/route.ts` scoping user queries to customer contacts
+  - Created `EmailDetailDialog` component with DOMPurify HTML sanitisation, scope-aware rendering (full body vs snippet + upgrade message), attachment listing with icons/sizes
+  - Modified `email-tab.tsx` with debounced search input (500ms), clear button, click-to-detail on email rows
+  - Installed `dompurify` + `@types/dompurify`
+  - Added tests for: hasFullAccess, detail API (full/metadata/single-part/base64url), dialog component (full/metadata/loading/error/sanitisation), search (debounce/clear/restore)
+- **Deviations from plan:** None
+- **Follow-up issues:** None
+
+---
+
+## Testing Checklist — 2026-04-02 12:00
+
+**Check the changes:** http://localhost:3002 (navigate to CRM customer detail > Email tab)
+
+- [ ] Page loads without errors
+- [ ] Search input appears at top of email tab
+- [ ] Typing in search triggers debounced API call (check network tab)
+- [ ] Search results replace regular listing
+- [ ] Clear button restores regular email listing
+- [ ] Clicking an email row opens detail dialog
+- [ ] Full access: dialog shows HTML body, attachments with icons/sizes
+- [ ] Metadata-only: dialog shows snippet + upgrade message with Settings link
+- [ ] HTML body is sanitised (no script tags execute)
+- [ ] "Open in Gmail" button links correctly
+- [ ] No console errors
+
+### Actions for David
+
+Start the dev server (`npm run dev`) and navigate to a CRM customer with Gmail connected. Test the email search and click an email to verify the detail dialog renders correctly. If only metadata scope is granted, verify the upgrade message appears.
