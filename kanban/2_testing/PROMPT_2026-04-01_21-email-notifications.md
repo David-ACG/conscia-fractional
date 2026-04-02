@@ -266,3 +266,48 @@ Test:
 - [ ] Ring buffer for seen message IDs prevents unbounded metadata growth
 
 **Review this prompt:** `file:///C:/Projects/conscia-fractional/kanban/1_planning/PROMPT_2026-04-01_21-email-notifications.md`
+
+---
+
+## Implementation Notes — 2026-04-02 12:30
+
+- **Commit:** d2e3ad1 feat(prompt-21): email polling + new email notifications
+- **Tests:** 666 passed, 67 test files — all green
+- **Verification URL:** http://localhost:3002 (notification bell in header)
+- **Playwright check:** N/A — UI component; covered by Vitest + jsdom
+- **Changes summary:**
+  - `supabase/migrations/013_create_notifications.sql` — notifications table with RLS, two indexes
+  - `src/lib/services/gmail-sync-service.ts` — `checkNewEmails()` with after: date filter, ring buffer for seen IDs (capped at 100), uses `getValidAccessToken` for refresh
+  - `src/app/api/cron/gmail-sync/route.ts` — GET cron route, CRON_SECRET Bearer auth, per-integration error isolation, returns `{ integrations_checked, new_emails, notifications_created, errors }`
+  - `src/app/api/notifications/route.ts` — GET with pagination, unread_only filter, unread_count in response
+  - `src/app/api/notifications/[id]/route.ts` — PATCH to mark individual notification read
+  - `src/app/api/notifications/read-all/route.ts` — PATCH to bulk mark all read
+  - `src/components/layout/notification-bell.tsx` — Bell icon, unread badge, 60s poll, Popover dropdown with mark-read, mark-all-read, CRM navigation
+  - `src/components/layout/header.tsx` — NotificationBell added before ThemeToggle
+- **Deviations from plan:** None. CRON_SECRET was already in .env.local.example so no change needed there.
+- **Follow-up issues:** Cron route needs to be registered in Vercel/server cron config for production scheduling.
+
+---
+
+## Testing Checklist — 2026-04-02 12:30
+
+**Check the changes:** http://localhost:3002
+
+- [ ] Page loads without errors
+- [ ] Bell icon visible in dashboard header (left of theme toggle)
+- [ ] No badge shown when zero unread notifications
+- [ ] Badge appears with count after cron run creates notifications
+- [ ] Clicking bell opens popover with notification list
+- [ ] Empty state "No notifications" shown when list is empty
+- [ ] Notification items show title, body, relative time
+- [ ] Clicking notification marks it read + navigates to CRM customer or Gmail link
+- [ ] "Mark all as read" button clears all unread indicators
+- [ ] No console errors
+
+### Actions for David
+
+1. Run the cron endpoint manually to verify: `curl -H "Authorization: Bearer YOUR_CRON_SECRET" http://localhost:3002/api/cron/gmail-sync`
+2. Check the URL above and tick the boxes above.
+3. To schedule the cron in production, add `/api/cron/gmail-sync` to your Vercel cron config or external scheduler (e.g., every 15 minutes).
+
+**Review this file:** `file:///C:/Projects/conscia-fractional/kanban/2_testing/PROMPT_2026-04-01_21-email-notifications.md`
