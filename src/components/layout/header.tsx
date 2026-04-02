@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useClient } from "@/lib/client-context";
 import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
+import { NotificationBell } from "@/components/layout/notification-bell";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -77,6 +78,7 @@ export function DashboardHeader({
       )}
 
       <div className="ml-auto flex items-center gap-2">
+        <NotificationBell />
         <ThemeToggle />
 
         <DropdownMenu>
