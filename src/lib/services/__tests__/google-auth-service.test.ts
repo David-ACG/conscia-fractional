@@ -98,7 +98,11 @@ describe("generateAuthUrl", () => {
       access_type: "offline",
       prompt: "consent",
       include_granted_scopes: true,
-      scope: ["https://www.googleapis.com/auth/drive.readonly"],
+      scope: [
+        "https://www.googleapis.com/auth/drive.readonly",
+        "openid",
+        "email",
+      ],
       state: "test-state-123",
     });
     expect(url).toBe("https://accounts.google.com/o/oauth2/auth?test");

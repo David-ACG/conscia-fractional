@@ -13,9 +13,11 @@ const mockEq = vi.fn().mockReturnThis();
 const mockSelect = vi.fn(() => ({ single: mockSingle, eq: mockEq }));
 const mockInsert = vi.fn(() => ({ select: mockSelect }));
 const mockUpdate = vi.fn(() => ({ eq: mockEq }));
+const mockDelete = vi.fn(() => ({ eq: mockEq }));
 const mockFrom = vi.fn(() => ({
   insert: mockInsert,
   update: mockUpdate,
+  delete: mockDelete,
   select: mockSelect,
 }));
 
@@ -81,6 +83,7 @@ describe("recording-service", () => {
       return {
         insert: mockInsert,
         update: mockUpdate,
+        delete: mockDelete,
         select: mockSelect,
       };
     });

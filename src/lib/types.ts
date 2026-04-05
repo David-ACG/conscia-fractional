@@ -118,6 +118,8 @@ export interface Meeting {
   action_items: string[];
   recording_url: string | null;
   platform: "zoom" | "teams" | "meet" | null;
+  original_filename: string | null;
+  actual_duration_seconds: number | null;
   is_client_visible: boolean;
   created_at: string;
   updated_at: string;
@@ -311,3 +313,36 @@ export interface Integration {
   created_at: string;
   updated_at: string;
 }
+
+export interface PortalSettings {
+  id: string;
+  client_id: string;
+  module: string;
+  is_enabled: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PortalInvitation {
+  id: string;
+  client_id: string;
+  email: string;
+  invited_by: string;
+  auth_user_id: string | null;
+  status: "pending" | "accepted" | "revoked";
+  invited_at: string;
+  accepted_at: string | null;
+  last_login: string | null;
+}
+
+export const PORTAL_MODULES = [
+  "timesheet",
+  "tasks",
+  "meetings",
+  "deliverables",
+  "invoicing",
+  "notes",
+  "research",
+] as const;
+
+export type PortalModule = (typeof PORTAL_MODULES)[number];

@@ -204,10 +204,7 @@ export function EmailDetailDialog({
                     <ShieldAlert className="h-4 w-4 flex-shrink-0" />
                     <span>
                       {detail.upgradeMessage}{" "}
-                      <a
-                        href="/dashboard/settings"
-                        className="underline font-medium"
-                      >
+                      <a href="/settings" className="underline font-medium">
                         Go to Settings
                       </a>
                     </span>

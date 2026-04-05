@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { startOfMonth, endOfMonth } from "date-fns";
 import { createAdminClient as createClient } from "@/lib/supabase/admin";
 import { getActiveClientId } from "@/lib/actions/clients";
+import { getPortalSettings } from "@/lib/actions/portal";
 import { CustomerDetailHeader } from "@/components/crm/customer-detail-header";
 import { CustomerSummaryCards } from "@/components/crm/customer-summary-cards";
 import { CustomerTabs } from "@/components/crm/customer-tabs";
@@ -38,7 +39,8 @@ async function getCustomerData(slug: string) {
     tasksRes,
     timeEntriesRes,
     monthTimeRes,
-    assetsRes,
+    linkedAssetsRes,
+    allClientAssetsRes,
     deliverablesRes,
   ] = await Promise.all([
     supabase
@@ -62,10 +64,18 @@ async function getCustomerData(slug: string) {
       .eq("crm_customer_id", customer.id)
       .gte("started_at", monthStart)
       .lte("started_at", monthEnd),
+    // Primary: assets linked by crm_customer_id
+    supabase
+      .from("assets")
+      .select("*")
+      .eq("crm_customer_id", customer.id)
+      .order("created_at", { ascending: false }),
+    // Fallback: all client assets (for text-matching unlinked ones)
     supabase
       .from("assets")
       .select("*")
       .eq("client_id", clientId)
+      .is("crm_customer_id", null)
       .order("created_at", { ascending: false }),
     supabase
       .from("deliverables")
@@ -74,14 +84,19 @@ async function getCustomerData(slug: string) {
       .order("created_at", { ascending: false }),
   ]);
 
-  // Filter assets by customer name (crm_customer_id may not exist on assets yet)
-  const allAssets = (assetsRes.data ?? []) as Asset[];
+  // Combine linked assets with text-matched unlinked assets (legacy fallback)
+  const linkedAssets = (linkedAssetsRes.data ?? []) as Asset[];
+  const unlinkedAssets = (allClientAssetsRes.data ?? []) as Asset[];
   const customerName = customer.name.toLowerCase();
-  const customerAssets = allAssets.filter(
+  const textMatched = unlinkedAssets.filter(
     (a) =>
       a.name.toLowerCase().includes(customerName) ||
       a.description?.toLowerCase().includes(customerName),
   );
+  const customerAssets = [
+    ...linkedAssets,
+    ...textMatched.filter((t) => !linkedAssets.some((l) => l.id === t.id)),
+  ];
 
   // Calculate hours this month
   const monthEntries = (monthTimeRes.data ?? []) as Pick<
@@ -105,13 +120,19 @@ async function getCustomerData(slug: string) {
     (d) => d.status === "in_progress" || d.status === "review",
   ).length;
 
+  // Check portal status
+  const portalResult = await getPortalSettings(clientId);
+  const isPortalActive = (portalResult.data ?? []).some((s) => s.is_enabled);
+
   return {
     customer: customer as CrmCustomer,
     meetings,
     tasks,
     timeEntries,
     assets: customerAssets,
+    unlinkedTextMatchedAssets: textMatched,
     deliverables,
+    isPortalActive,
     summary: {
       hoursThisMonth,
       openTasks,
@@ -137,13 +158,18 @@ export default async function CustomerDetailPage({
     tasks,
     timeEntries,
     assets,
+    unlinkedTextMatchedAssets,
     deliverables,
+    isPortalActive,
     summary,
   } = data;
 
   return (
     <div className="space-y-6">
-      <CustomerDetailHeader customer={customer} />
+      <CustomerDetailHeader
+        customer={customer}
+        isPortalActive={isPortalActive}
+      />
       <CustomerSummaryCards summary={summary} />
       <CustomerTabs
         customer={customer}
@@ -151,6 +177,7 @@ export default async function CustomerDetailPage({
         tasks={tasks}
         timeEntries={timeEntries}
         assets={assets}
+        unlinkedTextMatchedAssets={unlinkedTextMatchedAssets}
         deliverables={deliverables}
       />
     </div>

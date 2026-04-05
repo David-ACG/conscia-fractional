@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, ExternalLink, FolderOpen, Pencil } from "lucide-react";
+import {
+  ChevronLeft,
+  ExternalLink,
+  FolderOpen,
+  Pencil,
+  Share2,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CrmForm } from "./crm-form";
@@ -31,9 +37,13 @@ const statusConfig: Record<string, { label: string; className: string }> = {
 
 interface CustomerDetailHeaderProps {
   customer: CrmCustomer;
+  isPortalActive?: boolean;
 }
 
-export function CustomerDetailHeader({ customer }: CustomerDetailHeaderProps) {
+export function CustomerDetailHeader({
+  customer,
+  isPortalActive,
+}: CustomerDetailHeaderProps) {
   const [formOpen, setFormOpen] = React.useState(false);
   const status = statusConfig[customer.status] ?? {
     label: customer.status,
@@ -62,6 +72,19 @@ export function CustomerDetailHeader({ customer }: CustomerDetailHeaderProps) {
             {customer.industry && (
               <Badge variant="outline">{customer.industry}</Badge>
             )}
+            <Link href="/settings#portal-sharing">
+              <Badge
+                variant="secondary"
+                className={
+                  isPortalActive
+                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 cursor-pointer"
+                    : "cursor-pointer"
+                }
+              >
+                <Share2 className="mr-1 size-3" />
+                {isPortalActive ? "Portal Active" : "Portal Inactive"}
+              </Badge>
+            </Link>
             {customer.website && (
               <a
                 href={customer.website}

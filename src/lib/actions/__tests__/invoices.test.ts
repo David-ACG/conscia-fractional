@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   formatDays,
+  formatHours,
   calculateMonthBreakdown,
   buildInvoiceText,
   suggestNextInvoiceNumber,
@@ -31,6 +32,23 @@ describe("formatDays", () => {
   });
 });
 
+describe("formatHours", () => {
+  it("returns singular for exactly 1", async () => {
+    expect(await formatHours(1)).toBe("1 hour");
+  });
+
+  it("returns plural for values other than 1", async () => {
+    expect(await formatHours(2)).toBe("2 hours");
+    expect(await formatHours(0.5)).toBe("0.5 hours");
+    expect(await formatHours(0)).toBe("0 hours");
+  });
+
+  it("rounds to 2 decimal places", async () => {
+    expect(await formatHours(4.256)).toBe("4.26 hours");
+    expect(await formatHours(16.25)).toBe("16.25 hours");
+  });
+});
+
 describe("calculateMonthBreakdown", () => {
   const hoursPerDay = 3.2; // 16 hours_per_week / 5
 
@@ -44,14 +62,15 @@ describe("calculateMonthBreakdown", () => {
     const result = await calculateMonthBreakdown(entries, hoursPerDay);
 
     expect(result).toHaveLength(2);
-    expect(result[0].month).toBe("Jan 26");
+    expect(result[0].month).toBe("January 2026");
     expect(result[0].totalMinutes).toBe(288);
+    expect(result[0].totalHours).toBe(288 / 60);
     expect(result[0].totalDays).toBe(288 / 60 / hoursPerDay);
-    expect(result[0].label).toBe("Jan 26 - 1.5 days");
+    expect(result[0].label).toBe("January 2026 - 4.8 hours (1.5 days)");
 
-    expect(result[1].month).toBe("Feb 26");
+    expect(result[1].month).toBe("February 2026");
     expect(result[1].totalMinutes).toBe(384);
-    expect(result[1].label).toBe("Feb 26 - 2 days");
+    expect(result[1].label).toBe("February 2026 - 6.4 hours (2 days)");
   });
 
   it("returns empty array for no entries", async () => {
@@ -77,7 +96,11 @@ describe("calculateMonthBreakdown", () => {
     ];
 
     const result = await calculateMonthBreakdown(entries, hoursPerDay);
-    expect(result.map((r) => r.month)).toEqual(["Jan 26", "Feb 26", "Mar 26"]);
+    expect(result.map((r) => r.month)).toEqual([
+      "January 2026",
+      "February 2026",
+      "March 2026",
+    ]);
   });
 
   it("uses singular 'day' for exactly 1 day", async () => {
@@ -88,7 +111,7 @@ describe("calculateMonthBreakdown", () => {
       },
     ];
     const result = await calculateMonthBreakdown(entries, hoursPerDay);
-    expect(result[0].label).toBe("Jan 26 - 1 day");
+    expect(result[0].label).toBe("January 2026 - 3.2 hours (1 day)");
   });
 });
 
@@ -96,56 +119,66 @@ describe("buildInvoiceText", () => {
   it("builds correctly formatted text", async () => {
     const breakdown = [
       {
-        month: "Jan 26",
+        month: "January 2026",
         totalMinutes: 480,
+        totalHours: 8,
         totalDays: 1,
-        label: "Jan 26 - 1 day",
+        label: "January 2026 - 8 hours (1 day)",
       },
       {
-        month: "Feb 26",
+        month: "February 2026",
         totalMinutes: 1080,
+        totalHours: 18,
         totalDays: 2.25,
-        label: "Feb 26 - 2.25 days",
+        label: "February 2026 - 18 hours (2.25 days)",
       },
       {
-        month: "Mar 26",
+        month: "March 2026",
         totalMinutes: 1380,
+        totalHours: 23,
         totalDays: 2.875,
-        label: "Mar 26 - 2.875 days",
+        label: "March 2026 - 23 hours (2.875 days)",
       },
     ];
     const totalDays = 6.125;
     const dayRate = 500;
     const totalAmount = 3062.5;
+    const hoursPerDay = 8;
 
     const text = await buildInvoiceText(
       breakdown,
       totalDays,
       dayRate,
       totalAmount,
+      hoursPerDay,
     );
 
-    expect(text).toContain("6.125 Days");
-    expect(text).toContain("Jan 26 - 1 day");
-    expect(text).toContain("Feb 26 - 2.25 days");
-    expect(text).toContain("Mar 26 - 2.875 days");
-    expect(text).toContain("Total for Jan 26 to Mar 26 = 6.125");
+    expect(text).toContain("49 Hours (6.125 Days)");
+    expect(text).toContain("January 2026 - 8 hours (1 day)");
+    expect(text).toContain("February 2026 - 18 hours (2.25 days)");
+    expect(text).toContain("March 2026 - 23 hours (2.875 days)");
+    expect(text).toContain(
+      "Total for January 2026 to March 2026 = 49 hours (6.125 days)",
+    );
     expect(text).toContain("Timesheets available on request");
-    expect(text).toContain("Unit Price (£): 500.00");
+    expect(text).toContain("49 hours x £62.50/hr = £3,062.50");
+    expect(text).toContain("Day Rate (£): 500.00");
+    expect(text).toContain("Hourly Rate (£): 62.50");
     expect(text).toContain("Subtotal (£): 3,062.50");
   });
 
   it("handles single month range", async () => {
     const breakdown = [
       {
-        month: "Jan 26",
+        month: "January 2026",
         totalMinutes: 480,
+        totalHours: 8,
         totalDays: 1,
-        label: "Jan 26 - 1 day",
+        label: "January 2026 - 8 hours (1 day)",
       },
     ];
-    const text = await buildInvoiceText(breakdown, 1, 500, 500);
-    expect(text).toContain("Total for Jan 26 = 1");
+    const text = await buildInvoiceText(breakdown, 1, 500, 500, 8);
+    expect(text).toContain("Total for January 2026 = 8 hours (1 days)");
   });
 });
 

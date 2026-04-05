@@ -137,7 +137,7 @@ describe("EmailDetailDialog", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Go to Settings")).toHaveAttribute(
       "href",
-      "/dashboard/settings",
+      "/settings",
     );
   });
 

@@ -29,16 +29,20 @@ export async function GET(request: NextRequest) {
     .filter(Boolean)
     .map((s) => (s.startsWith("https://") ? s : `${SCOPE_PREFIX}${s}`));
 
-  const state = crypto.randomUUID();
+  // Encode user ID in state so callback can identify the user
+  // even if session cookies are lost during the Google redirect chain
+  const nonce = crypto.randomUUID();
+  const state = JSON.stringify({ nonce, userId: user.id });
 
   const authUrl = generateAuthUrl(scopes, state);
 
-  const response = NextResponse.redirect(authUrl);
-  response.cookies.set("google_oauth_state", state, {
+  const response = NextResponse.redirect(authUrl, { status: 302 });
+  response.cookies.set("google_oauth_state", nonce, {
     httpOnly: true,
     maxAge: 600,
     sameSite: "lax",
     path: "/",
+    secure: process.env.NODE_ENV === "production",
   });
 
   return response;

@@ -22,34 +22,34 @@ interface ApiEvent {
   meeting_id?: string | null;
   status: string;
   google_event_id?: string | null;
+  account?: string | null;
 }
 
-// 10 distinct colours for customer assignment
-const CUSTOMER_PALETTE = [
-  "#4f46e5", // indigo
-  "#0ea5e9", // sky
-  "#10b981", // emerald
-  "#f59e0b", // amber
-  "#ef4444", // red
-  "#8b5cf6", // violet
-  "#ec4899", // pink
-  "#14b8a6", // teal
-  "#f97316", // orange
-  "#6366f1", // indigo-light
+// Distinct colours per Google account
+const ACCOUNT_COLORS: Record<string, { bg: string; border: string }> = {};
+const ACCOUNT_PALETTE = [
+  { bg: "#3b82f6", border: "#2563eb" }, // blue
+  { bg: "#10b981", border: "#059669" }, // emerald
+  { bg: "#f59e0b", border: "#d97706" }, // amber
+  { bg: "#8b5cf6", border: "#7c3aed" }, // violet
+  { bg: "#ef4444", border: "#dc2626" }, // red
+  { bg: "#ec4899", border: "#db2777" }, // pink
+  { bg: "#14b8a6", border: "#0d9488" }, // teal
+  { bg: "#f97316", border: "#ea580c" }, // orange
 ];
-const NO_CUSTOMER_COLOR = "#6b7280"; // gray-500
+let accountColorIndex = 0;
 
-function hashCustomerId(id: string): number {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = (hash * 31 + id.charCodeAt(i)) & 0xffffffff;
+function getAccountColor(account: string | null): {
+  bg: string;
+  border: string;
+} {
+  if (!account) return { bg: "#6b7280", border: "#4b5563" };
+  if (!ACCOUNT_COLORS[account]) {
+    ACCOUNT_COLORS[account] =
+      ACCOUNT_PALETTE[accountColorIndex % ACCOUNT_PALETTE.length];
+    accountColorIndex++;
   }
-  return Math.abs(hash);
-}
-
-function getCustomerColor(customerId: string | null): string {
-  if (!customerId) return NO_CUSTOMER_COLOR;
-  return CUSTOMER_PALETTE[hashCustomerId(customerId) % CUSTOMER_PALETTE.length];
+  return ACCOUNT_COLORS[account];
 }
 
 export function CalendarView() {
@@ -74,23 +74,27 @@ export function CalendarView() {
         const data: ApiEvent[] = await res.json();
 
         successCallback(
-          data.map((ev) => ({
-            id: ev.id,
-            title: ev.title,
-            start: ev.start,
-            end: ev.end,
-            backgroundColor: getCustomerColor(ev.crm_customer?.id ?? null),
-            borderColor: getCustomerColor(ev.crm_customer?.id ?? null),
-            extendedProps: {
-              location: ev.location,
-              meeting_url: ev.meeting_url,
-              attendees: ev.attendees,
-              crm_customer: ev.crm_customer,
-              meeting_id: ev.meeting_id,
-              status: ev.status,
-              google_event_id: ev.google_event_id,
-            },
-          })),
+          data.map((ev) => {
+            const color = getAccountColor(ev.account ?? null);
+            return {
+              id: ev.id,
+              title: ev.title,
+              start: ev.start,
+              end: ev.end,
+              backgroundColor: color.bg,
+              borderColor: color.border,
+              extendedProps: {
+                location: ev.location,
+                meeting_url: ev.meeting_url,
+                attendees: ev.attendees,
+                crm_customer: ev.crm_customer,
+                meeting_id: ev.meeting_id,
+                status: ev.status,
+                google_event_id: ev.google_event_id,
+                account: ev.account,
+              },
+            };
+          }),
         );
       } catch (err) {
         failureCallback(err instanceof Error ? err : new Error(String(err)));

@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 
 interface InvoicePreviewProps {
   text: string;
+  totalHours: number;
   totalDays: number;
   totalAmount: number;
   dayRate: number;
@@ -15,6 +16,7 @@ interface InvoicePreviewProps {
 
 export function InvoicePreview({
   text,
+  totalHours,
   totalDays,
   totalAmount,
   dayRate,
@@ -45,7 +47,9 @@ export function InvoicePreview({
           {copied ? "Copied" : "Copy to Clipboard"}
         </Button>
         <span className="text-xs text-muted-foreground">
-          {parseFloat(totalDays.toFixed(3))} days @ £{dayRate.toFixed(2)} = £
+          {parseFloat(totalHours.toFixed(2))} hours (
+          {parseFloat(totalDays.toFixed(3))} days) @ £{dayRate.toFixed(2)}/day =
+          £
           {totalAmount.toLocaleString("en-GB", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

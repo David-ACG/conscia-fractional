@@ -33,15 +33,21 @@ import {
 } from "@/components/ui/select";
 import { taskSchema, type TaskFormData } from "@/lib/validations/tasks";
 import { createTask, updateTask, deleteTask } from "@/lib/actions/tasks";
-import type { Task } from "@/lib/types";
+import type { Task, CrmCustomer } from "@/lib/types";
 
 interface TaskFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   task?: Task | null;
+  customers?: Pick<CrmCustomer, "id" | "name">[];
 }
 
-export function TaskForm({ open, onOpenChange, task }: TaskFormProps) {
+export function TaskForm({
+  open,
+  onOpenChange,
+  task,
+  customers = [],
+}: TaskFormProps) {
   const [loading, setLoading] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [deleting, setDeleting] = React.useState(false);
@@ -58,6 +64,7 @@ export function TaskForm({ open, onOpenChange, task }: TaskFormProps) {
       assignee_type: task?.assignee_type ?? "self",
       due_date: task?.due_date ?? "",
       is_client_visible: task?.is_client_visible ?? false,
+      crm_customer_id: task?.crm_customer_id ?? "",
     },
   });
 
@@ -72,6 +79,7 @@ export function TaskForm({ open, onOpenChange, task }: TaskFormProps) {
         assignee_type: task?.assignee_type ?? "self",
         due_date: task?.due_date ?? "",
         is_client_visible: task?.is_client_visible ?? false,
+        crm_customer_id: task?.crm_customer_id ?? "",
       });
     }
   }, [open, task, form]);
@@ -267,6 +275,39 @@ export function TaskForm({ open, onOpenChange, task }: TaskFormProps) {
                   </FormItem>
                 )}
               />
+
+              {customers.length > 0 && (
+                <FormField
+                  control={form.control}
+                  name="crm_customer_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Customer</FormLabel>
+                      <Select
+                        onValueChange={(v) =>
+                          field.onChange(v === "__none__" ? "" : v)
+                        }
+                        value={field.value || "__none__"}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select customer" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="__none__">None</SelectItem>
+                          {customers.map((c) => (
+                            <SelectItem key={c.id} value={c.id}>
+                              {c.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               <FormField
                 control={form.control}

@@ -66,15 +66,26 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Portal routes need client auth (handled separately in future)
+  // Portal routes: allow login and callback without auth, protect everything else
   const isPortal = PORTAL_PATHS.some(
     (path) => pathname === path || pathname.startsWith(`${path}/`),
   );
 
-  if (isPortal && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+  if (isPortal) {
+    // Allow public portal pages
+    if (pathname === "/portal/login" || pathname.startsWith("/portal/auth")) {
+      return supabaseResponse;
+    }
+
+    // Redirect unauthenticated users to portal login (not main login)
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/portal/login";
+      return NextResponse.redirect(url);
+    }
+
+    // Authenticated portal user — layout will verify client role
+    return supabaseResponse;
   }
 
   // Check if visiting an auth route while already logged in

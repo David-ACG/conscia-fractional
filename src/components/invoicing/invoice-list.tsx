@@ -8,7 +8,6 @@ import {
   Send,
   CheckCircle,
   Pencil,
-  Trash2,
   FileText,
   Search,
 } from "lucide-react";
@@ -85,7 +84,11 @@ function formatPeriod(start: string | null, end: string | null): string {
   const s = new Date(start);
   const e = new Date(end);
   const fmt = (d: Date) =>
-    d.toLocaleDateString("en-GB", { month: "short", year: "2-digit" });
+    d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
   return `${fmt(s)} — ${fmt(e)}`;
 }
 
@@ -106,25 +109,19 @@ function formatAmount(amount: number | null): string {
   })}`;
 }
 
-function formatTotalDays(
-  hours: number | null,
-  hoursPerWeek: number | null,
-): string {
+function formatTotalDays(hours: number | null): string {
   if (hours == null) return "—";
-  const hoursPerDay = (hoursPerWeek ?? 40) / 5;
+  const hoursPerDay = 8; // Standard 8-hour day for day rate calculation
   const days = hours / hoursPerDay;
   return parseFloat(days.toFixed(3)).toString();
 }
 
-export function InvoiceList({
-  invoices,
-  engagement,
-  nextInvoiceNumber,
-}: InvoiceListProps) {
+export function InvoiceList({ invoices, nextInvoiceNumber }: InvoiceListProps) {
   const [periodStart, setPeriodStart] = React.useState("");
   const [periodEnd, setPeriodEnd] = React.useState("");
   const [previewData, setPreviewData] = React.useState<{
     text: string;
+    totalHours: number;
     totalDays: number;
     totalAmount: number;
     dayRate: number;
@@ -135,6 +132,7 @@ export function InvoiceList({
   const [editOpen, setEditOpen] = React.useState(false);
   const [viewText, setViewText] = React.useState<{
     text: string;
+    totalHours: number;
     totalDays: number;
     totalAmount: number;
     dayRate: number;
@@ -168,6 +166,7 @@ export function InvoiceList({
     }
     setPreviewData({
       text: result.text!,
+      totalHours: result.totalHours!,
       totalDays: result.totalDays!,
       totalAmount: result.totalAmount!,
       dayRate: result.dayRate!,
@@ -210,6 +209,7 @@ export function InvoiceList({
     }
     setViewText({
       text: result.text!,
+      totalHours: result.totalHours!,
       totalDays: result.totalDays!,
       totalAmount: result.totalAmount!,
       dayRate: result.dayRate!,
@@ -288,6 +288,7 @@ export function InvoiceList({
           <div className="mt-4">
             <InvoicePreview
               text={previewData.text}
+              totalHours={previewData.totalHours}
               totalDays={previewData.totalDays}
               totalAmount={previewData.totalAmount}
               dayRate={previewData.dayRate}
@@ -307,6 +308,7 @@ export function InvoiceList({
           </div>
           <InvoicePreview
             text={viewText.text}
+            totalHours={viewText.totalHours}
             totalDays={viewText.totalDays}
             totalAmount={viewText.totalAmount}
             dayRate={viewText.dayRate}
@@ -363,10 +365,7 @@ export function InvoiceList({
                         {formatPeriod(inv.period_start, inv.period_end)}
                       </TableCell>
                       <TableCell className="text-right">
-                        {formatTotalDays(
-                          inv.total_hours,
-                          engagement?.hours_per_week ?? null,
-                        )}
+                        {formatTotalDays(inv.total_hours)}
                       </TableCell>
                       <TableCell className="text-right">
                         {formatAmount(inv.total_amount_gbp)}

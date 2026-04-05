@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -19,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AssetCard } from "@/components/assets/asset-card";
+import { BulkLinkAssets } from "@/components/crm/bulk-link-assets";
 import { DriveFilesTab } from "@/components/crm/drive-files-tab";
 import { SlackMessagesTab } from "@/components/crm/slack-messages-tab";
 import { EmailTab } from "@/components/crm/email-tab";
@@ -142,13 +142,6 @@ function formatDuration(minutes: number | null): string {
   return `${h}h ${m}m`;
 }
 
-function formatTime(dateStr: string): string {
-  return new Date(dateStr).toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 // --- Props ---
 
 interface CustomerTabsProps {
@@ -157,6 +150,7 @@ interface CustomerTabsProps {
   tasks: Task[];
   timeEntries: TimeEntry[];
   assets: Asset[];
+  unlinkedTextMatchedAssets?: Asset[];
   deliverables: Deliverable[];
 }
 
@@ -168,6 +162,7 @@ export function CustomerTabs({
   tasks,
   timeEntries,
   assets,
+  unlinkedTextMatchedAssets = [],
   deliverables,
 }: CustomerTabsProps) {
   const totalMinutes = timeEntries.reduce(
@@ -386,27 +381,34 @@ export function CustomerTabs({
 
       {/* Assets Tab */}
       <TabsContent value="assets">
-        {assets.length === 0 ? (
-          <EmptyState>No assets for {customer.name} yet.</EmptyState>
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {assets.map((asset) => (
-              <AssetCard
-                key={asset.id}
-                asset={asset}
-                onClick={() => {
-                  if (asset.file_url) {
-                    window.open(
-                      asset.file_url,
-                      "_blank",
-                      "noopener,noreferrer",
-                    );
-                  }
-                }}
-              />
-            ))}
-          </div>
-        )}
+        <div className="space-y-4">
+          <BulkLinkAssets
+            unlinkedAssets={unlinkedTextMatchedAssets}
+            customerId={customer.id}
+            customerName={customer.name}
+          />
+          {assets.length === 0 ? (
+            <EmptyState>No assets for {customer.name} yet.</EmptyState>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {assets.map((asset) => (
+                <AssetCard
+                  key={asset.id}
+                  asset={asset}
+                  onClick={() => {
+                    if (asset.file_url) {
+                      window.open(
+                        asset.file_url,
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </TabsContent>
 
       {/* Deliverables Tab */}

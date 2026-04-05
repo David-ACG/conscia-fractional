@@ -48,21 +48,29 @@ interface AssetListProps {
   customers?: Pick<CrmCustomer, "id" | "name">[];
 }
 
+const NO_CUSTOMER = "__general__";
+
 /**
- * Match an asset to a customer by checking if the customer name
- * appears in the asset name or description.
+ * Get the customer name for an asset — uses crm_customer_id if set,
+ * falls back to text matching in asset name/description.
  */
 function getAssetCustomer(
   asset: Asset,
   customers: Pick<CrmCustomer, "id" | "name">[],
 ): string {
+  // Prefer explicit crm_customer_id link
+  if (asset.crm_customer_id) {
+    const match = customers.find((c) => c.id === asset.crm_customer_id);
+    if (match) return match.name;
+  }
+  // Fall back to text matching
   const text = `${asset.name} ${asset.description ?? ""}`.toLowerCase();
   for (const c of customers) {
     if (text.includes(c.name.toLowerCase())) {
       return c.name;
     }
   }
-  return "Conscia"; // default — the parent client's own assets
+  return NO_CUSTOMER;
 }
 
 export function AssetList({ assets, customers = [] }: AssetListProps) {
@@ -81,11 +89,15 @@ export function AssetList({ assets, customers = [] }: AssetListProps) {
     return map;
   }, [assets, customers]);
 
-  // Get unique customer names that actually have assets
+  // All CRM customers + "General" for unlinked assets
   const customerOptions = React.useMemo(() => {
-    const names = new Set(assetCustomerMap.values());
-    return Array.from(names).sort();
-  }, [assetCustomerMap]);
+    const names = customers.map((c) => c.name).sort();
+    const hasGeneral = Array.from(assetCustomerMap.values()).some(
+      (v) => v === NO_CUSTOMER,
+    );
+    if (hasGeneral) names.push(NO_CUSTOMER);
+    return names;
+  }, [customers, assetCustomerMap]);
 
   const typeCounts = React.useMemo(() => {
     const counts: Record<string, number> = {
@@ -170,6 +182,7 @@ export function AssetList({ assets, customers = [] }: AssetListProps) {
               const count = assets.filter(
                 (a) => assetCustomerMap.get(a.id) === name,
               ).length;
+              const displayName = name === NO_CUSTOMER ? "General" : name;
               return (
                 <button
                   key={name}
@@ -186,7 +199,7 @@ export function AssetList({ assets, customers = [] }: AssetListProps) {
                         : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/50"
                     }`}
                   >
-                    {name} ({count})
+                    {displayName} ({count})
                   </Badge>
                 </button>
               );
@@ -246,7 +259,11 @@ export function AssetList({ assets, customers = [] }: AssetListProps) {
               key={asset.id}
               asset={asset}
               onClick={handleEdit}
-              customerTag={assetCustomerMap.get(asset.id)}
+              customerTag={
+                assetCustomerMap.get(asset.id) === NO_CUSTOMER
+                  ? undefined
+                  : assetCustomerMap.get(asset.id)
+              }
             />
           ))}
         </div>

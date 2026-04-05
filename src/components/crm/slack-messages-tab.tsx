@@ -145,7 +145,7 @@ export function SlackMessagesTab({ customerId }: SlackMessagesTabProps) {
           Link a channel in Settings to see messages here.
         </p>
         <Button asChild variant="outline">
-          <a href="/dashboard/settings">Link a channel in Settings</a>
+          <a href="/settings">Link a channel in Settings</a>
         </Button>
       </div>
     );

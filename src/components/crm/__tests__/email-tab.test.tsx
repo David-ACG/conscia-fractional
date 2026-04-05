@@ -85,7 +85,7 @@ describe("EmailTab — no Gmail connected", () => {
 
     await waitFor(() => {
       const link = screen.getByRole("link", { name: /connect gmail/i });
-      expect(link).toHaveAttribute("href", "/dashboard/settings");
+      expect(link).toHaveAttribute("href", "/settings");
     });
   });
 });

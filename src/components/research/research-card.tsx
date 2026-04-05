@@ -84,7 +84,7 @@ export function ResearchCard({ research, onClick }: ResearchCardProps) {
           </p>
         )}
 
-        {research.tags.length > 0 && (
+        {Array.isArray(research.tags) && research.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1">
             {research.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="text-xs">

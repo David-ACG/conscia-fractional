@@ -61,7 +61,7 @@ export async function removeGoogleIntegration(integrationId: string) {
 
   try {
     await removeIntegration(integrationId, user.id);
-    revalidatePath("/dashboard/settings");
+    revalidatePath("/settings");
     return { success: true };
   } catch {
     return { error: "Failed to disconnect Google account" };

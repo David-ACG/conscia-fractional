@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude } from "./claude-cli";
 import {
   parseTranscript,
   parseDateFromFilename,
@@ -58,34 +58,14 @@ export async function extractMeetingData(
   transcript: string,
   filename?: string,
 ): Promise<ExtractionResult> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    throw new Error("ANTHROPIC_API_KEY not configured. Add it to .env.local");
-  }
-
   const metadata = parseTranscript(transcript);
   const meetingDate = filename ? parseDateFromFilename(filename) : null;
 
-  const anthropic = new Anthropic({ apiKey });
+  const prompt = `${SYSTEM_PROMPT}\n\nHere is the meeting transcript. Speakers: ${metadata.speakers.join(", ")}. Duration: ${metadata.durationMinutes} minutes.\n\n${metadata.fullText}`;
 
-  const message = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 4096,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: "user",
-        content: `Here is the meeting transcript. Speakers: ${metadata.speakers.join(", ")}. Duration: ${metadata.durationMinutes} minutes.\n\n${metadata.fullText}`,
-      },
-    ],
-  });
+  const result = await callClaude(prompt, { timeout: 120_000 });
 
-  const textBlock = message.content.find((b) => b.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
-    throw new Error("No response from AI");
-  }
-
-  let rawJson = textBlock.text.trim();
+  let rawJson = result.text.trim();
   const codeBlockMatch = rawJson.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (codeBlockMatch) {
     rawJson = codeBlockMatch[1]!.trim();

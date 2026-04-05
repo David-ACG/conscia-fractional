@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -140,6 +141,36 @@ export function MeetingDetail({
   loggingId,
   onEdit,
 }: MeetingDetailProps) {
+  const [transcript, setTranscript] = useState<string | null>(null);
+  const [loadingTranscript, setLoadingTranscript] = useState(false);
+
+  const meetingId = meeting?.id;
+  /* eslint-disable react-hooks/set-state-in-effect -- intentional data fetching on dialog open */
+  useEffect(() => {
+    if (!open || !meetingId) {
+      return;
+    }
+    let cancelled = false;
+    setLoadingTranscript(true);
+    fetch(`/api/meetings/${meetingId}/transcript-text`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (!cancelled) setTranscript(d.transcript ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setTranscript(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingTranscript(false);
+      });
+
+    return () => {
+      cancelled = true;
+      setTranscript(null);
+    };
+  }, [open, meetingId]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
   if (!meeting) return null;
 
   const pConfig =
@@ -153,7 +184,12 @@ export function MeetingDetail({
         };
   const PlatformIcon = pConfig.icon;
   const attendees = (meeting.attendees || []) as MeetingAttendee[];
-  const actionItems = (meeting.action_items || []) as string[];
+  const rawItems = (meeting.action_items || []) as Array<
+    string | { title: string; description?: string }
+  >;
+  const actionItems = rawItems.map((item) =>
+    typeof item === "string" ? item : item.title,
+  );
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -246,12 +282,17 @@ export function MeetingDetail({
           )}
 
           {/* Transcript */}
-          {meeting.transcript && (
+          {loadingTranscript && (
+            <p className="text-sm text-muted-foreground">
+              Loading transcript...
+            </p>
+          )}
+          {transcript && (
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold">Transcript</h4>
                 <a
-                  href={`/api/meetings/${meeting.id}/transcript`}
+                  href={`/api/meetings/${meeting.id}/transcript-text`}
                   download
                   className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
                 >
@@ -260,7 +301,7 @@ export function MeetingDetail({
                 </a>
               </div>
               <div className="max-h-[300px] overflow-y-auto rounded-md border p-3 text-sm whitespace-pre-wrap text-muted-foreground">
-                {meeting.transcript}
+                {transcript}
               </div>
             </div>
           )}

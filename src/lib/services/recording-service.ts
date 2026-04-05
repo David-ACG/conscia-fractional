@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { extractMeetingData } from "@/lib/services/transcript-extraction-service";
+import { parseMeetingDateFromFilename } from "@/lib/services/filename-date-parser";
 import type { TranscriptSegment } from "@/lib/types/transcription";
 
 export interface ProcessUploadedRecordingParams {
@@ -151,16 +152,19 @@ export async function processRecording(
   // 7. Extract meeting data via Claude
   const extracted = await extractMeetingData(srt);
 
-  // 8. Update meeting with extracted data
+  // 8. Update meeting with extracted data and action_items
   await supabase
     .from("meetings")
     .update({
       title: extracted.title,
       summary: extracted.summary,
+      action_items: extracted.tasks,
     })
     .eq("id", meetingId);
 
-  // 9. Create tasks
+  // 9. Delete existing tasks then create new ones (handles re-processing)
+  await supabase.from("tasks").delete().eq("meeting_id", meetingId);
+
   if (extracted.tasks.length > 0) {
     const taskRows = extracted.tasks.map((t) => ({
       client_id: clientId,
@@ -254,19 +258,23 @@ export async function processUploadedRecording(
 
   // 4. Create meeting with recording URL already set
   const now = new Date();
+  const meetingDate =
+    (fileName ? parseMeetingDateFromFilename(fileName) : null) ?? now;
   const { data: meeting, error: meetingError } = await supabase
     .from("meetings")
     .insert({
       client_id: clientId,
       crm_customer_id: crmCustomerId ?? null,
       title: fileName ? `Processing: ${fileName}` : "Processing recording...",
-      meeting_date: now.toISOString(),
+      meeting_date: meetingDate.toISOString(),
       duration_minutes: durationMinutes,
       attendees,
       transcript: srt,
       recording_url: audioUrl,
       platform: null,
       is_client_visible: false,
+      original_filename: fileName ?? null,
+      actual_duration_seconds: durationSeconds,
     })
     .select("id")
     .single();
@@ -280,16 +288,19 @@ export async function processUploadedRecording(
   // 5. Extract meeting data via Claude
   const extracted = await extractMeetingData(srt);
 
-  // 6. Update meeting with extracted data
+  // 6. Update meeting with extracted data and action_items
   await supabase
     .from("meetings")
     .update({
       title: extracted.title,
       summary: extracted.summary,
+      action_items: extracted.tasks,
     })
     .eq("id", meetingId);
 
-  // 7. Create tasks
+  // 7. Delete existing tasks then create new ones (handles re-uploads)
+  await supabase.from("tasks").delete().eq("meeting_id", meetingId);
+
   if (extracted.tasks.length > 0) {
     const taskRows = extracted.tasks.map((t) => ({
       client_id: clientId,
@@ -312,10 +323,10 @@ export async function processUploadedRecording(
     }
   }
 
-  // 8. Create auto time entry
-  const stoppedAt = now.toISOString();
-  const startedAt = new Date(
-    now.getTime() - durationMinutes * 60 * 1000,
+  // 8. Create auto time entry — use parsed meeting date, not upload time
+  const startedAt = meetingDate.toISOString();
+  const stoppedAt = new Date(
+    meetingDate.getTime() + durationSeconds * 1000,
   ).toISOString();
 
   const { data: timeEntry, error: timeError } = await supabase

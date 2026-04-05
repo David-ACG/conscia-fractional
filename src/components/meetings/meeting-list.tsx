@@ -14,6 +14,8 @@ import {
   Sparkles,
   Mic,
   FileUp,
+  Download,
+  RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -50,10 +52,14 @@ import {
 import { MeetingForm } from "./meeting-form";
 import { MeetingDetail } from "./meeting-detail";
 import { TranscriptUpload } from "./transcript-upload";
-import { logMeetingToTimesheet, deleteMeeting } from "@/lib/actions/meetings";
+import {
+  logMeetingToTimesheet,
+  deleteMeeting,
+  reprocessMeetingAction,
+} from "@/lib/actions/meetings";
 import { processUploadedRecordingAction } from "@/lib/actions/recording";
 import type { TranscriptSegment } from "@/lib/types/transcription";
-import { formatDuration } from "@/lib/utils";
+import { formatDuration, markdownToHtml } from "@/lib/utils";
 import type {
   Meeting,
   CrmCustomer,
@@ -144,6 +150,7 @@ export function MeetingList({
   const [transcriptOpen, setTranscriptOpen] = React.useState(false);
   const [recordingOpen, setRecordingOpen] = React.useState(false);
   const [uploadOpen, setUploadOpen] = React.useState(false);
+  const [uploadCustomerId, setUploadCustomerId] = React.useState("");
 
   // Auto-open form or recording sheet when arriving from calendar
   React.useEffect(() => {
@@ -286,8 +293,9 @@ export function MeetingList({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Date</TableHead>
+                <TableHead>Meeting Date</TableHead>
                 <TableHead>Title</TableHead>
+                <TableHead>File</TableHead>
                 <TableHead>Customer</TableHead>
                 <TableHead>Platform</TableHead>
                 <TableHead>Duration</TableHead>
@@ -320,6 +328,12 @@ export function MeetingList({
                     <TableCell>
                       <span className="font-semibold">{meeting.title}</span>
                     </TableCell>
+                    <TableCell
+                      className="text-muted-foreground text-sm max-w-[150px] truncate"
+                      title={meeting.original_filename ?? undefined}
+                    >
+                      {meeting.original_filename ?? "—"}
+                    </TableCell>
                     <TableCell className="text-muted-foreground">
                       {meeting.crm_customer?.name || "—"}
                     </TableCell>
@@ -330,9 +344,12 @@ export function MeetingList({
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      {meeting.duration_minutes
-                        ? formatDuration(meeting.duration_minutes)
-                        : "—"}
+                      {meeting.actual_duration_seconds != null &&
+                      meeting.duration_minutes
+                        ? `${formatDuration(Math.ceil(meeting.actual_duration_seconds / 60))} / ${formatDuration(meeting.duration_minutes)}`
+                        : meeting.duration_minutes
+                          ? formatDuration(meeting.duration_minutes)
+                          : "—"}
                     </TableCell>
                     <TableCell>
                       {attendees.length > 0 ? (
@@ -407,6 +424,117 @@ export function MeetingList({
                           >
                             Edit
                           </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={async (e) => {
+                              e.stopPropagation();
+                              toast.loading("Fetching transcript...", {
+                                id: "dl-transcript",
+                              });
+                              const res = await fetch(
+                                `/api/meetings/${meeting.id}/transcript-text`,
+                              );
+                              toast.dismiss("dl-transcript");
+                              if (!res.ok) {
+                                toast.error("Failed to fetch transcript");
+                                return;
+                              }
+                              const { transcript } = await res.json();
+                              if (!transcript) {
+                                toast.error("No transcript available");
+                                return;
+                              }
+                              const blob = new Blob([transcript], {
+                                type: "text/plain",
+                              });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement("a");
+                              a.href = url;
+                              a.download = `${meeting.title.replace(/[^a-zA-Z0-9 ]/g, "").trim()}-transcript.txt`;
+                              a.click();
+                              URL.revokeObjectURL(url);
+                            }}
+                          >
+                            <Download className="mr-2 h-4 w-4" />
+                            Download Transcript (.txt)
+                          </DropdownMenuItem>
+                          {meeting.summary && (
+                            <>
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const blob = new Blob([meeting.summary!], {
+                                    type: "text/markdown",
+                                  });
+                                  const url = URL.createObjectURL(blob);
+                                  const a = document.createElement("a");
+                                  a.href = url;
+                                  a.download = `${meeting.title.replace(/[^a-zA-Z0-9 ]/g, "").trim()}-summary.md`;
+                                  a.click();
+                                  URL.revokeObjectURL(url);
+                                }}
+                              >
+                                <Download className="mr-2 h-4 w-4" />
+                                Download Summary (.md)
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const summaryHtml = markdownToHtml(
+                                    meeting.summary!,
+                                  );
+                                  const html = `<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>${meeting.title} - Summary</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #333; }
+  h1 { font-size: 1.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+  h2 { font-size: 1.25em; }
+  h3 { font-size: 1.1em; }
+  ul, ol { padding-left: 2em; }
+  li { margin-bottom: 0.25em; }
+  strong { font-weight: 600; }
+  code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; }
+  blockquote { border-left: 3px solid #ddd; margin-left: 0; padding-left: 1em; color: #666; }
+</style>
+</head><body>${summaryHtml}</body></html>`;
+                                  const printWindow = window.open("", "_blank");
+                                  if (printWindow) {
+                                    printWindow.document.write(html);
+                                    printWindow.document.close();
+                                    printWindow.print();
+                                  }
+                                }}
+                              >
+                                <Download className="mr-2 h-4 w-4" />
+                                Download Summary (.pdf)
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                          {
+                            <DropdownMenuItem
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                toast.loading("Re-processing with Claude...", {
+                                  id: "reprocess",
+                                });
+                                const result = await reprocessMeetingAction(
+                                  meeting.id,
+                                );
+                                toast.dismiss("reprocess");
+                                if ("error" in result) {
+                                  toast.error(result.error);
+                                } else {
+                                  toast.success(
+                                    "Meeting re-processed successfully",
+                                  );
+                                }
+                              }}
+                            >
+                              <RefreshCw className="mr-2 h-4 w-4" />
+                              Re-process with Claude
+                            </DropdownMenuItem>
+                          }
                           <DropdownMenuItem
                             className="text-destructive"
                             onClick={(e) => {
@@ -516,7 +644,30 @@ export function MeetingList({
           <SheetHeader>
             <SheetTitle>Upload Recording</SheetTitle>
           </SheetHeader>
-          <div className="mt-4">
+          <div className="mt-4 space-y-4">
+            {customers.length > 0 && (
+              <div className="space-y-1">
+                <label
+                  htmlFor="upload-customer"
+                  className="text-sm font-medium"
+                >
+                  Customer
+                </label>
+                <select
+                  id="upload-customer"
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  value={uploadCustomerId}
+                  onChange={(e) => setUploadCustomerId(e.target.value)}
+                >
+                  <option value="">None</option>
+                  {customers.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <FileUploadTranscription
               onComplete={async (data: {
                 segments: TranscriptSegment[];
@@ -532,13 +683,15 @@ export function MeetingList({
                 formData.append("audioUrl", data.audioUrl);
                 formData.append("duration", String(data.durationSeconds));
                 formData.append("fileName", data.fileName);
+                if (uploadCustomerId) {
+                  formData.append("crm_customer_id", uploadCustomerId);
+                }
                 const result = await processUploadedRecordingAction(formData);
                 toast.dismiss("upload-process");
                 if ("error" in result) {
                   toast.error(result.error);
                 } else {
-                  toast.success("Recording processed successfully");
-                  setUploadOpen(false);
+                  toast.success(`Recording processed: ${data.fileName}`);
                 }
               }}
               onDiscard={() => setUploadOpen(false)}

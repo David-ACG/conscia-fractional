@@ -175,14 +175,19 @@ export function DeliverableForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Customer</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={(v) =>
+                        field.onChange(v === "__none__" ? "" : v)
+                      }
+                      value={field.value || "__none__"}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select customer (optional)" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">None</SelectItem>
+                        <SelectItem value="__none__">None</SelectItem>
                         {customers.map((c) => (
                           <SelectItem key={c.id} value={c.id}>
                             {c.name}

@@ -19,6 +19,7 @@ import {
   getCategoryColor,
   type RankedCategory,
 } from "@/components/timer/category-selector";
+import type { CrmCustomer } from "@/lib/types";
 
 interface ManualEntryFormData {
   date: string;
@@ -27,6 +28,7 @@ interface ManualEntryFormData {
   category: string;
   description: string;
   isBillable: boolean;
+  crm_customer_id: string;
 }
 
 interface ManualEntryFormProps {
@@ -39,8 +41,10 @@ interface ManualEntryFormProps {
     category: string;
     description: string;
     isBillable: boolean;
+    crm_customer_id?: string;
   }) => void;
   defaultDate?: string;
+  customers?: Pick<CrmCustomer, "id" | "name">[];
 }
 
 export function ManualEntryForm({
@@ -48,6 +52,7 @@ export function ManualEntryForm({
   onOpenChange,
   onSubmit,
   defaultDate,
+  customers = [],
 }: ManualEntryFormProps) {
   const today = defaultDate || new Date().toISOString().split("T")[0];
   const { register, handleSubmit, reset, setValue, watch } =
@@ -59,6 +64,7 @@ export function ManualEntryForm({
         category: "General",
         description: "",
         isBillable: true,
+        crm_customer_id: "",
       },
     });
 
@@ -76,6 +82,7 @@ export function ManualEntryForm({
       category: "General",
       description: "",
       isBillable: true,
+      crm_customer_id: "",
     });
     async function loadCats() {
       try {
@@ -101,7 +108,10 @@ export function ManualEntryForm({
     : categories;
 
   const doSubmit = handleSubmit((data) => {
-    onSubmit(data);
+    onSubmit({
+      ...data,
+      crm_customer_id: data.crm_customer_id || undefined,
+    });
     onOpenChange(false);
   });
 
@@ -170,6 +180,24 @@ export function ManualEntryForm({
               )}
             </div>
           </div>
+
+          {customers.length > 0 && (
+            <div className="space-y-1">
+              <Label htmlFor="me-customer">Customer</Label>
+              <select
+                id="me-customer"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                {...register("crm_customer_id")}
+              >
+                <option value="">None</option>
+                {customers.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="space-y-1">
             <Label htmlFor="me-desc">Description</Label>

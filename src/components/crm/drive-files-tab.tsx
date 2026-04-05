@@ -325,7 +325,7 @@ export function DriveFilesTab({
         <p className="mt-3 text-xs text-muted-foreground">
           No Google account connected?{" "}
           <a
-            href="/dashboard/settings"
+            href="/settings"
             className="underline hover:text-foreground"
             data-testid="go-to-settings"
           >
@@ -450,7 +450,7 @@ export function DriveFilesTab({
               </Button>
             ))}
           <Button variant="ghost" size="sm" asChild>
-            <a href="/dashboard/settings" aria-label="Go to settings">
+            <a href="/settings" aria-label="Go to settings">
               <Settings className="h-4 w-4" />
             </a>
           </Button>

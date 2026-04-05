@@ -2,13 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { extractMeetingData } from "@/lib/services/transcript-extraction-service";
 
 export async function POST(request: NextRequest) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return NextResponse.json(
-      { error: "ANTHROPIC_API_KEY not configured. Add it to .env.local" },
-      { status: 500 },
-    );
-  }
-
   let body: { transcript: string; filename?: string };
   try {
     body = await request.json();

@@ -4,7 +4,7 @@ import * as React from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createClient, LiveTranscriptionEvents } from "@deepgram/sdk";
+import { DeepgramClient } from "@deepgram/sdk";
 import { Button } from "@/components/ui/button";
 import { RecordingPanel } from "./recording-panel";
 import { LiveTranscript } from "./live-transcript";
@@ -61,7 +61,7 @@ export function RecordingContainer({
       if (!res.ok) return;
       const { key } = (await res.json()) as { key: string };
 
-      const deepgram = createClient(key);
+      const deepgram = new DeepgramClient({ key });
       const connection = deepgram.listen.live({
         model: "nova-3",
         smart_format: true,
@@ -72,7 +72,7 @@ export function RecordingContainer({
       });
 
       connection.on(
-        LiveTranscriptionEvents.Transcript,
+        "message",
         (data: {
           channel?: {
             alternatives?: Array<{

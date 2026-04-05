@@ -19,11 +19,13 @@ export function createOAuth2Client() {
 
 export function generateAuthUrl(scopes: string[], state: string): string {
   const client = createOAuth2Client();
+  // Always include openid + email so we can identify the account
+  const allScopes = new Set([...scopes, "openid", "email"]);
   return client.generateAuthUrl({
     access_type: "offline",
     prompt: "consent",
     include_granted_scopes: true,
-    scope: scopes,
+    scope: Array.from(allScopes),
     state,
   });
 }
@@ -33,6 +35,7 @@ export async function exchangeCode(code: string): Promise<{
   refresh_token: string | null;
   expiry_date: number | null;
   scope: string;
+  id_token_email: string | null;
 }> {
   const client = createOAuth2Client();
   try {
@@ -40,11 +43,26 @@ export async function exchangeCode(code: string): Promise<{
     if (!tokens.access_token) {
       throw new Error("No access token returned from Google");
     }
+
+    // Extract email from ID token JWT (base64 payload) as fallback
+    let idTokenEmail: string | null = null;
+    if (tokens.id_token) {
+      try {
+        const payload = JSON.parse(
+          Buffer.from(tokens.id_token.split(".")[1], "base64").toString(),
+        );
+        idTokenEmail = payload.email ?? null;
+      } catch {
+        /* ignore */
+      }
+    }
+
     return {
       access_token: tokens.access_token,
       refresh_token: tokens.refresh_token ?? null,
       expiry_date: tokens.expiry_date ?? null,
       scope: tokens.scope ?? "",
+      id_token_email: idTokenEmail,
     };
   } catch (err) {
     throw new Error(

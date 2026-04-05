@@ -7,6 +7,11 @@ vi.mock("@/lib/services/google-drive-service", () => ({
   listFiles: (...args: unknown[]) => mockListFiles(...args),
 }));
 
+const mockEmbedDriveFile = vi.fn().mockResolvedValue(undefined);
+vi.mock("@/lib/services/auto-embed-service", () => ({
+  embedDriveFile: (...args: unknown[]) => mockEmbedDriveFile(...args),
+}));
+
 const mockFrom = vi.fn();
 vi.mock("@/lib/supabase/admin", () => ({
   createAdminClient: vi.fn(() => ({
@@ -146,6 +151,13 @@ describe("syncFolder", () => {
             in: vi.fn().mockResolvedValue({ error: deleteError }),
           }),
         };
+      }
+
+      if (table === "integrations") {
+        return makeSelectChain({
+          data: { user_id: "user1" },
+          error: null,
+        });
       }
 
       return {};
@@ -305,6 +317,12 @@ describe("syncFolder", () => {
             in: vi.fn().mockResolvedValue({ error: null }),
           }),
         };
+      }
+      if (table === "integrations") {
+        return makeSelectChain({
+          data: { user_id: "user1" },
+          error: null,
+        });
       }
       return {};
     });

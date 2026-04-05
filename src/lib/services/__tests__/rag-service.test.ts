@@ -13,14 +13,10 @@ vi.mock("@/lib/qdrant-client", () => ({
   COLLECTION_NAME: "fractionalbuddy_docs",
 }));
 
-const mockMessagesCreate = vi.fn();
-vi.mock("@anthropic-ai/sdk", () => {
-  return {
-    default: class Anthropic {
-      messages = { create: mockMessagesCreate };
-    },
-  };
-});
+const mockCallClaude = vi.fn();
+vi.mock("../claude-cli", () => ({
+  callClaude: (...args: unknown[]) => mockCallClaude(...args),
+}));
 
 // --- Helpers ---
 
@@ -220,8 +216,8 @@ describe("rag-service", () => {
     ];
 
     beforeEach(() => {
-      mockMessagesCreate.mockResolvedValue({
-        content: [{ type: "text", text: "The deadline is March 31." }],
+      mockCallClaude.mockResolvedValue({
+        text: "The deadline is March 31.",
       });
     });
 
@@ -229,37 +225,32 @@ describe("rag-service", () => {
       const { generateAnswer } = await getModule();
       await generateAnswer("When is the deadline?", sampleResults);
 
-      const call = mockMessagesCreate.mock.calls[0][0] as {
-        messages: Array<{ content: string }>;
-      };
-      const userContent = call.messages[0].content;
+      const prompt = mockCallClaude.mock.calls[0][0] as string;
 
-      expect(userContent).toContain("--- Source: Project Brief (upload) ---");
-      expect(userContent).toContain("The project deadline is March 31.");
-      expect(userContent).toContain("--- Source: Budget Doc (drive) ---");
-      expect(userContent).toContain("Budget approved for Q1.");
+      expect(prompt).toContain("--- Source: Project Brief (upload) ---");
+      expect(prompt).toContain("The project deadline is March 31.");
+      expect(prompt).toContain("--- Source: Budget Doc (drive) ---");
+      expect(prompt).toContain("Budget approved for Q1.");
     });
 
-    it("calls Anthropic SDK with correct model and parameters", async () => {
+    it("calls callClaude with a prompt containing the question", async () => {
       const { generateAnswer } = await getModule();
       await generateAnswer("Question?", sampleResults);
 
-      expect(mockMessagesCreate).toHaveBeenCalledWith(
-        expect.objectContaining({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1024,
-        }),
+      expect(mockCallClaude).toHaveBeenCalledWith(
+        expect.stringContaining("Question?"),
+        expect.objectContaining({ timeout: 60_000 }),
       );
     });
 
-    it("includes customer name in system prompt when provided", async () => {
+    it("includes customer name in prompt when provided", async () => {
       const { generateAnswer } = await getModule();
       await generateAnswer("Question?", sampleResults, {
         crmCustomerName: "Acme Corp",
       });
 
-      const call = mockMessagesCreate.mock.calls[0][0] as { system: string };
-      expect(call.system).toContain("Acme Corp");
+      const prompt = mockCallClaude.mock.calls[0][0] as string;
+      expect(prompt).toContain("Acme Corp");
     });
 
     it("extracts unique sources from results", async () => {
@@ -281,8 +272,8 @@ describe("rag-service", () => {
     });
 
     it("returns the answer text from Claude", async () => {
-      mockMessagesCreate.mockResolvedValue({
-        content: [{ type: "text", text: "The deadline is March 31." }],
+      mockCallClaude.mockResolvedValue({
+        text: "The deadline is March 31.",
       });
 
       const { generateAnswer } = await getModule();

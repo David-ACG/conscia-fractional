@@ -2,14 +2,12 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Mock pdf-parse
 vi.mock("pdf-parse", () => ({
-  default: vi.fn(),
+  PDFParse: vi.fn(),
 }));
 
 // Mock mammoth
 vi.mock("mammoth", () => ({
-  default: {
-    extractRawText: vi.fn(),
-  },
+  extractRawText: vi.fn(),
 }));
 
 describe("text-extraction-service", () => {
@@ -50,20 +48,20 @@ describe("text-extraction-service", () => {
   });
 
   it("extracts text from PDF buffer using pdf-parse", async () => {
-    const pdfParse = (await import("pdf-parse")).default as ReturnType<
-      typeof vi.fn
-    >;
-    pdfParse.mockResolvedValue({ text: "Extracted PDF content" });
+    const { PDFParse } = (await import("pdf-parse")) as {
+      PDFParse: ReturnType<typeof vi.fn>;
+    };
+    PDFParse.mockResolvedValue({ text: "Extracted PDF content" });
 
     const { extractText } = await getModule();
     const buffer = Buffer.from("%PDF-1.4 fake", "utf-8");
     const result = await extractText(buffer, "application/pdf");
     expect(result).toBe("Extracted PDF content");
-    expect(pdfParse).toHaveBeenCalledWith(buffer);
+    expect(PDFParse).toHaveBeenCalledWith(buffer);
   });
 
   it("extracts text from DOCX buffer using mammoth", async () => {
-    const mammoth = (await import("mammoth")).default as {
+    const mammoth = (await import("mammoth")) as {
       extractRawText: ReturnType<typeof vi.fn>;
     };
     mammoth.extractRawText.mockResolvedValue({

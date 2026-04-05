@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     .eq("client_id", clientId)
     .order("status", { ascending: true }) // 'active' sorts first alphabetically
     .order("name")
-    .limit(10);
+    .limit(100);
 
   return NextResponse.json(data ?? []);
 }

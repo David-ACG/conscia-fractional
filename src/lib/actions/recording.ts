@@ -119,6 +119,12 @@ export async function processUploadedRecordingAction(
   const durationSeconds = parseInt(durationStr, 10);
   if (isNaN(durationSeconds)) return { error: "Invalid duration" };
 
+  const crmCustomerIdRaw = formData.get("crm_customer_id");
+  const crmCustomerId =
+    typeof crmCustomerIdRaw === "string" && crmCustomerIdRaw
+      ? crmCustomerIdRaw
+      : undefined;
+
   try {
     const result = await processUploadedRecording({
       segments,
@@ -127,6 +133,7 @@ export async function processUploadedRecordingAction(
       userId: user.id,
       clientId,
       fileName: typeof fileName === "string" ? fileName : undefined,
+      crmCustomerId,
     });
 
     revalidatePath("/meetings");

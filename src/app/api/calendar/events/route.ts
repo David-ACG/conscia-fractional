@@ -1,18 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function GET(request: NextRequest) {
-  const supabase = createAdminClient();
-  if (!supabase) {
-    return NextResponse.json([], { status: 500 });
+  const authClient = await createClient();
+  if (!authClient) {
+    return NextResponse.json([], { status: 401 });
   }
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await authClient.auth.getUser();
 
   if (!user) {
     return NextResponse.json([], { status: 401 });
+  }
+
+  const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json([], { status: 500 });
   }
 
   const { searchParams } = new URL(request.url);
@@ -33,6 +39,7 @@ export async function GET(request: NextRequest) {
       meeting_url,
       attendees,
       crm_customer_id,
+      integration_id,
       meeting_id,
       status,
       google_event_id,
@@ -40,6 +47,9 @@ export async function GET(request: NextRequest) {
         id,
         name,
         slug
+      ),
+      integrations (
+        account_identifier
       )
     `,
     )
@@ -91,6 +101,9 @@ export async function GET(request: NextRequest) {
     meeting_id: row.meeting_id ?? null,
     status: row.status,
     google_event_id: row.google_event_id ?? null,
+    account:
+      (row.integrations as { account_identifier: string } | null)
+        ?.account_identifier ?? null,
   }));
 
   return NextResponse.json(events);

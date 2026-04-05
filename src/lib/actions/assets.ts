@@ -86,6 +86,25 @@ export async function updateAsset(id: string, data: AssetFormData) {
   return { success: true };
 }
 
+export async function linkAssetToCustomer(
+  assetId: string,
+  crmCustomerId: string,
+) {
+  const supabase = createClient();
+  if (!supabase) return { error: "Database unavailable" };
+
+  const { error } = await supabase
+    .from("assets")
+    .update({ crm_customer_id: crmCustomerId })
+    .eq("id", assetId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/assets");
+  revalidatePath("/crm");
+  return { success: true };
+}
+
 export async function deleteAsset(id: string) {
   const supabase = createClient();
   if (!supabase) return { error: "Database unavailable" };

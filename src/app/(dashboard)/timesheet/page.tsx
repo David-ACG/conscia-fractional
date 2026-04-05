@@ -9,7 +9,7 @@ import { TimeEntryList } from "@/components/timesheet/time-entry-list";
 import { ManualEntryForm } from "@/components/timesheet/manual-entry-form";
 import { WeeklySummary } from "@/components/timesheet/weekly-summary";
 import { useClient } from "@/lib/client-context";
-import type { TimeEntry } from "@/lib/types";
+import type { TimeEntry, CrmCustomer } from "@/lib/types";
 
 function getWeekStart(date: Date): Date {
   const d = new Date(date);
@@ -78,6 +78,9 @@ export default function TimesheetPage() {
   const [loading, setLoading] = useState(false);
   const [manualFormOpen, setManualFormOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [customers, setCustomers] = useState<
+    Pick<CrmCustomer, "id" | "name">[]
+  >([]);
 
   const weekStart = getWeekStart(selectedDate);
   const monthStart = getMonthStart(selectedDate);
@@ -85,6 +88,14 @@ export default function TimesheetPage() {
 
   const clientIdRef = useRef(clientId);
   clientIdRef.current = clientId;
+
+  useEffect(() => {
+    if (!clientId) return;
+    fetch(`/api/crm-customers?clientId=${clientId}`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => setCustomers(data))
+      .catch(() => {});
+  }, [clientId]);
 
   async function fetchEntries(from: string, to: string): Promise<TimeEntry[]> {
     const cid = clientIdRef.current;
@@ -189,6 +200,7 @@ export default function TimesheetPage() {
     category: string;
     description: string;
     isBillable: boolean;
+    crm_customer_id?: string;
   }) {
     const startedAt = new Date(`${data.date}T${data.startTime}:00`);
     const stoppedAt = new Date(`${data.date}T${data.endTime}:00`);
@@ -213,6 +225,7 @@ export default function TimesheetPage() {
         is_manual: true,
         is_billable: data.isBillable,
         is_client_visible: false,
+        crm_customer_id: data.crm_customer_id || null,
       }),
     });
     if (!res.ok) {
@@ -344,6 +357,7 @@ export default function TimesheetPage() {
         onOpenChange={setManualFormOpen}
         onSubmit={handleManualEntry}
         defaultDate={selectedDate.toISOString().split("T")[0]}
+        customers={customers}
       />
     </div>
   );

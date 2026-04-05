@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude } from "./claude-cli";
 import { embed } from "./embedding-service";
 import { getQdrantClient, COLLECTION_NAME } from "@/lib/qdrant-client";
 
@@ -79,21 +79,12 @@ export async function generateAnswer(
     )
     .join("");
 
-  const client = new Anthropic();
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1024,
-    system: `You are a helpful assistant for a fractional executive. Answer questions based on the provided context documents about ${crmCustomerName || "this customer"}. Cite your sources by document name. If the context doesn't contain enough information to answer, say so clearly.`,
-    messages: [
-      {
-        role: "user",
-        content: `Context:\n${formattedContext}\n\nQuestion: ${query}`,
-      },
-    ],
-  });
+  const systemPrompt = `You are a helpful assistant for a fractional executive. Answer questions based on the provided context documents about ${crmCustomerName || "this customer"}. Cite your sources by document name. If the context doesn't contain enough information to answer, say so clearly.`;
 
-  const answer =
-    response.content[0].type === "text" ? response.content[0].text : "";
+  const prompt = `${systemPrompt}\n\nContext:\n${formattedContext}\n\nQuestion: ${query}`;
+
+  const result = await callClaude(prompt, { timeout: 60_000 });
+  const answer = result.text;
 
   const seen = new Set<string>();
   const sources: { name: string; sourceType: string }[] = [];

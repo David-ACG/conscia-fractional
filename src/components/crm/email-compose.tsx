@@ -223,7 +223,7 @@ export function EmailCompose({
               No Gmail account with send access connected.
             </p>
             <Button asChild size="sm">
-              <a href="/dashboard/settings">Add Send Access in Settings</a>
+              <a href="/settings">Add Send Access in Settings</a>
             </Button>
           </div>
         ) : (

@@ -10,7 +10,29 @@ interface WeeklySummaryProps {
   contractHoursPerWeek: number;
 }
 
-const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const MONTH_NAMES = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+function getDayLabels(weekStart: Date): string[] {
+  return DAY_NAMES.map((name, i) => {
+    const d = new Date(weekStart);
+    d.setDate(d.getDate() + i);
+    return `${name} ${d.getDate()} ${MONTH_NAMES[d.getMonth()]}`;
+  });
+}
 
 export function WeeklySummary({
   entries,
@@ -49,7 +71,7 @@ export function WeeklySummary({
       <div>
         <h3 className="mb-3 text-sm font-medium">Hours per Day</h3>
         <div className="flex items-end gap-2">
-          {DAY_LABELS.map((label, i) => {
+          {getDayLabels(weekStart).map((label, i) => {
             const mins = dailyMinutes[i];
             const height = Math.max((mins / maxDailyMinutes) * 100, 4);
             const hours = (mins / 60).toFixed(1);

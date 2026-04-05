@@ -33,6 +33,7 @@ export async function createTask(data: TaskFormData) {
       assignee_type: parsed.data.assignee_type,
       due_date: parsed.data.due_date || null,
       is_client_visible: parsed.data.is_client_visible,
+      crm_customer_id: parsed.data.crm_customer_id || null,
     })
     .select("id")
     .single();
@@ -68,6 +69,7 @@ export async function updateTask(id: string, data: TaskFormData) {
       assignee_type: parsed.data.assignee_type,
       due_date: parsed.data.due_date || null,
       is_client_visible: parsed.data.is_client_visible,
+      crm_customer_id: parsed.data.crm_customer_id || null,
     })
     .eq("id", id);
 

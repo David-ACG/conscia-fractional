@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { listFiles } from "./google-drive-service";
+import { embedDriveFile } from "./auto-embed-service";
 
 export interface SyncResult {
   crmDriveFolderId: string;
@@ -28,7 +29,7 @@ export async function syncFolder(
   // 1. Fetch the crm_drive_folders record
   const { data: folderRecord, error: folderError } = await admin
     .from("crm_drive_folders")
-    .select("id, integration_id, folder_id, folder_name")
+    .select("id, integration_id, folder_id, folder_name, crm_customer_id")
     .eq("id", crmDriveFolderId)
     .single();
 
@@ -179,6 +180,29 @@ export async function syncFolder(
       result.errors.push(`Insert error: ${error.message}`);
     } else {
       result.added = toInsert.length;
+
+      // Fire-and-forget: queue new files for embedding
+      const { data: integration } = await admin
+        .from("integrations")
+        .select("user_id")
+        .eq("id", folderRecord.integration_id)
+        .single();
+
+      if (integration?.user_id) {
+        for (const file of toInsert) {
+          embedDriveFile(
+            file.google_file_id,
+            integration.user_id as string,
+            folderRecord.integration_id,
+            folderRecord.crm_customer_id as string | undefined,
+          ).catch((err) => {
+            console.error(
+              `[drive-sync] Failed to queue embedding for ${file.google_file_id}:`,
+              err,
+            );
+          });
+        }
+      }
     }
   }
 

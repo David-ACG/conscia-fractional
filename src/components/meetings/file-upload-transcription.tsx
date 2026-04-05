@@ -25,7 +25,7 @@ export interface FileUploadTranscriptionProps {
     audioUrl: string;
     durationSeconds: number;
     fileName: string;
-  }) => void;
+  }) => void | Promise<void>;
   onDiscard: () => void;
   className?: string;
 }
@@ -47,6 +47,7 @@ export function FileUploadTranscription({
   const [durationSeconds, setDurationSeconds] = React.useState(0);
   const [discardConfirmOpen, setDiscardConfirmOpen] = React.useState(false);
 
+  const [fileQueue, setFileQueue] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const abortControllerRef = React.useRef<AbortController | null>(null);
@@ -61,8 +62,12 @@ export function FileUploadTranscription({
   }
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) handleFileSelect(file);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      // Queue all files, start with the first one
+      setFileQueue(Array.from(files).slice(1));
+      handleFileSelect(files[0]);
+    }
   }
 
   function handleDragOver(e: React.DragEvent) {
@@ -78,8 +83,11 @@ export function FileUploadTranscription({
   function handleDrop(e: React.DragEvent) {
     e.preventDefault();
     setIsDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) handleFileSelect(file);
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      setFileQueue(Array.from(files).slice(1));
+      handleFileSelect(files[0]);
+    }
   }
 
   async function handleTranscribe() {
@@ -98,10 +106,16 @@ export function FileUploadTranscription({
     setErrorMessage(undefined);
 
     try {
-      // 1. Upload to Supabase Storage
+      // Get user ID for storage RLS path
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      // 1. Upload to Supabase Storage (path must start with user ID for RLS)
       const timestamp = Date.now();
       const safeName = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `uploads/${timestamp}_${safeName}`;
+      const path = `${user.id}/${timestamp}_${safeName}`;
 
       const { error: uploadError } = await supabase.storage
         .from("meeting-recordings")
@@ -191,7 +205,7 @@ export function FileUploadTranscription({
     }
   }
 
-  function handleProcessAndSave() {
+  async function handleProcessAndSave() {
     if (!signedUrl) return;
     const dur =
       durationSeconds > 0
@@ -199,12 +213,25 @@ export function FileUploadTranscription({
         : segments.length > 0
           ? Math.ceil(segments[segments.length - 1]!.endMs / 1000)
           : 0;
-    onComplete({
+    await onComplete({
       segments,
       audioUrl: signedUrl,
       durationSeconds: dur,
       fileName: selectedFile?.name ?? "recording",
     });
+
+    // Auto-advance to next file in queue
+    if (fileQueue.length > 0) {
+      const [nextFile, ...rest] = fileQueue;
+      setFileQueue(rest);
+      setSelectedFile(nextFile);
+      setSignedUrl(null);
+      setUploadedPath(null);
+      setSegments([]);
+      setDurationSeconds(0);
+      setStage("idle");
+      setUploadProgress(0);
+    }
   }
 
   async function handleDiscard() {
@@ -334,6 +361,7 @@ export function FileUploadTranscription({
         <input
           ref={fileInputRef}
           type="file"
+          multiple
           accept=".mp3,.wav,.mp4,.mov,.webm,.m4a,.ogg,audio/*,video/*"
           className="hidden"
           onChange={handleInputChange}
@@ -342,6 +370,13 @@ export function FileUploadTranscription({
       </div>
 
       {fileError && <p className="text-sm text-destructive">{fileError}</p>}
+
+      {/* Queue indicator */}
+      {fileQueue.length > 0 && (
+        <p className="text-xs text-muted-foreground">
+          +{fileQueue.length} more file{fileQueue.length > 1 ? "s" : ""} queued
+        </p>
+      )}
 
       {/* Selected file info */}
       {selectedFile && (

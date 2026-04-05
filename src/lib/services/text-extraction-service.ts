@@ -1,5 +1,5 @@
-import pdf from "pdf-parse";
-import mammoth from "mammoth";
+import { PDFParse } from "pdf-parse";
+import * as mammoth from "mammoth";
 
 export const SUPPORTED_MIME_TYPES = [
   "application/pdf",
@@ -16,7 +16,7 @@ export async function extractText(
 ): Promise<string> {
   switch (mimeType) {
     case "application/pdf": {
-      const data = await pdf(buffer);
+      const data = await PDFParse(buffer);
       return data.text;
     }
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {

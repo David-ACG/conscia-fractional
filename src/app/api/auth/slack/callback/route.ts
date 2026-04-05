@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { exchangeCode, storeTokens } from "@/lib/services/slack-auth-service";
 
-const SETTINGS_URL = "/dashboard/settings";
+const SETTINGS_URL = "/settings";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

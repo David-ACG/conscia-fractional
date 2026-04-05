@@ -335,7 +335,7 @@ export function EmailTab({ customerId }: EmailTabProps) {
         <Mail className="h-10 w-10 mx-auto text-muted-foreground" />
         <p className="text-muted-foreground">Connect Gmail to see emails</p>
         <Button asChild size="sm">
-          <a href="/dashboard/settings">Connect Gmail</a>
+          <a href="/settings">Connect Gmail</a>
         </Button>
       </div>
     );

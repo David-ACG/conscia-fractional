@@ -76,17 +76,17 @@ const mockCreateClient = vi.fn().mockReturnValue({
 });
 
 vi.mock("@deepgram/sdk", () => ({
-  createClient: (...args: unknown[]) => mockCreateClient(...args),
-  LiveTranscriptionEvents: {
-    Transcript: "Results",
-    Open: "Open",
-    Close: "Close",
-    Error: "Error",
+  DeepgramClient: class {
+    constructor(...args: unknown[]) {
+      return mockCreateClient(...args);
+    }
   },
 }));
 
 // Track onRecordingStart callback so we can trigger it manually
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let capturedOnRecordingStart: (() => void) | undefined;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let capturedOnAudioData: ((chunks: Blob[]) => void) | undefined;
 
 const mockStartCapture = vi.fn().mockResolvedValue(undefined);
@@ -209,7 +209,9 @@ describe("RecordingContainer", () => {
     });
 
     await waitFor(() => {
-      expect(mockCreateClient).toHaveBeenCalledWith("test-deepgram-key");
+      expect(mockCreateClient).toHaveBeenCalledWith({
+        key: "test-deepgram-key",
+      });
     });
   });
 

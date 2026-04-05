@@ -1,7 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { Search, Plus, List, LayoutGrid, Video } from "lucide-react";
+import {
+  Search,
+  Plus,
+  List,
+  LayoutGrid,
+  Video,
+  CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  Merge,
+  Loader2,
+} from "lucide-react";
+import { toast } from "sonner";
+import { updateTaskStatus } from "@/lib/actions/tasks";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +27,7 @@ import {
 } from "@/components/ui/select";
 import { TaskForm } from "./task-form";
 import { TaskKanban } from "./task-kanban";
-import type { Task } from "@/lib/types";
+import type { Task, CrmCustomer } from "@/lib/types";
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
   urgent: {
@@ -83,17 +96,233 @@ function getDueDateDisplay(
   return { text, className: "text-muted-foreground" };
 }
 
-interface TaskListProps {
-  tasks: Task[];
+type TaskWithMeeting = Task & { meetings?: { title: string } | null };
+
+function TaskRow({
+  task,
+  onEdit,
+}: {
+  task: TaskWithMeeting;
+  onEdit: (t: Task) => void;
+}) {
+  const priority = priorityConfig[task.priority];
+  const status = statusConfig[task.status];
+  const dueInfo = getDueDateDisplay(task.due_date);
+  return (
+    <tr
+      className="border-b cursor-pointer transition-colors hover:bg-muted/50"
+      onClick={() => onEdit(task)}
+    >
+      <td className="py-2.5 pr-4">
+        <Badge variant="secondary" className={priority.className}>
+          {priority.label}
+        </Badge>
+      </td>
+      <td className="py-2.5 pr-4 font-medium">
+        <div className="flex items-center gap-1.5">
+          <button
+            title={task.status === "done" ? "Completed" : "Mark as done"}
+            className={`shrink-0 rounded-full transition-colors ${
+              task.status === "done"
+                ? "text-green-600"
+                : "text-muted-foreground/40 hover:text-green-600"
+            }`}
+            onClick={async (e) => {
+              e.stopPropagation();
+              if (task.status === "done") return;
+              await updateTaskStatus(task.id, "done");
+              toast.success(`"${task.title}" marked as done`);
+            }}
+          >
+            <CheckCircle2 className="h-4 w-4" />
+          </button>
+          <span
+            className={
+              task.status === "done" ? "line-through text-muted-foreground" : ""
+            }
+          >
+            {task.title}
+          </span>
+          {task.meeting_id && (
+            <span
+              className="shrink-0 flex items-center gap-0.5 text-xs text-muted-foreground"
+              title={task.meetings?.title ?? "From meeting"}
+            >
+              <Video className="h-3 w-3" />
+              {task.meetings?.title ? (
+                <span className="max-w-[120px] truncate">
+                  {task.meetings.title}
+                </span>
+              ) : null}
+            </span>
+          )}
+        </div>
+      </td>
+      <td className="py-2.5 pr-4 text-muted-foreground">
+        {task.assignee || "—"}
+      </td>
+      <td className="py-2.5 pr-4 text-xs text-muted-foreground whitespace-nowrap">
+        {new Date(task.created_at).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+      </td>
+      <td className="py-2.5">
+        <Badge variant="secondary" className={status.className}>
+          {status.label}
+        </Badge>
+      </td>
+    </tr>
+  );
 }
 
-export function TaskList({ tasks }: TaskListProps) {
+function SortIndicator({
+  active,
+  dir,
+}: {
+  active: boolean;
+  dir: "asc" | "desc";
+}) {
+  if (!active) return <span className="ml-1 text-muted-foreground/30">↕</span>;
+  return <span className="ml-1">{dir === "asc" ? "↑" : "↓"}</span>;
+}
+
+function TaskTableHead({
+  sortBy,
+  sortDir,
+  onSort,
+}: {
+  sortBy?: "priority" | "date" | "assignee" | null;
+  sortDir?: "asc" | "desc";
+  onSort?: (col: "priority" | "date" | "assignee") => void;
+}) {
+  const sortable = (col: "priority" | "date" | "assignee", label: string) => (
+    <th
+      className="pb-2 pr-4 font-medium cursor-pointer select-none hover:text-foreground transition-colors"
+      onClick={() => onSort?.(col)}
+    >
+      {label}
+      <SortIndicator active={sortBy === col} dir={sortDir ?? "asc"} />
+    </th>
+  );
+
+  return (
+    <thead>
+      <tr className="border-b text-left text-muted-foreground">
+        {sortable("priority", "Priority")}
+        <th className="pb-2 pr-4 font-medium">Title</th>
+        {sortable("assignee", "Assignee")}
+        {sortable("date", "Date Raised")}
+        <th className="pb-2 font-medium">Status</th>
+      </tr>
+    </thead>
+  );
+}
+
+function TaskTable({
+  tasks,
+  showDone,
+  onToggleDone,
+  onEdit,
+  sortBy,
+  sortDir,
+  onSort,
+}: {
+  tasks: TaskWithMeeting[];
+  showDone: boolean;
+  onToggleDone: () => void;
+  onEdit: (t: Task) => void;
+  sortBy: "priority" | "date" | "assignee" | null;
+  sortDir: "asc" | "desc";
+  onSort: (col: "priority" | "date" | "assignee") => void;
+}) {
+  const activeTasks = tasks.filter((t) => t.status !== "done");
+  const doneTasks = tasks.filter((t) => t.status === "done");
+
+  return (
+    <div className="mt-4 space-y-4">
+      {activeTasks.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <TaskTableHead sortBy={sortBy} sortDir={sortDir} onSort={onSort} />
+            <tbody>
+              {activeTasks.map((task) => (
+                <TaskRow key={task.id} task={task} onEdit={onEdit} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {doneTasks.length > 0 && (
+        <div>
+          <button
+            onClick={onToggleDone}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {showDone ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+            Done ({doneTasks.length})
+          </button>
+          {showDone && (
+            <div className="mt-2 overflow-x-auto opacity-70">
+              <table className="w-full text-sm">
+                <TaskTableHead
+                  sortBy={sortBy}
+                  sortDir={sortDir}
+                  onSort={onSort}
+                />
+                <tbody>
+                  {doneTasks.map((task) => (
+                    <TaskRow key={task.id} task={task} onEdit={onEdit} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTasks.length === 0 && doneTasks.length === 0 && (
+        <p className="text-center text-muted-foreground mt-8">
+          No tasks match your filters.
+        </p>
+      )}
+    </div>
+  );
+}
+
+interface TaskListProps {
+  tasks: TaskWithMeeting[];
+  customers?: Pick<CrmCustomer, "id" | "name">[];
+}
+
+export function TaskList({ tasks, customers = [] }: TaskListProps) {
   const [view, setView] = React.useState<"list" | "kanban">("list");
   const [search, setSearch] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
   const [priorityFilter, setPriorityFilter] = React.useState<string>("all");
   const [formOpen, setFormOpen] = React.useState(false);
   const [editingTask, setEditingTask] = React.useState<Task | null>(null);
+  const [showDone, setShowDone] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState<
+    "priority" | "date" | "assignee" | null
+  >(null);
+  const [sortDir, setSortDir] = React.useState<"asc" | "desc">("asc");
+  const [consolidating, setConsolidating] = React.useState(false);
+  const [consolidateGroups, setConsolidateGroups] = React.useState<Array<{
+    consolidated_title: string;
+    consolidated_description: string;
+    priority: string;
+    assignee: string | null;
+    task_ids: string[];
+    reason: string;
+    tasks: Array<{ id: string; title: string; meeting: string | null }>;
+  }> | null>(null);
 
   const filtered = React.useMemo(() => {
     let result = tasks;
@@ -114,6 +343,51 @@ export function TaskList({ tasks }: TaskListProps) {
     }
     return result;
   }, [tasks, search, statusFilter, priorityFilter]);
+
+  const sorted = React.useMemo(() => {
+    if (!sortBy) return filtered;
+    const priorityOrder: Record<string, number> = {
+      urgent: 0,
+      high: 1,
+      medium: 2,
+      low: 3,
+    };
+    const dir = sortDir === "asc" ? 1 : -1;
+    return [...filtered].sort((a, b) => {
+      if (sortBy === "priority") {
+        return (
+          ((priorityOrder[a.priority] ?? 4) -
+            (priorityOrder[b.priority] ?? 4)) *
+          dir
+        );
+      }
+      if (sortBy === "date") {
+        return (
+          (new Date(a.created_at).getTime() -
+            new Date(b.created_at).getTime()) *
+          dir
+        );
+      }
+      if (sortBy === "assignee") {
+        const aVal = (a.assignee ?? "").toLowerCase();
+        const bVal = (b.assignee ?? "").toLowerCase();
+        if (!aVal && !bVal) return 0;
+        if (!aVal) return 1;
+        if (!bVal) return -1;
+        return aVal.localeCompare(bVal) * dir;
+      }
+      return 0;
+    });
+  }, [filtered, sortBy, sortDir]);
+
+  function toggleSort(col: "priority" | "date" | "assignee") {
+    if (sortBy === col) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(col);
+      setSortDir("asc");
+    }
+  }
 
   function handleEdit(task: Task) {
     setEditingTask(task);
@@ -187,6 +461,46 @@ export function TaskList({ tasks }: TaskListProps) {
         </div>
 
         <Button
+          variant="outline"
+          disabled={consolidating}
+          onClick={async () => {
+            setConsolidating(true);
+            toast.loading("Analyzing tasks with Claude...", {
+              id: "consolidate",
+            });
+            try {
+              const res = await fetch("/api/tasks/consolidate", {
+                method: "POST",
+              });
+              const data = await res.json();
+              toast.dismiss("consolidate");
+              if (!res.ok) {
+                toast.error(data.error ?? "Consolidation failed");
+              } else if (!data.groups?.length) {
+                toast.info("No similar tasks found to consolidate");
+              } else {
+                toast.success(
+                  `Found ${data.groups.length} group(s) to consolidate`,
+                );
+                setConsolidateGroups(data.groups);
+              }
+            } catch (err) {
+              toast.dismiss("consolidate");
+              toast.error("Consolidation request failed");
+            } finally {
+              setConsolidating(false);
+            }
+          }}
+        >
+          {consolidating ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Merge className="mr-2 h-4 w-4" />
+          )}
+          {consolidating ? "Analyzing..." : "Consolidate"}
+        </Button>
+
+        <Button
           onClick={() => {
             setEditingTask(null);
             setFormOpen(true);
@@ -196,6 +510,71 @@ export function TaskList({ tasks }: TaskListProps) {
           Add Task
         </Button>
       </div>
+
+      {/* Consolidation suggestions */}
+      {consolidateGroups && consolidateGroups.length > 0 && (
+        <div className="mt-4 space-y-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold">Suggested Consolidations</h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setConsolidateGroups(null)}
+            >
+              Dismiss
+            </Button>
+          </div>
+          {consolidateGroups.map((group, gi) => (
+            <div key={gi} className="rounded-md border bg-card p-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-medium text-sm">
+                  {group.consolidated_title}
+                </span>
+                <Badge variant="secondary">{group.priority}</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground">{group.reason}</p>
+              <div className="text-xs space-y-0.5">
+                {group.tasks.map((t) => (
+                  <div
+                    key={t.id}
+                    className="flex items-center gap-1 text-muted-foreground"
+                  >
+                    <span>•</span>
+                    <span className="truncate">{t.title}</span>
+                    {t.meeting && (
+                      <span className="shrink-0 text-primary/70">
+                        ({t.meeting})
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <Button
+                size="sm"
+                onClick={async () => {
+                  const res = await fetch("/api/tasks/consolidate", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(group),
+                  });
+                  const data = await res.json();
+                  if (res.ok) {
+                    toast.success(`Consolidated ${group.tasks.length} tasks`);
+                    setConsolidateGroups(
+                      (prev) => prev?.filter((_, i) => i !== gi) ?? null,
+                    );
+                  } else {
+                    toast.error(data.error ?? "Failed");
+                  }
+                }}
+              >
+                <Merge className="mr-1 h-3 w-3" />
+                Merge {group.tasks.length} tasks
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Content */}
       {filtered.length === 0 ? (
@@ -211,67 +590,15 @@ export function TaskList({ tasks }: TaskListProps) {
           <TaskKanban tasks={filtered} onEdit={handleEdit} />
         </div>
       ) : (
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b text-left text-muted-foreground">
-                <th className="pb-2 pr-4 font-medium">Priority</th>
-                <th className="pb-2 pr-4 font-medium">Title</th>
-                <th className="pb-2 pr-4 font-medium">Assignee</th>
-                <th className="pb-2 pr-4 font-medium">Due Date</th>
-                <th className="pb-2 font-medium">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((task) => {
-                const priority = priorityConfig[task.priority];
-                const status = statusConfig[task.status];
-                const dueInfo = getDueDateDisplay(task.due_date);
-                return (
-                  <tr
-                    key={task.id}
-                    className="border-b cursor-pointer transition-colors hover:bg-muted/50"
-                    onClick={() => handleEdit(task)}
-                  >
-                    <td className="py-2.5 pr-4">
-                      <Badge variant="secondary" className={priority.className}>
-                        {priority.label}
-                      </Badge>
-                    </td>
-                    <td className="py-2.5 pr-4 font-medium">
-                      <div className="flex items-center gap-1.5">
-                        {task.title}
-                        {task.meeting_id && (
-                          <Video
-                            className="h-3.5 w-3.5 shrink-0 text-muted-foreground"
-                            title="From meeting"
-                          />
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-2.5 pr-4 text-muted-foreground">
-                      {task.assignee || "—"}
-                    </td>
-                    <td className="py-2.5 pr-4">
-                      {dueInfo ? (
-                        <span className={dueInfo.className}>
-                          {dueInfo.text}
-                        </span>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </td>
-                    <td className="py-2.5">
-                      <Badge variant="secondary" className={status.className}>
-                        {status.label}
-                      </Badge>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <TaskTable
+          tasks={sorted}
+          showDone={showDone}
+          onToggleDone={() => setShowDone(!showDone)}
+          onEdit={handleEdit}
+          sortBy={sortBy}
+          sortDir={sortDir}
+          onSort={toggleSort}
+        />
       )}
 
       {/* Add/Edit dialog */}
@@ -279,6 +606,7 @@ export function TaskList({ tasks }: TaskListProps) {
         open={formOpen}
         onOpenChange={handleCloseForm}
         task={editingTask}
+        customers={customers}
       />
     </>
   );

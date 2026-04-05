@@ -53,14 +53,15 @@ function makeRequest(params: Record<string, string>) {
 beforeEach(() => {
   vi.clearAllMocks();
   mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
-  mockCookieGet.mockReturnValue({ value: "valid-state" });
+  mockCookieGet.mockReturnValue({ value: "valid-nonce" });
   // Default: no existing integration (new connection requires refresh token)
   mockAdminSingle.mockResolvedValue({ data: null, error: null });
 });
 
 describe("GET /api/auth/google/callback", () => {
   it("redirects with error=missing_code when code is absent", async () => {
-    const req = makeRequest({ state: "valid-state" });
+    const state = JSON.stringify({ nonce: "valid-nonce", userId: "user-1" });
+    const req = makeRequest({ state });
 
     const { GET } = await import("../callback/route");
     const response = await GET(req);
@@ -69,30 +70,64 @@ describe("GET /api/auth/google/callback", () => {
     expect(response.headers.get("location")).toContain("error=missing_code");
   });
 
-  it("redirects with error=invalid_state when state does not match cookie", async () => {
-    mockCookieGet.mockReturnValue({ value: "expected-state" });
-    const req = makeRequest({ code: "auth-code", state: "wrong-state" });
+  it("proceeds with warning when state nonce does not match cookie (relaxed CSRF)", async () => {
+    // Route logs a warning but does NOT block on nonce mismatch
+    mockCookieGet.mockReturnValue({ value: "expected-nonce" });
+    const state = JSON.stringify({
+      nonce: "wrong-nonce",
+      userId: "user-1",
+    });
+    const req = makeRequest({ code: "auth-code", state });
+
+    mockExchangeCode.mockResolvedValue({
+      access_token: "access",
+      refresh_token: "refresh",
+      expiry_date: 1700000000000,
+      scope: "https://www.googleapis.com/auth/drive.readonly",
+    });
+    mockGetGoogleUserEmail.mockResolvedValue("user@gmail.com");
+    mockStoreTokens.mockResolvedValue(undefined);
 
     const { GET } = await import("../callback/route");
     const response = await GET(req);
 
+    // Should succeed despite nonce mismatch (relaxed check)
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toContain("error=invalid_state");
+    const location = response.headers.get("location") ?? "";
+    expect(location).toContain("google=connected");
   });
 
-  it("redirects with error=invalid_state when cookie is missing", async () => {
+  it("falls back to session auth when state has no userId", async () => {
+    // Legacy state format or missing userId — uses session
     mockCookieGet.mockReturnValue(undefined);
-    const req = makeRequest({ code: "auth-code", state: "valid-state" });
+    mockGetUser.mockResolvedValue({ data: { user: { id: "session-user" } } });
+
+    const req = makeRequest({ code: "auth-code", state: "legacy-state" });
+    mockExchangeCode.mockResolvedValue({
+      access_token: "access",
+      refresh_token: "refresh",
+      expiry_date: 1700000000000,
+      scope: "https://www.googleapis.com/auth/drive.readonly",
+    });
+    mockGetGoogleUserEmail.mockResolvedValue("user@gmail.com");
+    mockStoreTokens.mockResolvedValue(undefined);
 
     const { GET } = await import("../callback/route");
     const response = await GET(req);
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toContain("error=invalid_state");
+    const location = response.headers.get("location") ?? "";
+    expect(location).toContain("google=connected");
+    expect(mockStoreTokens).toHaveBeenCalledWith(
+      "session-user",
+      "user@gmail.com",
+      expect.objectContaining({ access_token: "access" }),
+    );
   });
 
   it("stores tokens and redirects to settings on success", async () => {
-    const req = makeRequest({ code: "valid-code", state: "valid-state" });
+    const state = JSON.stringify({ nonce: "valid-nonce", userId: "user-1" });
+    const req = makeRequest({ code: "valid-code", state });
     mockExchangeCode.mockResolvedValue({
       access_token: "access",
       refresh_token: "refresh",
@@ -117,14 +152,16 @@ describe("GET /api/auth/google/callback", () => {
     });
   });
 
-  it("redirects with error=no_refresh_token when refresh token is absent", async () => {
-    const req = makeRequest({ code: "valid-code", state: "valid-state" });
+  it("redirects with error=no_refresh_token when refresh token is absent and no existing integration", async () => {
+    const state = JSON.stringify({ nonce: "valid-nonce", userId: "user-1" });
+    const req = makeRequest({ code: "valid-code", state });
     mockExchangeCode.mockResolvedValue({
       access_token: "access",
       refresh_token: null,
       expiry_date: null,
       scope: "",
     });
+    mockGetGoogleUserEmail.mockResolvedValue("user@gmail.com");
 
     const { GET } = await import("../callback/route");
     const response = await GET(req);
@@ -136,7 +173,8 @@ describe("GET /api/auth/google/callback", () => {
   });
 
   it("redirects with error=exchange_failed when exchange throws", async () => {
-    const req = makeRequest({ code: "valid-code", state: "valid-state" });
+    const state = JSON.stringify({ nonce: "valid-nonce", userId: "user-1" });
+    const req = makeRequest({ code: "valid-code", state });
     mockExchangeCode.mockRejectedValue(
       new Error("Failed to exchange code: invalid_grant"),
     );

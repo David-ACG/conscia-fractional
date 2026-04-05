@@ -79,7 +79,7 @@ describe("SlackMessagesTab", () => {
 
       await waitFor(() => {
         const link = screen.getByRole("link", { name: /Link a channel/i });
-        expect(link).toHaveAttribute("href", "/dashboard/settings");
+        expect(link).toHaveAttribute("href", "/settings");
       });
     });
   });

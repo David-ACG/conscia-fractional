@@ -1,15 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// Mock @anthropic-ai/sdk
-const mockCreate = vi.fn();
-vi.mock("@anthropic-ai/sdk", () => {
-  return {
-    default: class MockAnthropic {
-      messages = { create: mockCreate };
-      constructor(_opts: unknown) {}
-    },
-  };
-});
+// Mock claude-cli
+const mockCallClaude = vi.fn();
+vi.mock("../claude-cli", () => ({
+  callClaude: (...args: unknown[]) => mockCallClaude(...args),
+}));
 
 // Mock transcript parser
 vi.mock("@/lib/transcript-parser", () => ({
@@ -25,29 +20,23 @@ vi.mock("@/lib/transcript-parser", () => ({
 describe("transcript-extraction-service", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    process.env.ANTHROPIC_API_KEY = "test-api-key";
 
-    mockCreate.mockResolvedValue({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify({
-            title: "Q1 Planning Meeting",
-            summary: "## Summary\n- Discussed Q1 goals",
-            tasks: [
-              {
-                title: "Create roadmap",
-                description: "Detailed roadmap for Q1",
-                priority: "high",
-                assignee: "David",
-                assignee_type: "self",
-                confidence: "explicit",
-                source_quote: "We need a roadmap by Friday",
-              },
-            ],
-          }),
-        },
-      ],
+    mockCallClaude.mockResolvedValue({
+      text: JSON.stringify({
+        title: "Q1 Planning Meeting",
+        summary: "## Summary\n- Discussed Q1 goals",
+        tasks: [
+          {
+            title: "Create roadmap",
+            description: "Detailed roadmap for Q1",
+            priority: "high",
+            assignee: "David",
+            assignee_type: "self",
+            confidence: "explicit",
+            source_quote: "We need a roadmap by Friday",
+          },
+        ],
+      }),
     });
   });
 
@@ -70,20 +59,15 @@ describe("transcript-extraction-service", () => {
     });
 
     it("handles Claude response wrapped in code block", async () => {
-      mockCreate.mockResolvedValueOnce({
-        content: [
-          {
-            type: "text",
-            text:
-              "```json\n" +
-              JSON.stringify({
-                title: "Wrapped response",
-                summary: "Summary",
-                tasks: [],
-              }) +
-              "\n```",
-          },
-        ],
+      mockCallClaude.mockResolvedValueOnce({
+        text:
+          "```json\n" +
+          JSON.stringify({
+            title: "Wrapped response",
+            summary: "Summary",
+            tasks: [],
+          }) +
+          "\n```",
       });
 
       const { extractMeetingData } =
@@ -94,45 +78,33 @@ describe("transcript-extraction-service", () => {
       expect(result.tasks).toEqual([]);
     });
 
-    it("throws when ANTHROPIC_API_KEY is not set", async () => {
-      delete process.env.ANTHROPIC_API_KEY;
-
-      vi.resetModules();
-      vi.doMock("@anthropic-ai/sdk", () => ({
-        default: class {
-          messages = { create: mockCreate };
-        },
-      }));
-      vi.doMock("@/lib/transcript-parser", () => ({
-        parseTranscript: vi.fn(() => ({
-          durationMinutes: 0,
-          speakers: [],
-          segments: [],
-          fullText: "",
-        })),
-        parseDateFromFilename: vi.fn(() => null),
-      }));
+    it("throws when Claude CLI fails", async () => {
+      mockCallClaude.mockRejectedValueOnce(
+        new Error(
+          "Claude CLI not found. Install it with: npm install -g @anthropic-ai/claude-code",
+        ),
+      );
 
       const { extractMeetingData } =
         await import("../transcript-extraction-service");
       await expect(extractMeetingData("transcript")).rejects.toThrow(
-        "ANTHROPIC_API_KEY not configured",
+        "Claude CLI not found",
       );
     });
 
-    it("throws when Claude returns no text block", async () => {
-      mockCreate.mockResolvedValueOnce({ content: [] });
+    it("throws when Claude returns no useful text", async () => {
+      mockCallClaude.mockResolvedValueOnce({ text: "" });
 
       const { extractMeetingData } =
         await import("../transcript-extraction-service");
       await expect(extractMeetingData("transcript")).rejects.toThrow(
-        "No response from AI",
+        "Failed to parse AI response",
       );
     });
 
     it("throws when Claude returns malformed JSON", async () => {
-      mockCreate.mockResolvedValueOnce({
-        content: [{ type: "text", text: "not valid json {{" }],
+      mockCallClaude.mockResolvedValueOnce({
+        text: "not valid json {{",
       });
 
       const { extractMeetingData } =
@@ -158,16 +130,11 @@ describe("transcript-extraction-service", () => {
     });
 
     it("defaults tasks to empty array when missing from response", async () => {
-      mockCreate.mockResolvedValueOnce({
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify({
-              title: "No tasks meeting",
-              summary: "Summary",
-            }),
-          },
-        ],
+      mockCallClaude.mockResolvedValueOnce({
+        text: JSON.stringify({
+          title: "No tasks meeting",
+          summary: "Summary",
+        }),
       });
 
       const { extractMeetingData } =
@@ -175,6 +142,22 @@ describe("transcript-extraction-service", () => {
       const result = await extractMeetingData("transcript");
 
       expect(result.tasks).toEqual([]);
+    });
+
+    it("passes the prompt to callClaude with system prompt and transcript", async () => {
+      const { extractMeetingData } =
+        await import("../transcript-extraction-service");
+
+      await extractMeetingData("some transcript text");
+
+      expect(mockCallClaude).toHaveBeenCalledWith(
+        expect.stringContaining("meeting notes assistant"),
+        expect.objectContaining({ timeout: 120_000 }),
+      );
+      expect(mockCallClaude).toHaveBeenCalledWith(
+        expect.stringContaining("Speaker 1, Speaker 2"),
+        expect.anything(),
+      );
     });
   });
 });

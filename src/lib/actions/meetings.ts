@@ -10,6 +10,7 @@ import {
 } from "@/lib/validations/meetings";
 import { notifyMeetingProcessed } from "@/lib/services/slack-notification-service";
 import { embedMeeting } from "@/lib/services/auto-embed-service";
+import { extractMeetingData } from "@/lib/services/transcript-extraction-service";
 
 /** Round minutes up to the nearest 15-minute increment */
 function roundUpTo15(minutes: number): number {
@@ -264,4 +265,75 @@ export async function createMeetingFromTranscript(data: ProcessedTranscript) {
   }
 
   return { success: true, meetingId };
+}
+
+/** Re-process a meeting whose title starts with "Processing:" by running its transcript through Claude extraction again */
+export async function reprocessMeetingAction(meetingId: string) {
+  const supabase = createClient();
+  if (!supabase) return { error: "Database unavailable" };
+
+  const { data: meeting, error: fetchError } = await supabase
+    .from("meetings")
+    .select("id, title, transcript, original_filename, client_id")
+    .eq("id", meetingId)
+    .single();
+
+  if (fetchError || !meeting) return { error: "Meeting not found" };
+
+  if (!meeting.transcript) {
+    return { error: "Meeting has no transcript to process" };
+  }
+
+  const extracted = await extractMeetingData(
+    meeting.transcript,
+    meeting.original_filename ?? undefined,
+  );
+
+  // Update meeting with extracted title, summary, and action_items
+  const { error: updateError } = await supabase
+    .from("meetings")
+    .update({
+      title: extracted.title,
+      summary: extracted.summary,
+      action_items: extracted.tasks,
+    })
+    .eq("id", meetingId);
+
+  if (updateError) return { error: updateError.message };
+
+  // Delete existing tasks for this meeting to prevent duplicates on re-process
+  const { error: deleteError } = await supabase
+    .from("tasks")
+    .delete()
+    .eq("meeting_id", meetingId);
+
+  if (deleteError) {
+    console.error("Failed to delete existing tasks:", deleteError.message);
+  }
+
+  // Insert new tasks from extraction
+  if (extracted.tasks.length > 0) {
+    const taskRows = extracted.tasks.map((t) => ({
+      client_id: meeting.client_id,
+      meeting_id: meetingId,
+      title: t.title,
+      description: t.description || null,
+      status: "todo",
+      priority: t.priority || "medium",
+      assignee: t.assignee || null,
+      assignee_type: t.assignee_type || "self",
+      confidence: t.confidence || null,
+      source_quote: t.source_quote || null,
+      is_client_visible: false,
+    }));
+
+    const { error: tasksError } = await supabase.from("tasks").insert(taskRows);
+    if (tasksError) {
+      console.error("Failed to create tasks:", tasksError.message);
+    }
+  }
+
+  revalidatePath("/meetings");
+  revalidatePath("/tasks");
+  return { success: true, title: extracted.title };
 }

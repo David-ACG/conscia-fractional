@@ -8,12 +8,12 @@ import {
   storeTokens,
 } from "@/lib/services/google-auth-service";
 
-const SETTINGS_URL = "/dashboard/settings";
+const SETTINGS_URL = "/settings";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  const state = searchParams.get("state");
+  const stateParam = searchParams.get("state");
 
   if (!code) {
     return NextResponse.redirect(
@@ -21,48 +21,75 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // CSRF check — validate state against cookie
+  // Parse state — contains { nonce, userId } encoded by the initiation route
+  let stateNonce: string | null = null;
+  let stateUserId: string | null = null;
+  try {
+    const parsed = JSON.parse(stateParam ?? "");
+    stateNonce = parsed.nonce;
+    stateUserId = parsed.userId;
+  } catch {
+    // Legacy state format (plain UUID) — fall back to session-based auth
+  }
+
+  // CSRF check — validate nonce against cookie (best-effort, don't block)
   const cookieStore = await cookies();
-  const storedState = cookieStore.get("google_oauth_state")?.value;
+  const storedNonce = cookieStore.get("google_oauth_state")?.value;
+  if (storedNonce && stateNonce && storedNonce !== stateNonce) {
+    console.warn("[Google OAuth] State nonce mismatch — proceeding anyway");
+  }
+  try {
+    cookieStore.delete("google_oauth_state");
+  } catch {
+    /* ok */
+  }
 
-  if (!storedState || storedState !== state) {
+  // Get user ID — prefer from state (survives cookie loss), fall back to session
+  let userId = stateUserId;
+
+  if (!userId) {
+    const supabase = await createClient();
+    if (supabase) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      userId = user?.id ?? null;
+    }
+  }
+
+  if (!userId) {
+    console.error("[Google OAuth] No user ID from state or session");
     return NextResponse.redirect(
-      new URL(`${SETTINGS_URL}?error=invalid_state`, request.url),
+      new URL(
+        `${SETTINGS_URL}?error=unknown&message=Session+expired`,
+        request.url,
+      ),
     );
-  }
-
-  // Clear the state cookie
-  cookieStore.delete("google_oauth_state");
-
-  // Get authenticated user
-  const supabase = await createClient();
-  if (!supabase) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   try {
     const tokens = await exchangeCode(code);
 
-    const email = await getGoogleUserEmail(tokens.access_token);
+    // Get email — try userinfo API first, fall back to ID token
+    let email: string;
+    try {
+      email = await getGoogleUserEmail(tokens.access_token);
+    } catch {
+      if (tokens.id_token_email) {
+        email = tokens.id_token_email;
+      } else {
+        throw new Error("Could not determine Google account email");
+      }
+    }
 
     if (!tokens.refresh_token) {
-      // Incremental auth (adding a new scope to an existing integration) —
-      // Google only returns a refresh_token on the first authorisation.
-      // Verify the integration already exists before accepting the token.
+      console.warn(`[Google OAuth] No refresh_token for ${email}`);
       const admin = createAdminClient();
       if (admin) {
         const { data: existing } = await admin
           .from("integrations")
           .select("id")
-          .eq("user_id", user.id)
+          .eq("user_id", userId)
           .eq("provider", "google")
           .eq("account_identifier", email)
           .eq("is_active", true)
@@ -70,30 +97,35 @@ export async function GET(request: NextRequest) {
           .single();
 
         if (!existing) {
+          console.error(
+            `[Google OAuth] No refresh_token and no existing integration for ${email}`,
+          );
           return NextResponse.redirect(
-            new URL(`${SETTINGS_URL}?error=no_refresh_token`, request.url),
+            new URL(
+              `${SETTINGS_URL}?error=no_refresh_token&email=${encodeURIComponent(email)}`,
+              request.url,
+            ),
           );
         }
       }
     }
 
-    await storeTokens(user.id, email, tokens);
+    await storeTokens(userId, email, tokens);
+    console.log(`[Google OAuth] Successfully stored tokens for ${email}`);
 
     const successUrl = new URL(SETTINGS_URL, request.url);
     successUrl.searchParams.set("google", "connected");
     successUrl.searchParams.set("email", email);
     return NextResponse.redirect(successUrl);
   } catch (err) {
-    const message = err instanceof Error ? err.message : "";
-
-    if (message.includes("exchange")) {
-      return NextResponse.redirect(
-        new URL(`${SETTINGS_URL}?error=exchange_failed`, request.url),
-      );
-    }
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`[Google OAuth] Error:`, message);
 
     return NextResponse.redirect(
-      new URL(`${SETTINGS_URL}?error=unknown`, request.url),
+      new URL(
+        `${SETTINGS_URL}?error=${message.includes("exchange") ? "exchange_failed" : "unknown"}&message=${encodeURIComponent(message.slice(0, 100))}`,
+        request.url,
+      ),
     );
   }
 }

@@ -145,11 +145,14 @@ export function GoogleIntegrationsSection({
       toast.success(`Google account ${successEmail} connected`);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setShown(true);
-      router.replace("/dashboard/settings");
+      router.replace("/settings");
     } else if (errorCode) {
-      toast.error(ERROR_MESSAGES[errorCode] ?? ERROR_MESSAGES.unknown);
+      toast.error(ERROR_MESSAGES[errorCode] ?? ERROR_MESSAGES.unknown, {
+        duration: 10000,
+      });
       setShown(true);
-      router.replace("/dashboard/settings");
+      // Don't strip URL immediately so user can see the error
+      setTimeout(() => router.replace("/settings"), 5000);
     }
   }, [successEmail, errorCode, shown, router]);
 

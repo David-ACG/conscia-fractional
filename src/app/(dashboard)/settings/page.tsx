@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getIntegrations } from "@/lib/services/integration-service";
 import type { DecryptedIntegration } from "@/lib/services/integration-service";
+import { getActiveClientId } from "@/lib/actions/clients";
+import { getPortalSettings, getPortalInvitations } from "@/lib/actions/portal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DisconnectButton } from "./disconnect-button";
@@ -9,6 +11,7 @@ import { GoogleIntegrationsSection } from "./google-integrations";
 import { SlackChannelMapper } from "@/components/settings/slack-channel-mapper";
 import { SlackNotificationToggles } from "@/components/settings/slack-notification-toggles";
 import { SlackReactionEmoji } from "@/components/settings/slack-reaction-emoji";
+import { PortalSharingSettings } from "@/components/settings/portal-sharing-settings";
 
 const OTHER_PROVIDERS = [
   {
@@ -22,14 +25,29 @@ const OTHER_PROVIDERS = [
 
 async function getSettingsData() {
   const supabase = await createClient();
-  if (!supabase) return { integrations: [], crmCustomers: [] };
+  if (!supabase)
+    return {
+      integrations: [],
+      crmCustomers: [],
+      clientId: null,
+      portalSettings: [],
+      portalInvitations: [],
+    };
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { integrations: [], crmCustomers: [] };
+  if (!user)
+    return {
+      integrations: [],
+      crmCustomers: [],
+      clientId: null,
+      portalSettings: [],
+      portalInvitations: [],
+    };
 
   try {
+    const clientId = await getActiveClientId();
     const integrations = await getIntegrations(user.id);
 
     const admin = createAdminClient();
@@ -42,9 +60,36 @@ async function getSettingsData() {
       crmCustomers = data ?? [];
     }
 
-    return { integrations, crmCustomers };
+    // Fetch portal data if we have an active client
+    let portalSettings: Awaited<ReturnType<typeof getPortalSettings>>["data"] =
+      [];
+    let portalInvitations: Awaited<
+      ReturnType<typeof getPortalInvitations>
+    >["data"] = [];
+    if (clientId) {
+      const [settingsResult, invitationsResult] = await Promise.all([
+        getPortalSettings(clientId),
+        getPortalInvitations(clientId),
+      ]);
+      portalSettings = settingsResult.data ?? [];
+      portalInvitations = invitationsResult.data ?? [];
+    }
+
+    return {
+      integrations,
+      crmCustomers,
+      clientId,
+      portalSettings,
+      portalInvitations,
+    };
   } catch {
-    return { integrations: [], crmCustomers: [] };
+    return {
+      integrations: [],
+      crmCustomers: [],
+      clientId: null,
+      portalSettings: [],
+      portalInvitations: [],
+    };
   }
 }
 
@@ -59,7 +104,13 @@ export default async function SettingsPage({
     message?: string;
   }>;
 }) {
-  const { integrations, crmCustomers } = await getSettingsData();
+  const {
+    integrations,
+    crmCustomers,
+    clientId,
+    portalSettings,
+    portalInvitations,
+  } = await getSettingsData();
   const params = await searchParams;
 
   const googleIntegrations = integrations.filter(
@@ -205,6 +256,23 @@ export default async function SettingsPage({
           );
         })}
       </div>
+
+      {/* Portal Sharing */}
+      {clientId && (
+        <div className="mt-10">
+          <h2 className="text-lg font-semibold tracking-tight">
+            Portal Sharing
+          </h2>
+          <p className="mt-1 mb-4 text-sm text-muted-foreground">
+            Control what clients can see and who has access to the portal.
+          </p>
+          <PortalSharingSettings
+            clientId={clientId}
+            settings={portalSettings ?? []}
+            invitations={portalInvitations ?? []}
+          />
+        </div>
+      )}
     </div>
   );
 }

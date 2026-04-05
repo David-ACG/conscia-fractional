@@ -15,6 +15,11 @@ const mockStorageRemove = vi.fn();
 
 vi.mock("@/lib/supabase/client", () => ({
   createClient: vi.fn(() => ({
+    auth: {
+      getUser: vi.fn().mockResolvedValue({
+        data: { user: { id: "test-user-id" } },
+      }),
+    },
     storage: {
       from: () => ({
         upload: mockStorageUpload,

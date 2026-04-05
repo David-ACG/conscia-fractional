@@ -13,10 +13,11 @@ import {
 // --- Helpers (exported for testing) ---
 
 export interface MonthBreakdown {
-  month: string; // "Jan 26"
+  month: string; // "January 2026"
   totalMinutes: number;
+  totalHours: number;
   totalDays: number;
-  label: string; // "Jan 26 - 2.25 days"
+  label: string; // "January 2026 - 4.25 hours (0.531 days)"
 }
 
 export async function formatDays(days: number): Promise<string> {
@@ -24,6 +25,12 @@ export async function formatDays(days: number): Promise<string> {
   // Round to 3 decimal places, trim trailing zeros
   const rounded = parseFloat(days.toFixed(3));
   return `${rounded} days`;
+}
+
+export async function formatHours(hours: number): Promise<string> {
+  if (hours === 1) return "1 hour";
+  const rounded = parseFloat(hours.toFixed(2));
+  return `${rounded} hours`;
 }
 
 export async function calculateMonthBreakdown(
@@ -37,8 +44,8 @@ export async function calculateMonthBreakdown(
     if (!entry.duration_minutes) continue;
     const date = new Date(entry.started_at);
     const monthKey = date.toLocaleDateString("en-GB", {
-      month: "short",
-      year: "2-digit",
+      month: "long",
+      year: "numeric",
     });
     monthMap.set(
       monthKey,
@@ -60,12 +67,14 @@ export async function calculateMonthBreakdown(
 
   return Promise.all(
     sorted.map(async ([month, totalMinutes]) => {
-      const totalDays = totalMinutes / 60 / hoursPerDay;
+      const totalHours = totalMinutes / 60;
+      const totalDays = totalHours / hoursPerDay;
       return {
         month,
         totalMinutes,
+        totalHours,
         totalDays,
-        label: `${month} - ${await formatDays(totalDays)}`,
+        label: `${month} - ${await formatHours(totalHours)} (${await formatDays(totalDays)})`,
       };
     }),
   );
@@ -76,12 +85,34 @@ export async function buildInvoiceText(
   totalDays: number,
   dayRate: number,
   totalAmount: number,
+  hoursPerDay: number = 8,
+  periodStart?: string,
+  periodEnd?: string,
 ): Promise<string> {
   const monthLines = breakdown.map((m) => m.label).join("\n");
-  const firstMonth = breakdown[0]?.month ?? "";
-  const lastMonth = breakdown[breakdown.length - 1]?.month ?? "";
-  const rangeLabel =
-    firstMonth === lastMonth ? firstMonth : `${firstMonth} to ${lastMonth}`;
+
+  // Format period dates as "30/03/2026 to 05/04/2026"
+  const fmtDate = (iso: string) => {
+    const d = new Date(iso);
+    return d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+  const periodLabel =
+    periodStart && periodEnd
+      ? `${fmtDate(periodStart)} to ${fmtDate(periodEnd)}`
+      : (() => {
+          const firstMonth = breakdown[0]?.month ?? "";
+          const lastMonth = breakdown[breakdown.length - 1]?.month ?? "";
+          return firstMonth === lastMonth
+            ? firstMonth
+            : `${firstMonth} to ${lastMonth}`;
+        })();
+
+  const totalHours = totalDays * hoursPerDay;
+  const hourlyRate = dayRate / hoursPerDay;
 
   const formattedRate = dayRate.toFixed(2);
   const formattedTotal = totalAmount.toLocaleString("en-GB", {
@@ -89,17 +120,23 @@ export async function buildInvoiceText(
     maximumFractionDigits: 2,
   });
   const formattedDays = parseFloat(totalDays.toFixed(3));
+  const formattedHours = parseFloat(totalHours.toFixed(2));
 
   return [
-    `${formattedDays} Days`,
+    `Period: ${periodLabel}`,
+    "",
+    `${formattedHours} Hours (${formattedDays} Days)`,
     "",
     monthLines,
     "",
-    `Total for ${rangeLabel} = ${formattedDays}`,
+    `Total for ${periodLabel} = ${formattedHours} hours (${formattedDays} days)`,
     "",
     "Timesheets available on request",
     "",
-    `Unit Price (£): ${formattedRate}`,
+    `${formattedHours} hours x £${hourlyRate.toFixed(2)}/hr = £${formattedTotal}`,
+    "",
+    `Day Rate (£): ${formattedRate}`,
+    `Hourly Rate (£): ${hourlyRate.toFixed(2)}`,
     `Subtotal (£): ${formattedTotal}`,
   ].join("\n");
 }
@@ -166,7 +203,7 @@ export async function createInvoice(data: InvoiceCreateData) {
     .limit(1)
     .single();
 
-  const hoursPerDay = (engagement?.hours_per_week ?? 40) / 5;
+  const hoursPerDay = 8; // Standard 8-hour day for day rate calculation
   const dayRate = engagement?.day_rate_gbp ?? 0;
 
   const totalMinutes = (entries ?? []).reduce(
@@ -273,7 +310,7 @@ export async function generateInvoiceText(invoiceId: string) {
     .limit(1)
     .single();
 
-  const hoursPerDay = (engagement?.hours_per_week ?? 40) / 5;
+  const hoursPerDay = 8; // Standard 8-hour day for day rate calculation
   const dayRate = engagement?.day_rate_gbp ?? 0;
 
   const { data: entries } = await supabase
@@ -286,6 +323,7 @@ export async function generateInvoiceText(invoiceId: string) {
 
   const breakdown = await calculateMonthBreakdown(entries ?? [], hoursPerDay);
   const totalDays = breakdown.reduce((sum, m) => sum + m.totalDays, 0);
+  const totalHours = breakdown.reduce((sum, m) => sum + m.totalHours, 0);
   const totalAmount = invoice.total_amount_gbp ?? totalDays * dayRate;
 
   const text = await buildInvoiceText(
@@ -293,9 +331,20 @@ export async function generateInvoiceText(invoiceId: string) {
     totalDays,
     dayRate,
     totalAmount,
+    hoursPerDay,
+    invoice.period_start,
+    invoice.period_end,
   );
 
-  return { success: true, text, totalDays, totalAmount, dayRate, breakdown };
+  return {
+    success: true,
+    text,
+    totalDays,
+    totalHours,
+    totalAmount,
+    dayRate,
+    breakdown,
+  };
 }
 
 export async function getInvoicePreview(
@@ -327,7 +376,7 @@ export async function getInvoicePreview(
 
   const entries = entriesRes.data ?? [];
   const engagement = engagementRes.data;
-  const hoursPerDay = (engagement?.hours_per_week ?? 40) / 5;
+  const hoursPerDay = 8; // Standard 8-hour day for day rate calculation
   const dayRate = engagement?.day_rate_gbp ?? 0;
 
   const breakdown = await calculateMonthBreakdown(entries, hoursPerDay);
@@ -344,6 +393,9 @@ export async function getInvoicePreview(
     totalDays,
     dayRate,
     totalAmount,
+    hoursPerDay,
+    periodStart,
+    periodEnd,
   );
 
   return {

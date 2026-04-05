@@ -200,7 +200,7 @@ export function DriveFolderPicker({
           <div className="py-6 text-center text-sm text-muted-foreground">
             No Google accounts connected.{" "}
             <a
-              href="/dashboard/settings"
+              href="/settings"
               className="underline hover:text-foreground"
               onClick={handleClose}
             >
