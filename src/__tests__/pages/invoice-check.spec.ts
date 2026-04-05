@@ -10,9 +10,9 @@ test.describe("Invoice calculation verification", () => {
     // invoicing page with stored auth state
 
     // Use the Supabase service role to query time entries directly
-    const supabaseUrl = "https://ugvxlrjxoykmzluvdncl.supabase.co";
-    const anonKey = "REDACTED_ANON_KEY";
-    const serviceKey = "REDACTED_SERVICE_KEY";
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
     // 1. Verify time entries in the period
     const entriesRes = await request.get(
