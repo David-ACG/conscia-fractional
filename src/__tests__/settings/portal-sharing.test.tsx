@@ -47,6 +47,7 @@ function makeSettings(
   overrides?: Partial<Record<string, boolean>>,
 ): PortalSettings[] {
   const modules = [
+    "customers",
     "timesheet",
     "tasks",
     "meetings",
@@ -88,7 +89,7 @@ function makeInvitation(
 
 describe("PortalSharingSettings", () => {
   describe("Module Toggles", () => {
-    it("renders toggle switches for all 7 modules", () => {
+    it("renders toggle switches for all 8 modules", () => {
       render(
         <PortalSharingSettings
           clientId={CLIENT_ID}
@@ -97,6 +98,7 @@ describe("PortalSharingSettings", () => {
         />,
       );
 
+      expect(screen.getByText("Customers")).toBeDefined();
       expect(screen.getByText("Timesheet")).toBeDefined();
       expect(screen.getByText("Tasks")).toBeDefined();
       expect(screen.getByText("Meetings")).toBeDefined();
@@ -105,9 +107,9 @@ describe("PortalSharingSettings", () => {
       expect(screen.getByText("Notes")).toBeDefined();
       expect(screen.getByText("Research")).toBeDefined();
 
-      // All 7 switches should exist
+      // All 8 switches should exist
       const switches = screen.getAllByRole("switch");
-      expect(switches).toHaveLength(7);
+      expect(switches).toHaveLength(8);
     });
 
     it("calls updatePortalSetting with correct params when toggled", async () => {
@@ -122,13 +124,13 @@ describe("PortalSharingSettings", () => {
       );
 
       const switches = screen.getAllByRole("switch");
-      // Toggle the first switch (Timesheet)
+      // Toggle the first switch (Customers)
       fireEvent.click(switches[0]);
 
       await waitFor(() => {
         expect(mockUpdatePortalSetting).toHaveBeenCalledWith(
           CLIENT_ID,
-          "timesheet",
+          "customers",
           true,
         );
       });

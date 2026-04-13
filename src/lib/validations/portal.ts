@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const portalSettingsUpdateSchema = z.object({
   module: z.enum([
+    "customers",
     "timesheet",
     "tasks",
     "meetings",

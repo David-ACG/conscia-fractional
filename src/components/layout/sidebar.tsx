@@ -63,7 +63,7 @@ const tertiaryNavItems = [
 ];
 
 const bottomNavItems = [
-  { href: "/portal", label: "Shared with Client", icon: Share2 },
+  { href: "/portal?preview=true", label: "Shared with Client", icon: Share2 },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 

@@ -336,6 +336,7 @@ export interface PortalInvitation {
 }
 
 export const PORTAL_MODULES = [
+  "customers",
   "timesheet",
   "tasks",
   "meetings",

@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { transcribeBatch } from "@/lib/services/transcription-service";
 import type { TranscriptionConfig } from "@/lib/types/transcription";
 
+export const maxDuration = 300; // 5 min — long recordings need time for Deepgram
+
 export async function POST(request: Request) {
   if (!process.env.DEEPGRAM_API_KEY) {
     return NextResponse.json(

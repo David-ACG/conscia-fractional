@@ -243,6 +243,23 @@ export default function TimesheetPage() {
   );
   const monthlyTotalHours = (monthlyTotalMinutes / 60).toFixed(1);
 
+  // Generate month tabs: from engagement start (March 2026) through current month
+  const monthTabs: { label: string; date: Date }[] = [];
+  const engagementStart = new Date(2026, 2, 1); // March 2026
+  const now = new Date();
+  const endMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const cursor = new Date(engagementStart);
+  while (cursor <= endMonth) {
+    monthTabs.push({
+      label: cursor.toLocaleDateString("en-GB", {
+        month: "short",
+        year: "numeric",
+      }),
+      date: new Date(cursor),
+    });
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+
   const dateLabel =
     tab === "daily"
       ? formatDateLabel(selectedDate)
@@ -289,7 +306,30 @@ export default function TimesheetPage() {
           </div>
         </div>
 
-        <p className="mt-1 text-sm text-muted-foreground">{dateLabel}</p>
+        {tab !== "monthly" && (
+          <p className="mt-1 text-sm text-muted-foreground">{dateLabel}</p>
+        )}
+
+        {tab === "monthly" && monthTabs.length > 1 && (
+          <div className="mt-2 flex gap-1 overflow-x-auto pb-1">
+            {monthTabs.map((m) => {
+              const isActive =
+                selectedDate.getMonth() === m.date.getMonth() &&
+                selectedDate.getFullYear() === m.date.getFullYear();
+              return (
+                <Button
+                  key={m.label}
+                  size="sm"
+                  variant={isActive ? "default" : "outline"}
+                  className="shrink-0"
+                  onClick={() => setSelectedDate(new Date(m.date))}
+                >
+                  {m.label}
+                </Button>
+              );
+            })}
+          </div>
+        )}
 
         <TabsContent value="daily">
           {loading ? (
@@ -332,7 +372,7 @@ export default function TimesheetPage() {
                 <div>
                   <p className="text-2xl font-bold">{monthlyTotalHours}h</p>
                   <p className="text-sm text-muted-foreground">
-                    Total this month
+                    Total for {formatMonthLabel(selectedDate)}
                   </p>
                 </div>
                 <div className="text-sm text-muted-foreground">

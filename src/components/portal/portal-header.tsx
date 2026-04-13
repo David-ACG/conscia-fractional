@@ -1,15 +1,17 @@
 "use client";
 
-import { LogOut, Loader2 } from "lucide-react";
+import { LogOut, Loader2, ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 interface PortalHeaderProps {
   clientName: string;
+  isPreview?: boolean;
 }
 
-export function PortalHeader({ clientName }: PortalHeaderProps) {
+export function PortalHeader({ clientName, isPreview }: PortalHeaderProps) {
   const [signingOut, setSigningOut] = useState(false);
 
   async function handleSignOut() {
@@ -36,20 +38,29 @@ export function PortalHeader({ clientName }: PortalHeaderProps) {
           {clientName}
         </span>
         <ThemeToggle />
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleSignOut}
-          disabled={signingOut}
-          className="text-muted-foreground hover:text-destructive"
-        >
-          {signingOut ? (
-            <Loader2 className="mr-2 size-4 animate-spin" />
-          ) : (
-            <LogOut className="mr-2 size-4" />
-          )}
-          Sign out
-        </Button>
+        {isPreview ? (
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/dashboard">
+              <ArrowLeft className="mr-2 size-4" />
+              Back to Dashboard
+            </Link>
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleSignOut}
+            disabled={signingOut}
+            className="text-muted-foreground hover:text-destructive"
+          >
+            {signingOut ? (
+              <Loader2 className="mr-2 size-4 animate-spin" />
+            ) : (
+              <LogOut className="mr-2 size-4" />
+            )}
+            Sign out
+          </Button>
+        )}
       </div>
     </header>
   );

@@ -11,6 +11,7 @@ import type { UploadStage } from "./upload-progress";
 import { cn } from "@/lib/utils";
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
+const COMPRESS_THRESHOLD = 49 * 1024 * 1024; // Compress files over 49MB (Supabase free-tier limit is 50MB)
 
 const AUDIO_EXTENSIONS = [".mp3", ".wav", ".m4a", ".ogg", ".webm"];
 
@@ -101,7 +102,6 @@ export function FileUploadTranscription({
     }
 
     abortControllerRef.current = new AbortController();
-    setStage("uploading");
     setUploadProgress(0);
     setErrorMessage(undefined);
 
@@ -112,15 +112,43 @@ export function FileUploadTranscription({
       } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      // 0. Compress large files to fit under Supabase free-tier 50MB limit
+      let fileToUpload: File | Blob = selectedFile;
+      let uploadContentType = selectedFile.type || "audio/mpeg";
+      let uploadName = selectedFile.name;
+
+      if (selectedFile.size > COMPRESS_THRESHOLD) {
+        setStage("compressing");
+        const { compressAudio } = await import("@/lib/audio-compress");
+        fileToUpload = await compressAudio(selectedFile, (p) => {
+          setUploadProgress(p.percent);
+        });
+        uploadContentType = "audio/mpeg";
+        uploadName = selectedFile.name.replace(/\.[^.]+$/, ".mp3");
+        console.log(
+          `[upload] Compressed ${(selectedFile.size / 1024 / 1024).toFixed(1)} MB → ${(fileToUpload.size / 1024 / 1024).toFixed(1)} MB`,
+        );
+        if (fileToUpload.size > COMPRESS_THRESHOLD) {
+          throw new Error(
+            `Compressed file is still ${(fileToUpload.size / 1024 / 1024).toFixed(0)} MB (limit: 49 MB). Try a shorter recording.`,
+          );
+        }
+      }
+
       // 1. Upload to Supabase Storage (path must start with user ID for RLS)
+      setStage("uploading");
+      setUploadProgress(0);
       const timestamp = Date.now();
-      const safeName = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const safeName = uploadName.replace(/[^a-zA-Z0-9._-]/g, "_");
       const path = `${user.id}/${timestamp}_${safeName}`;
 
+      console.log(
+        `[upload] Uploading ${(fileToUpload.size / 1024 / 1024).toFixed(1)} MB as ${uploadContentType}`,
+      );
       const { error: uploadError } = await supabase.storage
         .from("meeting-recordings")
-        .upload(path, selectedFile, {
-          contentType: selectedFile.type || "audio/mpeg",
+        .upload(path, fileToUpload, {
+          contentType: uploadContentType,
           upsert: false,
         });
 
@@ -309,8 +337,13 @@ export function FileUploadTranscription({
     );
   }
 
-  // --- Upload / transcribing / error stage ---
-  if (stage === "uploading" || stage === "transcribing" || stage === "error") {
+  // --- Compressing / upload / transcribing / error stage ---
+  if (
+    stage === "compressing" ||
+    stage === "uploading" ||
+    stage === "transcribing" ||
+    stage === "error"
+  ) {
     return (
       <div className={className}>
         <UploadProgress

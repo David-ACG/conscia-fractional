@@ -259,7 +259,7 @@ export default async function SettingsPage({
 
       {/* Portal Sharing */}
       {clientId && (
-        <div className="mt-10">
+        <div id="portal" className="mt-10 scroll-mt-6">
           <h2 className="text-lg font-semibold tracking-tight">
             Portal Sharing
           </h2>

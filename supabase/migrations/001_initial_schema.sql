@@ -67,7 +67,7 @@ CREATE TABLE public.contacts (
   skills jsonb DEFAULT '[]',
   working_on text,
   notes text,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -85,7 +85,7 @@ CREATE TABLE public.crm_customers (
   description text,
   status text DEFAULT 'active',
   primary_contact text,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -107,7 +107,7 @@ CREATE TABLE public.tasks (
   meeting_id uuid,  -- FK added after meetings table
   confidence text,
   source_quote text,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -137,7 +137,7 @@ CREATE TABLE public.meetings (
   action_items jsonb DEFAULT '[]',
   recording_url text,
   platform text,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -187,7 +187,7 @@ CREATE TABLE public.notes (
   content text,
   note_type text DEFAULT 'note',
   tags jsonb DEFAULT '[]',
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -202,7 +202,7 @@ CREATE TABLE public.research (
   content text,
   research_type text DEFAULT 'architecture',
   tags jsonb DEFAULT '[]',
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -219,7 +219,7 @@ CREATE TABLE public.assets (
   file_url text,
   file_name text,
   file_size_bytes bigint,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -238,7 +238,7 @@ CREATE TABLE public.deliverables (
   file_url text,
   file_name text,
   version integer DEFAULT 1,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -286,7 +286,7 @@ CREATE TABLE public.invoices (
   total_amount_gbp decimal(10,2),
   status text DEFAULT 'draft',
   paid_on date,
-  is_client_visible boolean DEFAULT false,
+  is_client_visible boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );

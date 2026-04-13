@@ -6,6 +6,7 @@ import {
   Receipt,
   FileOutput,
   CalendarDays,
+  Building2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -36,44 +37,53 @@ export default async function PortalDashboardPage() {
     1,
   ).toISOString();
 
-  const [hoursRes, tasksRes, meetingRes, invoiceRes] = await Promise.all([
-    enabledModules.includes("timesheet")
-      ? admin
-          .from("time_entries")
-          .select("duration_minutes")
-          .eq("client_id", clientId)
-          .eq("is_client_visible", true)
-          .eq("is_billable", true)
-          .gte("started_at", monthStart)
-      : Promise.resolve({ data: null }),
-    enabledModules.includes("tasks")
-      ? admin
-          .from("tasks")
-          .select("id")
-          .eq("client_id", clientId)
-          .eq("is_client_visible", true)
-          .neq("status", "done")
-      : Promise.resolve({ data: null }),
-    enabledModules.includes("meetings")
-      ? admin
-          .from("meetings")
-          .select("meeting_date, title")
-          .eq("client_id", clientId)
-          .eq("is_client_visible", true)
-          .gte("meeting_date", now.toISOString())
-          .order("meeting_date", { ascending: true })
-          .limit(1)
-      : Promise.resolve({ data: null }),
-    enabledModules.includes("invoicing")
-      ? admin
-          .from("invoices")
-          .select("total_amount_gbp")
-          .eq("client_id", clientId)
-          .eq("is_client_visible", true)
-          .neq("status", "paid")
-          .neq("status", "draft")
-      : Promise.resolve({ data: null }),
-  ]);
+  const [hoursRes, tasksRes, meetingRes, invoiceRes, customersRes] =
+    await Promise.all([
+      enabledModules.includes("timesheet")
+        ? admin
+            .from("time_entries")
+            .select("duration_minutes")
+            .eq("client_id", clientId)
+            .eq("is_client_visible", true)
+            .eq("is_billable", true)
+            .gte("started_at", monthStart)
+        : Promise.resolve({ data: null }),
+      enabledModules.includes("tasks")
+        ? admin
+            .from("tasks")
+            .select("id")
+            .eq("client_id", clientId)
+            .eq("is_client_visible", true)
+            .neq("status", "done")
+        : Promise.resolve({ data: null }),
+      enabledModules.includes("meetings")
+        ? admin
+            .from("meetings")
+            .select("meeting_date, title")
+            .eq("client_id", clientId)
+            .eq("is_client_visible", true)
+            .gte("meeting_date", now.toISOString())
+            .order("meeting_date", { ascending: true })
+            .limit(1)
+        : Promise.resolve({ data: null }),
+      enabledModules.includes("invoicing")
+        ? admin
+            .from("invoices")
+            .select("total_amount_gbp")
+            .eq("client_id", clientId)
+            .eq("is_client_visible", true)
+            .neq("status", "paid")
+            .neq("status", "draft")
+        : Promise.resolve({ data: null }),
+      enabledModules.includes("customers")
+        ? admin
+            .from("crm_customers")
+            .select("id")
+            .eq("client_id", clientId)
+            .eq("is_client_visible", true)
+            .eq("status", "active")
+        : Promise.resolve({ data: null }),
+    ]);
 
   // Build summary cards for enabled modules only
   const cards: SummaryCardData[] = [];
@@ -123,6 +133,15 @@ export default async function PortalDashboardPage() {
       value: total > 0 ? `£${total.toLocaleString()}` : "£0",
       icon: Receipt,
       href: "/portal/invoicing",
+    });
+  }
+
+  if (customersRes.data) {
+    cards.push({
+      label: "Active Customers",
+      value: customersRes.data.length,
+      icon: Building2,
+      href: "/portal/customers",
     });
   }
 

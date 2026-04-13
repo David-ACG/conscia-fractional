@@ -28,6 +28,21 @@ export async function middleware(request: NextRequest) {
   // Refresh auth session and handle route protection
   const response = await updateSession(request);
 
+  // Set/clear portal preview cookie based on query param
+  if (request.nextUrl.pathname.startsWith("/portal")) {
+    if (request.nextUrl.searchParams.get("preview") === "true") {
+      response.cookies.set("portal_preview", "true", {
+        path: "/portal",
+        maxAge: 3600,
+        httpOnly: true,
+        sameSite: "lax",
+      });
+    }
+  } else {
+    // Clear preview cookie when navigating away from portal
+    response.cookies.delete("portal_preview");
+  }
+
   // Apply security headers to the response
   for (const [key, value] of Object.entries(securityHeaders)) {
     response.headers.set(key, value);

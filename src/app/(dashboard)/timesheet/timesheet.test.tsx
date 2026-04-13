@@ -95,13 +95,13 @@ describe("TimesheetPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows current month label", () => {
+  it("shows current month tab in monthly view", () => {
     render(<TimesheetPage />);
     const today = new Date();
-    const monthLabel = today.toLocaleDateString("en-GB", {
-      month: "long",
+    const monthTab = today.toLocaleDateString("en-GB", {
+      month: "short",
       year: "numeric",
     });
-    expect(screen.getByText(monthLabel)).toBeInTheDocument();
+    expect(screen.getByText(monthTab)).toBeInTheDocument();
   });
 });

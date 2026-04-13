@@ -30,6 +30,13 @@ vi.mock("@/lib/supabase/client", () => ({
   })),
 }));
 
+// Mock audio-compress (dynamic import)
+vi.mock("@/lib/audio-compress", () => ({
+  compressAudio: vi
+    .fn()
+    .mockResolvedValue(new Blob(["compressed"], { type: "audio/mpeg" })),
+}));
+
 // ── Fetch mock ────────────────────────────────────────────────────────────────
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
@@ -112,6 +119,8 @@ describe("FileUploadTranscription", () => {
       error: null,
     });
     mockStorageRemove.mockResolvedValue({ error: null });
+
+    // Mock fetch for transcription API
     mockFetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ segments: MOCK_SEGMENTS }),
@@ -232,17 +241,14 @@ describe("FileUploadTranscription", () => {
       fireEvent.change(input, { target: { files: [makeFile()] } });
     });
 
-    // Start transcription (don't await so component stays in uploading)
     act(() => {
       fireEvent.click(screen.getByText("Transcribe"));
     });
 
-    // UploadProgress should be visible while upload is in progress
     await waitFor(() => {
       expect(screen.getByTestId("upload-progress")).toBeInTheDocument();
     });
 
-    // Resolve to avoid memory leaks
     await act(async () => {
       resolveUpload({ error: null });
     });

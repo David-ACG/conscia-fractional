@@ -11,11 +11,18 @@ import {
   Receipt,
   StickyNote,
   Search,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const moduleNavItems = [
   { href: "/portal", label: "Dashboard", icon: LayoutDashboard, always: true },
+  {
+    href: "/portal/customers",
+    label: "Customers",
+    icon: Building2,
+    module: "customers",
+  },
   {
     href: "/portal/timesheet",
     label: "Timesheet",
@@ -52,10 +59,15 @@ const moduleNavItems = [
 
 interface PortalSidebarProps {
   enabledModules: string[];
+  isPreview?: boolean;
 }
 
-export function PortalSidebar({ enabledModules }: PortalSidebarProps) {
+export function PortalSidebar({
+  enabledModules,
+  isPreview,
+}: PortalSidebarProps) {
   const pathname = usePathname();
+  const suffix = isPreview ? "?preview=true" : "";
 
   const visibleItems = moduleNavItems.filter(
     (item) =>
@@ -75,7 +87,7 @@ export function PortalSidebar({ enabledModules }: PortalSidebarProps) {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={`${item.href}${suffix}`}
               className={cn(
                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 isActive

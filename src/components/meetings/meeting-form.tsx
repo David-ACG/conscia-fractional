@@ -5,6 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -293,8 +294,10 @@ export function MeetingForm({
                   <FormItem>
                     <FormLabel>Customer</FormLabel>
                     <Select
-                      onValueChange={field.onChange}
-                      value={field.value ?? ""}
+                      onValueChange={(v) =>
+                        field.onChange(v === "__none__" ? null : v)
+                      }
+                      value={field.value ?? "__none__"}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -302,7 +305,7 @@ export function MeetingForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">None / Admin</SelectItem>
+                        <SelectItem value="__none__">None / Admin</SelectItem>
                         {customers.map((c) => (
                           <SelectItem key={c.id} value={c.id}>
                             {c.name}
@@ -318,7 +321,7 @@ export function MeetingForm({
 
             {/* Attendees */}
             <div>
-              <FormLabel>Attendees</FormLabel>
+              <Label>Attendees</Label>
               <div className="mt-2 space-y-2">
                 {fields.map((field, index) => (
                   <div key={field.id} className="flex gap-2 items-start">

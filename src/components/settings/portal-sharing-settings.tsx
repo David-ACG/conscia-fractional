@@ -9,6 +9,7 @@ import {
   Receipt,
   StickyNote,
   Search,
+  Building2,
   Copy,
   UserPlus,
   type LucideIcon,
@@ -94,6 +95,11 @@ const moduleDescriptions: Record<
     label: "Research",
     description: "Research findings and analysis",
     icon: Search,
+  },
+  customers: {
+    label: "Customers",
+    description: "CRM customers you are working on",
+    icon: Building2,
   },
 };
 

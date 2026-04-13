@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 export type UploadStage =
   | "idle"
+  | "compressing"
   | "uploading"
   | "transcribing"
   | "reviewing"
@@ -34,6 +35,7 @@ function formatFileSize(bytes: number): string {
 }
 
 const STAGES = [
+  { key: "compressing" as const, label: "Compress" },
   { key: "uploading" as const, label: "Upload" },
   { key: "transcribing" as const, label: "Transcribe" },
   { key: "reviewing" as const, label: "Review" },
@@ -41,6 +43,7 @@ const STAGES = [
 ];
 
 const STAGE_ORDER: UploadStage[] = [
+  "compressing",
   "uploading",
   "transcribing",
   "reviewing",
@@ -107,7 +110,9 @@ export function UploadProgress({
                   ) : isError ? (
                     <X className="h-3.5 w-3.5" />
                   ) : isCurrent &&
-                    (s.key === "transcribing" || s.key === "processing") ? (
+                    (s.key === "compressing" ||
+                      s.key === "transcribing" ||
+                      s.key === "processing") ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
                   ) : (
                     i + 1
@@ -138,6 +143,17 @@ export function UploadProgress({
           );
         })}
       </div>
+
+      {/* Compressing state */}
+      {stage === "compressing" && (
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Compressing audio for upload...</span>
+            <span>{uploadProgress}%</span>
+          </div>
+          <Progress value={uploadProgress} aria-label="Compression progress" />
+        </div>
+      )}
 
       {/* Upload progress bar */}
       {stage === "uploading" && (
@@ -180,7 +196,9 @@ export function UploadProgress({
       )}
 
       {/* Cancel button */}
-      {(stage === "uploading" || stage === "transcribing") && (
+      {(stage === "compressing" ||
+        stage === "uploading" ||
+        stage === "transcribing") && (
         <Button
           size="sm"
           variant="ghost"

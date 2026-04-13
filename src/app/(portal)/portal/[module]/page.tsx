@@ -8,6 +8,7 @@ import { PortalDeliverables } from "@/components/portal/portal-deliverables";
 import { PortalInvoicing } from "@/components/portal/portal-invoicing";
 import { PortalNotes } from "@/components/portal/portal-notes";
 import { PortalResearch } from "@/components/portal/portal-research";
+import { PortalCustomers } from "@/components/portal/portal-customers";
 
 export default async function PortalModulePage({
   params,
@@ -45,6 +46,8 @@ export default async function PortalModulePage({
       return <PortalNotes clientId={clientId} />;
     case "research":
       return <PortalResearch clientId={clientId} />;
+    case "customers":
+      return <PortalCustomers clientId={clientId} />;
     default:
       notFound();
   }
