@@ -163,7 +163,7 @@ If the project enforces a clean `npm test` before merge, stub-patch those tests 
 
 ## Implementation Notes — 2026-04-17 21:15
 
-- **Commit:** _(to be added)_
+- **Commit:** `ae8374d feat(db): migration + types for simplified portal sharing`
 - **Tests:** 91 test files, 959 passed, 1 skipped with TODO marker (see below). `npm test` exits 0.
 - **Verification URL:** http://localhost:3002 (migration not yet applied — see warning below)
 - **Playwright check:** N/A for this prompt (DB + types only; UI is Prompts 5/6).
