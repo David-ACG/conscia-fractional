@@ -189,7 +189,7 @@ Aim for ≥95% coverage on the service.
 
 ## Implementation Notes — 2026-04-17 17:35
 
-- **Commit:** <pending — to be added after commit>
+- **Commit:** `0270722` — feat(trello): add Trello auth service and Settings connect card
 - **Tests:** 937/937 pass (14 new tests for `trello-auth-service` — `buildAuthorizeUrl`, `fetchMemberInfo`, `storeCredentials`, `getCredentials`, `disconnect`)
 - **Verification URL:** https://localhost:3002/settings (HTTPS dev server)
 - **Playwright check:** Passed — ad-hoc script verified the Trello card renders, Connect Trello button is disabled on empty input, disabled on invalid input, and enabled when a 32-char hex string is entered. No console errors.
