@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "conscia_fractional",
+  "project_id": "5ce699d9-3144-4f75-92b0-baa21957792a"
+}

@@ -46,3 +46,10 @@ supabase/.temp/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+certificates
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
