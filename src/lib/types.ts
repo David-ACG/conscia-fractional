@@ -89,6 +89,7 @@ export interface Task {
   confidence: "explicit" | "inferred" | "tentative" | null;
   source_quote: string | null;
   is_client_visible: boolean;
+  trello_card_id?: string | null;
   created_at: string;
   updated_at: string;
 }
