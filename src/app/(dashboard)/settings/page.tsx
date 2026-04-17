@@ -12,6 +12,7 @@ import { SlackChannelMapper } from "@/components/settings/slack-channel-mapper";
 import { SlackNotificationToggles } from "@/components/settings/slack-notification-toggles";
 import { SlackReactionEmoji } from "@/components/settings/slack-reaction-emoji";
 import { PortalSharingSettings } from "@/components/settings/portal-sharing-settings";
+import { TrelloConnectForm } from "@/components/settings/trello-connect-form";
 
 const OTHER_PROVIDERS = [
   {
@@ -101,6 +102,7 @@ export default async function SettingsPage({
     email?: string;
     error?: string;
     slack?: string;
+    trello?: string;
     message?: string;
   }>;
 }) {
@@ -255,6 +257,70 @@ export default async function SettingsPage({
             </Card>
           );
         })}
+
+        {/* Trello — delegated token flow (user-provided API key) */}
+        {(() => {
+          const trelloIntegration = otherIntegrationMap.get("trello");
+          const isConnected = !!trelloIntegration;
+          const showSuccess = params.trello === "connected";
+          const showError = params.trello === "error";
+
+          return (
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-base font-semibold">
+                  Trello
+                </CardTitle>
+                <Badge
+                  variant={isConnected ? "default" : "secondary"}
+                  className={
+                    isConnected ? "bg-green-600 hover:bg-green-600" : ""
+                  }
+                >
+                  {isConnected ? "Connected" : "Not Connected"}
+                </Badge>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Export tasks to a Trello board
+                </p>
+                {isConnected && trelloIntegration.account_identifier && (
+                  <p className="mt-2 text-sm font-medium">
+                    Connected as @{trelloIntegration.account_identifier}
+                  </p>
+                )}
+                {isConnected && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Connected{" "}
+                    {new Date(
+                      trelloIntegration.created_at,
+                    ).toLocaleDateString()}
+                  </p>
+                )}
+                {showSuccess && (
+                  <p className="mt-2 text-xs text-green-600">
+                    Trello connected successfully.
+                  </p>
+                )}
+                {showError && (
+                  <p className="mt-2 text-xs text-destructive">
+                    Connection failed
+                    {params.message ? `: ${params.message}` : ""}. Try again.
+                  </p>
+                )}
+                <div className="mt-4">
+                  {isConnected ? (
+                    <DisconnectButton
+                      integrationId={trelloIntegration.id}
+                    />
+                  ) : (
+                    <TrelloConnectForm />
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
       </div>
 
       {/* Portal Sharing */}
