@@ -129,7 +129,6 @@ export async function processRecording(
       attendees,
       transcript: srt,
       platform: null,
-      is_client_visible: false,
     })
     .select("id")
     .single();
@@ -178,7 +177,6 @@ export async function processRecording(
       assignee_type: t.assignee_type ?? "self",
       confidence: t.confidence ?? null,
       source_quote: t.source_quote ?? null,
-      is_client_visible: false,
     }));
 
     const { error: tasksError } = await supabase.from("tasks").insert(taskRows);
@@ -207,7 +205,6 @@ export async function processRecording(
       is_manual: false,
       meeting_id: meetingId,
       is_billable: true,
-      is_client_visible: false,
     })
     .select("id")
     .single();
@@ -272,7 +269,6 @@ export async function processUploadedRecording(
       transcript: srt,
       recording_url: audioUrl,
       platform: null,
-      is_client_visible: false,
       original_filename: fileName ?? null,
       actual_duration_seconds: durationSeconds,
     })
@@ -314,7 +310,6 @@ export async function processUploadedRecording(
       assignee_type: t.assignee_type ?? "self",
       confidence: t.confidence ?? null,
       source_quote: t.source_quote ?? null,
-      is_client_visible: false,
     }));
 
     const { error: tasksError } = await supabase.from("tasks").insert(taskRows);
@@ -342,7 +337,6 @@ export async function processUploadedRecording(
       is_manual: false,
       meeting_id: meetingId,
       is_billable: true,
-      is_client_visible: false,
     })
     .select("id")
     .single();

@@ -42,7 +42,6 @@ export async function createMeeting(data: MeetingFormData) {
       transcript: parsed.data.transcript || null,
       recording_url: parsed.data.recording_url || null,
       platform: parsed.data.platform || null,
-      is_client_visible: parsed.data.is_client_visible,
     })
     .select("id")
     .single();
@@ -74,7 +73,6 @@ export async function updateMeeting(id: string, data: MeetingFormData) {
       transcript: parsed.data.transcript || null,
       recording_url: parsed.data.recording_url || null,
       platform: parsed.data.platform || null,
-      is_client_visible: parsed.data.is_client_visible,
     })
     .eq("id", id);
 
@@ -182,7 +180,6 @@ export async function createMeetingFromTranscript(data: ProcessedTranscript) {
       summary: data.summary,
       transcript: data.rawTranscript,
       platform: data.platform || null,
-      is_client_visible: false,
     })
     .select("id")
     .single();
@@ -204,7 +201,6 @@ export async function createMeetingFromTranscript(data: ProcessedTranscript) {
       assignee_type: t.assignee_type || "self",
       confidence: t.confidence || null,
       source_quote: t.source_quote || null,
-      is_client_visible: false,
     }));
 
     const { error: tasksError } = await supabase.from("tasks").insert(taskRows);
@@ -284,10 +280,17 @@ export async function reprocessMeetingAction(meetingId: string) {
     return { error: "Meeting has no transcript to process" };
   }
 
-  const extracted = await extractMeetingData(
-    meeting.transcript,
-    meeting.original_filename ?? undefined,
-  );
+  let extracted;
+  try {
+    extracted = await extractMeetingData(
+      meeting.transcript,
+      meeting.original_filename ?? undefined,
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Extraction failed";
+    console.error("reprocessMeetingAction extraction failed:", message);
+    return { error: `Re-process failed: ${message}` };
+  }
 
   // Update meeting with extracted title, summary, and action_items
   const { error: updateError } = await supabase
@@ -324,7 +327,6 @@ export async function reprocessMeetingAction(meetingId: string) {
       assignee_type: t.assignee_type || "self",
       confidence: t.confidence || null,
       source_quote: t.source_quote || null,
-      is_client_visible: false,
     }));
 
     const { error: tasksError } = await supabase.from("tasks").insert(taskRows);

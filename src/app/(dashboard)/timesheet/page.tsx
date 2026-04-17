@@ -224,7 +224,6 @@ export default function TimesheetPage() {
         duration_minutes: durationMinutes,
         is_manual: true,
         is_billable: data.isBillable,
-        is_client_visible: false,
         crm_customer_id: data.crm_customer_id || null,
       }),
     });

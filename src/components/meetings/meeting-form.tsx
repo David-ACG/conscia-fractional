@@ -25,7 +25,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -83,7 +82,6 @@ export function MeetingForm({
       transcript: "",
       recording_url: "",
       platform: undefined,
-      is_client_visible: false,
     },
   });
 
@@ -110,7 +108,6 @@ export function MeetingForm({
           transcript: "",
           recording_url: "",
           platform: undefined,
-          is_client_visible: false,
         });
       } else {
         form.reset({
@@ -125,7 +122,6 @@ export function MeetingForm({
           transcript: meeting?.transcript ?? "",
           recording_url: meeting?.recording_url ?? "",
           platform: meeting?.platform ?? undefined,
-          is_client_visible: meeting?.is_client_visible ?? false,
         });
       }
     }
@@ -438,25 +434,6 @@ export function MeetingForm({
                   <FormControl>
                     <Input placeholder="https://..." {...field} />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="is_client_visible"
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className="!mt-0">
-                    Visible to client portal
-                  </FormLabel>
                   <FormMessage />
                 </FormItem>
               )}

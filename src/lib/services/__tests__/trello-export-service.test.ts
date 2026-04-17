@@ -39,7 +39,6 @@ function makeTask(overrides: Partial<Task> = {}): Task {
     meeting_id: null,
     confidence: null,
     source_quote: null,
-    is_client_visible: false,
     trello_card_id: null,
     created_at: "2026-04-17T00:00:00Z",
     updated_at: "2026-04-17T00:00:00Z",

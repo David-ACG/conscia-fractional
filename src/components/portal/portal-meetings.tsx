@@ -21,7 +21,6 @@ export async function PortalMeetings({ clientId }: PortalMeetingsProps) {
       "id, title, meeting_date, duration_minutes, attendees, summary, action_items",
     )
     .eq("client_id", clientId)
-    .eq("is_client_visible", true)
     .order("meeting_date", { ascending: false });
 
   if (!meetings || meetings.length === 0) {

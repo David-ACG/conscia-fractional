@@ -26,7 +26,7 @@ async function getMeetingsData() {
       supabase
         .from("meetings")
         .select(
-          "id, title, meeting_date, duration_minutes, actual_duration_seconds, platform, original_filename, attendees, action_items, recording_url, crm_customer_id, is_client_visible, summary, crm_customer:crm_customers(id, name, slug)",
+          "id, title, meeting_date, duration_minutes, actual_duration_seconds, platform, original_filename, attendees, action_items, recording_url, crm_customer_id, summary, crm_customer:crm_customers(id, name, slug)",
         )
         .eq("client_id", clientId)
         .order("meeting_date", { ascending: false }),

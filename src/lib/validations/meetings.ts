@@ -16,7 +16,6 @@ export const meetingSchema = z.object({
   transcript: z.string().optional().default(""),
   recording_url: z.string().url("Invalid URL").optional().or(z.literal("")),
   platform: z.enum(["zoom", "teams", "meet"]).optional(),
-  is_client_visible: z.boolean().default(false),
 });
 
 export type MeetingFormData = z.infer<typeof meetingSchema>;

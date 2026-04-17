@@ -43,7 +43,6 @@ export async function PortalTimesheet({ clientId }: PortalTimesheetProps) {
       "id, category, description, started_at, duration_minutes, is_billable",
     )
     .eq("client_id", clientId)
-    .eq("is_client_visible", true)
     .gte("started_at", monthStart)
     .lte("started_at", monthEnd)
     .order("started_at", { ascending: false });

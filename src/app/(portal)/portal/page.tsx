@@ -43,7 +43,6 @@ export default async function PortalDashboardPage() {
             .from("time_entries")
             .select("duration_minutes")
             .eq("client_id", clientId)
-            .eq("is_client_visible", true)
             .eq("is_billable", true)
             .gte("started_at", monthStart)
         : Promise.resolve({ data: null }),
@@ -52,7 +51,6 @@ export default async function PortalDashboardPage() {
             .from("meetings")
             .select("meeting_date, title")
             .eq("client_id", clientId)
-            .eq("is_client_visible", true)
             .gte("meeting_date", now.toISOString())
             .order("meeting_date", { ascending: true })
             .limit(1)
@@ -165,7 +163,6 @@ export default async function PortalDashboardPage() {
           .from("meetings")
           .select("title, meeting_date")
           .eq("client_id", clientId)
-          .eq("is_client_visible", true)
           .not("summary", "is", null)
           .order("meeting_date", { ascending: false })
           .limit(5);

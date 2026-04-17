@@ -60,17 +60,24 @@ import type { PortalSettings, PortalInvitation } from "@/lib/types";
 
 const moduleDescriptions: Record<
   string,
-  { label: string; description: string; icon: LucideIcon }
+  {
+    label: string;
+    description: string;
+    icon: LucideIcon;
+    alwaysShared?: boolean;
+  }
 > = {
   timesheet: {
     label: "Timesheet",
     description: "Time entries and hours summary",
     icon: Clock,
+    alwaysShared: true,
   },
   meetings: {
     label: "Meetings",
     description: "Meeting summaries and action items (no transcripts)",
     icon: Users,
+    alwaysShared: true,
   },
   deliverables: {
     label: "Deliverables",
@@ -192,12 +199,23 @@ function ModuleToggles({
               <div className="flex items-center gap-3">
                 <Icon className="size-5 shrink-0 text-muted-foreground" />
                 <div>
-                  <Label
-                    htmlFor={`module-${mod}`}
-                    className="text-sm font-medium cursor-pointer"
-                  >
-                    {info.label}
-                  </Label>
+                  <div className="flex items-center gap-2">
+                    <Label
+                      htmlFor={`module-${mod}`}
+                      className="text-sm font-medium cursor-pointer"
+                    >
+                      {info.label}
+                    </Label>
+                    {info.alwaysShared && (
+                      <Badge
+                        variant="secondary"
+                        className="text-xs"
+                        title="All items in this module are automatically shared with the client."
+                      >
+                        Always shared
+                      </Badge>
+                    )}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     {info.description}
                   </p>

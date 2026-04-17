@@ -13,13 +13,14 @@ test.describe("Portal Sharing Settings", () => {
     ).toBeVisible({ timeout: 10000 });
   });
 
-  test("settings page shows all 7 module toggles", async ({ page }) => {
+  test("settings page shows module toggles (tasks excluded)", async ({
+    page,
+  }) => {
     await page.goto("/settings");
     await page.waitForLoadState("networkidle");
 
     const modules = [
       "Timesheet",
-      "Tasks",
       "Meetings",
       "Deliverables",
       "Invoicing",
@@ -38,10 +39,10 @@ test.describe("Portal Sharing Settings", () => {
     await page.goto("/settings");
     await page.waitForLoadState("networkidle");
 
-    // All 7 modules should have switches
+    // Portal module toggles — tasks has been removed, so at least 6 switches
     const switches = page.getByRole("switch");
     const count = await switches.count();
-    expect(count).toBeGreaterThanOrEqual(7);
+    expect(count).toBeGreaterThanOrEqual(6);
   });
 
   test("invite user button is visible", async ({ page }) => {

@@ -119,7 +119,6 @@ export async function PATCH() {
     duration_minutes: Math.max(1, durationMinutes),
     is_manual: false,
     is_billable: true,
-    is_client_visible: false,
   });
 
   if (entryError) {

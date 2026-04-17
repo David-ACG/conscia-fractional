@@ -8,7 +8,7 @@ import { describe, it, expect } from "vitest";
  * 2. Disabled modules return 404 (via module page logic)
  * 3. Each module view queries correct columns
  * 4. Meeting view does NOT include transcript
- * 5. Data is filtered by is_client_visible
+ * 5. Data is filtered by is_client_visible (for modules that still use it)
  */
 
 // ---- Mock Supabase query builder ----
@@ -226,7 +226,7 @@ describe("Portal data visibility filtering", () => {
   }
 
   it("always filters by client_id", () => {
-    const query = buildPortalQuery("time_entries", "client-123");
+    const query = buildPortalQuery("deliverables", "client-123");
     query.eq("client_id", "client-123").eq("is_client_visible", true);
 
     const filters = query.getFilters();
@@ -237,7 +237,7 @@ describe("Portal data visibility filtering", () => {
   });
 
   it("always filters by is_client_visible = true", () => {
-    const query = buildPortalQuery("meetings", "client-123");
+    const query = buildPortalQuery("deliverables", "client-123");
     query.eq("client_id", "client-123").eq("is_client_visible", true);
 
     const filters = query.getFilters();
@@ -247,16 +247,10 @@ describe("Portal data visibility filtering", () => {
     });
   });
 
-  // Verify every portal module's query pattern includes both filters.
-  // Tasks is no longer a portal module — it's delegated to Trello.
-  const modules = [
-    "time_entries",
-    "meetings",
-    "deliverables",
-    "invoices",
-    "notes",
-    "research",
-  ];
+  // Verify portal modules that still support per-item sharing include both filters.
+  // Tasks: no longer a portal module (delegated to Trello).
+  // Meetings + time_entries: always shared with the client (no per-item flag).
+  const modules = ["deliverables", "invoices", "notes", "research"];
 
   for (const table of modules) {
     it(`${table} query includes both client_id and is_client_visible filters`, () => {

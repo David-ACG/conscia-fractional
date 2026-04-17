@@ -83,7 +83,6 @@ describe("Meeting Actions", () => {
         transcript: "",
         recording_url: "",
         platform: "zoom",
-        is_client_visible: false,
       });
 
       expect(result).toEqual({ success: true, meetingId: "meeting-1" });
@@ -123,7 +122,6 @@ describe("Meeting Actions", () => {
         transcript: "",
         recording_url: "",
         platform: "teams",
-        is_client_visible: true,
       });
 
       expect(result).toEqual({ success: true });
