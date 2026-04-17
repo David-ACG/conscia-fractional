@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Merge,
   Loader2,
+  Trello,
 } from "lucide-react";
 import { toast } from "sonner";
 import { updateTaskStatus } from "@/lib/actions/tasks";
@@ -25,8 +26,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { TaskForm } from "./task-form";
 import { TaskKanban } from "./task-kanban";
+import { TrelloExportDialog } from "./trello-export-dialog";
 import type { Task, CrmCustomer } from "@/lib/types";
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
@@ -299,9 +307,14 @@ function TaskTable({
 interface TaskListProps {
   tasks: TaskWithMeeting[];
   customers?: Pick<CrmCustomer, "id" | "name">[];
+  trelloConnected?: boolean;
 }
 
-export function TaskList({ tasks, customers = [] }: TaskListProps) {
+export function TaskList({
+  tasks,
+  customers = [],
+  trelloConnected = false,
+}: TaskListProps) {
   const [view, setView] = React.useState<"list" | "kanban">("list");
   const [search, setSearch] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
@@ -314,6 +327,7 @@ export function TaskList({ tasks, customers = [] }: TaskListProps) {
   >(null);
   const [sortDir, setSortDir] = React.useState<"asc" | "desc">("asc");
   const [consolidating, setConsolidating] = React.useState(false);
+  const [trelloOpen, setTrelloOpen] = React.useState(false);
   const [consolidateGroups, setConsolidateGroups] = React.useState<Array<{
     consolidated_title: string;
     consolidated_description: string;
@@ -500,6 +514,35 @@ export function TaskList({ tasks, customers = [] }: TaskListProps) {
           {consolidating ? "Analyzing..." : "Consolidate"}
         </Button>
 
+        {trelloConnected ? (
+          <Button
+            variant="outline"
+            onClick={() => setTrelloOpen(true)}
+            data-testid="trello-export-button"
+          >
+            <Trello className="mr-2 h-4 w-4" />
+            Export to Trello
+          </Button>
+        ) : (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span tabIndex={0} data-testid="trello-export-button-wrapper">
+                  <Button
+                    variant="outline"
+                    disabled
+                    data-testid="trello-export-button"
+                  >
+                    <Trello className="mr-2 h-4 w-4" />
+                    Export to Trello
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>Connect Trello in Settings</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+
         <Button
           onClick={() => {
             setEditingTask(null);
@@ -607,6 +650,14 @@ export function TaskList({ tasks, customers = [] }: TaskListProps) {
         onOpenChange={handleCloseForm}
         task={editingTask}
         customers={customers}
+      />
+
+      {/* Trello export dialog */}
+      <TrelloExportDialog
+        tasks={filtered}
+        trelloConnected={trelloConnected}
+        open={trelloOpen}
+        onOpenChange={setTrelloOpen}
       />
     </>
   );

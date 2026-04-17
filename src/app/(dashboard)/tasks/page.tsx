@@ -1,5 +1,7 @@
 import { createAdminClient as createClient } from "@/lib/supabase/admin";
 import { getActiveClientId } from "@/lib/actions/clients";
+import { createClient as createServerSupabase } from "@/lib/supabase/server";
+import { getCredentials } from "@/lib/services/trello-auth-service";
 import { TaskList } from "@/components/tasks/task-list";
 import type { Task, CrmCustomer } from "@/lib/types";
 
@@ -32,8 +34,26 @@ async function getTasksData() {
   };
 }
 
+async function isTrelloConnected(): Promise<boolean> {
+  const supabase = await createServerSupabase();
+  if (!supabase) return false;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return false;
+  try {
+    const creds = await getCredentials(user.id);
+    return !!creds;
+  } catch {
+    return false;
+  }
+}
+
 export default async function TasksPage() {
-  const { tasks, customers } = await getTasksData();
+  const [{ tasks, customers }, trelloConnected] = await Promise.all([
+    getTasksData(),
+    isTrelloConnected(),
+  ]);
 
   return (
     <div className="animate-in">
@@ -42,7 +62,11 @@ export default async function TasksPage() {
         Track work items and action items.
       </p>
       <div className="mt-6">
-        <TaskList tasks={tasks} customers={customers} />
+        <TaskList
+          tasks={tasks}
+          customers={customers}
+          trelloConnected={trelloConnected}
+        />
       </div>
     </div>
   );
