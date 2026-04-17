@@ -17,9 +17,10 @@ import {
 // ---- Validation schema tests ----
 
 describe("portalSettingsUpdateSchema", () => {
+  // "tasks" removed from PORTAL_MODULES in Prompt 4 (migration 019) — tasks
+  // live in Trello now, not the portal.
   const validModules = [
     "timesheet",
-    "tasks",
     "meetings",
     "deliverables",
     "invoicing",

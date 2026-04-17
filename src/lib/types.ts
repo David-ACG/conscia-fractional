@@ -88,7 +88,6 @@ export interface Task {
   meeting_id: string | null;
   confidence: "explicit" | "inferred" | "tentative" | null;
   source_quote: string | null;
-  is_client_visible: boolean;
   trello_card_id?: string | null;
   created_at: string;
   updated_at: string;
@@ -121,7 +120,6 @@ export interface Meeting {
   platform: "zoom" | "teams" | "meet" | null;
   original_filename: string | null;
   actual_duration_seconds: number | null;
-  is_client_visible: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -139,7 +137,6 @@ export interface TimeEntry {
   meeting_id: string | null;
   is_billable: boolean;
   freeagent_timeslip_id: string | null;
-  is_client_visible: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -339,7 +336,6 @@ export interface PortalInvitation {
 export const PORTAL_MODULES = [
   "customers",
   "timesheet",
-  "tasks",
   "meetings",
   "deliverables",
   "invoicing",

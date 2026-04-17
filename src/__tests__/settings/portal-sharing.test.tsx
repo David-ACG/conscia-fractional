@@ -89,7 +89,11 @@ function makeInvitation(
 
 describe("PortalSharingSettings", () => {
   describe("Module Toggles", () => {
-    it("renders toggle switches for all 8 modules", () => {
+    // TODO Prompt 5/6 - remove
+    // The "tasks" module has been removed from PORTAL_MODULES (see Prompt 4,
+    // migration 019_simplify-portal-sharing.sql). Prompt 5 updates this test
+    // to assert 7 modules and a "Tasks are shared via Trello" explainer card.
+    it.skip("renders toggle switches for all 8 modules", () => {
       render(
         <PortalSharingSettings
           clientId={CLIENT_ID}
