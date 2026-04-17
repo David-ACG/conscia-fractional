@@ -64,7 +64,7 @@ describe("Task Actions", () => {
         assignee: "David",
         assignee_type: "self",
         due_date: "2026-04-01",
-        is_client_visible: false,
+        crm_customer_id: "",
       });
 
       expect(result).toEqual({ success: true });
@@ -85,7 +85,6 @@ describe("Task Actions", () => {
         status: "todo",
         priority: "medium",
         assignee_type: "self",
-        is_client_visible: false,
       } as never);
 
       expect(result).toEqual({ error: "Invalid form data" });

@@ -23,7 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -63,7 +62,6 @@ export function TaskForm({
       assignee: task?.assignee ?? "",
       assignee_type: task?.assignee_type ?? "self",
       due_date: task?.due_date ?? "",
-      is_client_visible: task?.is_client_visible ?? false,
       crm_customer_id: task?.crm_customer_id ?? "",
     },
   });
@@ -78,7 +76,6 @@ export function TaskForm({
         assignee: task?.assignee ?? "",
         assignee_type: task?.assignee_type ?? "self",
         due_date: task?.due_date ?? "",
-        is_client_visible: task?.is_client_visible ?? false,
         crm_customer_id: task?.crm_customer_id ?? "",
       });
     }
@@ -308,25 +305,6 @@ export function TaskForm({
                   )}
                 />
               )}
-
-              <FormField
-                control={form.control}
-                name="is_client_visible"
-                render={({ field }) => (
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="!mt-0">
-                      Visible to client portal
-                    </FormLabel>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               <DialogFooter className="gap-2">
                 {isEdit && (

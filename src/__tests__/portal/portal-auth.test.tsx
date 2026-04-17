@@ -43,8 +43,8 @@ describe("Portal middleware routing", () => {
     expect(resolvePortalRedirect("/portal", null)).toBe("/portal/login");
   });
 
-  it("redirects unauthenticated users from /portal/tasks to /portal/login", () => {
-    expect(resolvePortalRedirect("/portal/tasks", null)).toBe("/portal/login");
+  it("redirects unauthenticated users from /portal/notes to /portal/login", () => {
+    expect(resolvePortalRedirect("/portal/notes", null)).toBe("/portal/login");
   });
 
   it("allows /portal/login without auth", () => {
@@ -71,7 +71,6 @@ describe("Portal sidebar module filtering", () => {
   const allModuleItems = [
     { href: "/portal", label: "Dashboard", always: true },
     { href: "/portal/timesheet", label: "Timesheet", module: "timesheet" },
-    { href: "/portal/tasks", label: "Tasks", module: "tasks" },
     { href: "/portal/meetings", label: "Meetings", module: "meetings" },
     {
       href: "/portal/deliverables",
@@ -98,19 +97,18 @@ describe("Portal sidebar module filtering", () => {
   });
 
   it("shows only enabled modules plus Dashboard", () => {
-    const result = filterModules(["timesheet", "tasks"]);
+    const result = filterModules(["timesheet", "meetings"]);
     expect(result).toHaveLength(3);
     expect(result.map((r) => r.label)).toEqual([
       "Dashboard",
       "Timesheet",
-      "Tasks",
+      "Meetings",
     ]);
   });
 
   it("shows all modules when all are enabled", () => {
     const all = [
       "timesheet",
-      "tasks",
       "meetings",
       "deliverables",
       "invoicing",
@@ -118,7 +116,7 @@ describe("Portal sidebar module filtering", () => {
       "research",
     ];
     const result = filterModules(all);
-    expect(result).toHaveLength(8);
+    expect(result).toHaveLength(7);
   });
 
   it("ignores unknown module names", () => {

@@ -2,7 +2,6 @@ import { redirect, notFound } from "next/navigation";
 import { getPortalClientId } from "@/lib/actions/portal-data";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PortalTimesheet } from "@/components/portal/portal-timesheet";
-import { PortalTasks } from "@/components/portal/portal-tasks";
 import { PortalMeetings } from "@/components/portal/portal-meetings";
 import { PortalDeliverables } from "@/components/portal/portal-deliverables";
 import { PortalInvoicing } from "@/components/portal/portal-invoicing";
@@ -34,8 +33,6 @@ export default async function PortalModulePage({
   switch (module) {
     case "timesheet":
       return <PortalTimesheet clientId={clientId} />;
-    case "tasks":
-      return <PortalTasks clientId={clientId} />;
     case "meetings":
       return <PortalMeetings clientId={clientId} />;
     case "deliverables":

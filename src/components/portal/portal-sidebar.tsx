@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Clock,
-  CheckSquare,
   Users,
   FileOutput,
   Receipt,
@@ -29,7 +28,6 @@ const moduleNavItems = [
     icon: Clock,
     module: "timesheet",
   },
-  { href: "/portal/tasks", label: "Tasks", icon: CheckSquare, module: "tasks" },
   {
     href: "/portal/meetings",
     label: "Meetings",

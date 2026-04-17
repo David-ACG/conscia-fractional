@@ -34,10 +34,10 @@ test.describe("Client Portal", () => {
     await expect(page).toHaveURL(/\/portal\/login/);
   });
 
-  test("unauthenticated user redirected from /portal/tasks to login", async ({
+  test("unauthenticated user redirected from /portal/notes to login", async ({
     page,
   }) => {
-    await page.goto("/portal/tasks");
+    await page.goto("/portal/notes");
     await page.waitForURL(/\/portal\/login/);
     await expect(page).toHaveURL(/\/portal\/login/);
   });

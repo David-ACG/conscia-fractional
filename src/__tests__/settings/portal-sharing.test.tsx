@@ -49,7 +49,6 @@ function makeSettings(
   const modules = [
     "customers",
     "timesheet",
-    "tasks",
     "meetings",
     "deliverables",
     "invoicing",
@@ -89,11 +88,7 @@ function makeInvitation(
 
 describe("PortalSharingSettings", () => {
   describe("Module Toggles", () => {
-    // TODO Prompt 5/6 - remove
-    // The "tasks" module has been removed from PORTAL_MODULES (see Prompt 4,
-    // migration 019_simplify-portal-sharing.sql). Prompt 5 updates this test
-    // to assert 7 modules and a "Tasks are shared via Trello" explainer card.
-    it.skip("renders toggle switches for all 8 modules", () => {
+    it("renders toggle switches for 7 modules and a Trello explainer", () => {
       render(
         <PortalSharingSettings
           clientId={CLIENT_ID}
@@ -104,16 +99,17 @@ describe("PortalSharingSettings", () => {
 
       expect(screen.getByText("Customers")).toBeDefined();
       expect(screen.getByText("Timesheet")).toBeDefined();
-      expect(screen.getByText("Tasks")).toBeDefined();
       expect(screen.getByText("Meetings")).toBeDefined();
       expect(screen.getByText("Deliverables")).toBeDefined();
       expect(screen.getByText("Invoicing")).toBeDefined();
       expect(screen.getByText("Notes")).toBeDefined();
       expect(screen.getByText("Research")).toBeDefined();
 
-      // All 8 switches should exist
+      // Tasks no longer has a toggle — it's delegated to Trello
+      expect(screen.queryByText("Tasks are shared via Trello")).not.toBeNull();
+
       const switches = screen.getAllByRole("switch");
-      expect(switches).toHaveLength(8);
+      expect(switches).toHaveLength(7);
     });
 
     it("calls updatePortalSetting with correct params when toggled", async () => {

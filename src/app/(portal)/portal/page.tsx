@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import {
   Clock,
-  CheckSquare,
   Users,
   Receipt,
   FileOutput,
@@ -37,7 +36,7 @@ export default async function PortalDashboardPage() {
     1,
   ).toISOString();
 
-  const [hoursRes, tasksRes, meetingRes, invoiceRes, customersRes] =
+  const [hoursRes, meetingRes, invoiceRes, customersRes] =
     await Promise.all([
       enabledModules.includes("timesheet")
         ? admin
@@ -47,14 +46,6 @@ export default async function PortalDashboardPage() {
             .eq("is_client_visible", true)
             .eq("is_billable", true)
             .gte("started_at", monthStart)
-        : Promise.resolve({ data: null }),
-      enabledModules.includes("tasks")
-        ? admin
-            .from("tasks")
-            .select("id")
-            .eq("client_id", clientId)
-            .eq("is_client_visible", true)
-            .neq("status", "done")
         : Promise.resolve({ data: null }),
       enabledModules.includes("meetings")
         ? admin
@@ -99,15 +90,6 @@ export default async function PortalDashboardPage() {
       value: `${hours}h`,
       icon: Clock,
       href: "/portal/timesheet",
-    });
-  }
-
-  if (tasksRes.data) {
-    cards.push({
-      label: "Open Tasks",
-      value: tasksRes.data.length,
-      icon: CheckSquare,
-      href: "/portal/tasks",
     });
   }
 
@@ -199,29 +181,6 @@ export default async function PortalDashboardPage() {
     );
   }
 
-  if (enabledModules.includes("tasks")) {
-    activityPromises.push(
-      (async () => {
-        const { data } = await admin
-          .from("tasks")
-          .select("title, updated_at")
-          .eq("client_id", clientId)
-          .eq("is_client_visible", true)
-          .eq("status", "done")
-          .order("updated_at", { ascending: false })
-          .limit(5);
-        return (data ?? []).map(
-          (t): ActivityItem => ({
-            type: "task",
-            label: `Task completed: ${t.title}`,
-            date: t.updated_at,
-            icon: "task",
-          }),
-        );
-      })(),
-    );
-  }
-
   if (enabledModules.includes("invoicing")) {
     activityPromises.push(
       (async () => {
@@ -253,7 +212,6 @@ export default async function PortalDashboardPage() {
   const iconMap: Record<string, React.ReactNode> = {
     deliverable: <FileOutput className="size-4" />,
     meeting: <Users className="size-4" />,
-    task: <CheckSquare className="size-4" />,
     invoice: <Receipt className="size-4" />,
   };
 

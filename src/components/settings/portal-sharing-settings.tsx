@@ -14,6 +14,7 @@ import {
   UserPlus,
   type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -65,11 +66,6 @@ const moduleDescriptions: Record<
     label: "Timesheet",
     description: "Time entries and hours summary",
     icon: Clock,
-  },
-  tasks: {
-    label: "Tasks",
-    description: "Task list with status and priorities",
-    icon: CheckSquare,
   },
   meetings: {
     label: "Meetings",
@@ -216,6 +212,21 @@ function ModuleToggles({
             </div>
           );
         })}
+
+        <div className="flex items-start gap-3 rounded-md border border-dashed bg-muted/30 p-3 text-sm">
+          <CheckSquare className="mt-0.5 size-5 shrink-0 text-muted-foreground" />
+          <div className="space-y-1">
+            <p className="font-medium">Tasks are shared via Trello</p>
+            <p className="text-xs text-muted-foreground">
+              The portal no longer includes a Tasks tab. Export tasks to a client
+              Trello board from the{" "}
+              <Link href="/tasks" className="underline hover:text-foreground">
+                Tasks page
+              </Link>
+              {" "}and connect Trello in the integrations above.
+            </p>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

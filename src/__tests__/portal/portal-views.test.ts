@@ -136,7 +136,6 @@ describe("Portal module access control", () => {
 
     const validModules = [
       "timesheet",
-      "tasks",
       "meetings",
       "deliverables",
       "invoicing",
@@ -149,7 +148,7 @@ describe("Portal module access control", () => {
   }
 
   it("redirects when no client ID", () => {
-    expect(resolveModuleAccess("tasks", null, [])).toBe("redirect");
+    expect(resolveModuleAccess("notes", null, [])).toBe("redirect");
   });
 
   it("returns not_found for disabled module", () => {
@@ -164,10 +163,18 @@ describe("Portal module access control", () => {
     expect(resolveModuleAccess("banana", "client-1", [])).toBe("not_found");
   });
 
-  it("renders enabled module", () => {
+  it("returns not_found for removed tasks module", () => {
     expect(
       resolveModuleAccess("tasks", "client-1", [
         { module: "tasks", is_enabled: true },
+      ]),
+    ).toBe("not_found");
+  });
+
+  it("renders enabled module", () => {
+    expect(
+      resolveModuleAccess("notes", "client-1", [
+        { module: "notes", is_enabled: true },
       ]),
     ).toBe("render");
   });
@@ -175,7 +182,7 @@ describe("Portal module access control", () => {
   it("returns not_found when module setting doesn't exist", () => {
     expect(
       resolveModuleAccess("research", "client-1", [
-        { module: "tasks", is_enabled: true },
+        { module: "notes", is_enabled: true },
       ]),
     ).toBe("not_found");
   });
@@ -230,7 +237,7 @@ describe("Portal data visibility filtering", () => {
   });
 
   it("always filters by is_client_visible = true", () => {
-    const query = buildPortalQuery("tasks", "client-123");
+    const query = buildPortalQuery("meetings", "client-123");
     query.eq("client_id", "client-123").eq("is_client_visible", true);
 
     const filters = query.getFilters();
@@ -240,10 +247,10 @@ describe("Portal data visibility filtering", () => {
     });
   });
 
-  // Verify every module's query pattern includes both filters
+  // Verify every portal module's query pattern includes both filters.
+  // Tasks is no longer a portal module — it's delegated to Trello.
   const modules = [
     "time_entries",
-    "tasks",
     "meetings",
     "deliverables",
     "invoices",

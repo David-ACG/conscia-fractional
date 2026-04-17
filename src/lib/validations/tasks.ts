@@ -8,7 +8,6 @@ export const taskSchema = z.object({
   assignee: z.string().optional().default(""),
   assignee_type: z.enum(["self", "client_team", "external"]).default("self"),
   due_date: z.string().optional().default(""),
-  is_client_visible: z.boolean().default(false),
   crm_customer_id: z.string().optional().default(""),
 });
 
