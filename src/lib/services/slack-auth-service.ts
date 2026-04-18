@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { encrypt } from "@/lib/encryption";
 import { upsertIntegration } from "@/lib/services/integration-service";
 
@@ -18,7 +19,19 @@ function getSlackEnvVars() {
   return { clientId, clientSecret, redirectUri };
 }
 
-export function generateAuthUrl(state: string): string {
+export function generatePkcePair(): {
+  codeVerifier: string;
+  codeChallenge: string;
+} {
+  const codeVerifier = crypto.randomBytes(32).toString("base64url");
+  const codeChallenge = crypto
+    .createHash("sha256")
+    .update(codeVerifier)
+    .digest("base64url");
+  return { codeVerifier, codeChallenge };
+}
+
+export function generateAuthUrl(state: string, codeChallenge?: string): string {
   const { clientId, redirectUri } = getSlackEnvVars();
 
   const params = new URLSearchParams({
@@ -29,10 +42,18 @@ export function generateAuthUrl(state: string): string {
     state,
   });
 
+  if (codeChallenge) {
+    params.set("code_challenge", codeChallenge);
+    params.set("code_challenge_method", "S256");
+  }
+
   return `https://slack.com/oauth/v2/authorize?${params.toString()}`;
 }
 
-export async function exchangeCode(code: string): Promise<{
+export async function exchangeCode(
+  code: string,
+  codeVerifier?: string,
+): Promise<{
   bot_token: string;
   user_token: string;
   team_name: string;
@@ -46,6 +67,10 @@ export async function exchangeCode(code: string): Promise<{
     code,
     redirect_uri: redirectUri,
   });
+
+  if (codeVerifier) {
+    params.set("code_verifier", codeVerifier);
+  }
 
   const response = await fetch("https://slack.com/api/oauth.v2.access", {
     method: "POST",

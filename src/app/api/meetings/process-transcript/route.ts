@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { extractMeetingData } from "@/lib/services/transcript-extraction-service";
 
+export const maxDuration = 300;
+
 export async function POST(request: NextRequest) {
   let body: { transcript: string; filename?: string };
   try {

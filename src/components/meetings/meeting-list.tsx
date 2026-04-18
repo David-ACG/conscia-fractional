@@ -515,19 +515,29 @@ export function MeetingList({
                             <DropdownMenuItem
                               onClick={async (e) => {
                                 e.stopPropagation();
-                                toast.loading("Re-processing with Claude...", {
-                                  id: "reprocess",
-                                });
-                                const result = await reprocessMeetingAction(
-                                  meeting.id,
+                                toast.loading(
+                                  "Re-processing with Claude (up to 5 min)...",
+                                  { id: "reprocess" },
                                 );
-                                toast.dismiss("reprocess");
-                                if ("error" in result) {
-                                  toast.error(result.error);
-                                } else {
-                                  toast.success(
-                                    "Meeting re-processed successfully",
+                                try {
+                                  const result = await reprocessMeetingAction(
+                                    meeting.id,
                                   );
+                                  toast.dismiss("reprocess");
+                                  if ("error" in result) {
+                                    toast.error(result.error);
+                                  } else {
+                                    toast.success(
+                                      "Meeting re-processed successfully",
+                                    );
+                                  }
+                                } catch (err) {
+                                  toast.dismiss("reprocess");
+                                  const message =
+                                    err instanceof Error
+                                      ? err.message
+                                      : "Re-process failed";
+                                  toast.error(message);
                                 }
                               }}
                             >

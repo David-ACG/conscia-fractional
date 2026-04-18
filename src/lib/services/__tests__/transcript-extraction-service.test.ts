@@ -152,7 +152,7 @@ describe("transcript-extraction-service", () => {
 
       expect(mockCallClaude).toHaveBeenCalledWith(
         expect.stringContaining("meeting notes assistant"),
-        expect.objectContaining({ timeout: 120_000 }),
+        expect.objectContaining({ timeout: 300_000 }),
       );
       expect(mockCallClaude).toHaveBeenCalledWith(
         expect.stringContaining("Speaker 1, Speaker 2"),

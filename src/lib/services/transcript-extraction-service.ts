@@ -63,7 +63,7 @@ export async function extractMeetingData(
 
   const prompt = `${SYSTEM_PROMPT}\n\nHere is the meeting transcript. Speakers: ${metadata.speakers.join(", ")}. Duration: ${metadata.durationMinutes} minutes.\n\n${metadata.fullText}`;
 
-  const result = await callClaude(prompt, { timeout: 120_000 });
+  const result = await callClaude(prompt, { timeout: 300_000 });
 
   let rawJson = result.text.trim();
   const codeBlockMatch = rawJson.match(/```(?:json)?\s*([\s\S]*?)```/);
