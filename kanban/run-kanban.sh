@@ -57,7 +57,7 @@ TASK — Execute the following prompt completely. Do not ask questions. Do not s
 
 $CONTENT"
 
-    if claude --dangerously-skip-permissions "$PROMPT"; then
+    if timeout --kill-after=30s 5400s claude --dangerously-skip-permissions "$PROMPT"; then
         # Move to testing (skip if Claude already moved it via Gate 4)
         if [ -f "$FILE" ]; then
             mv "$FILE" "$TESTING/$NAME"
