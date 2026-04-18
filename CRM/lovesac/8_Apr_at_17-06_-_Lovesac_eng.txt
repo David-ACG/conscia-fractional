@@ -1,0 +1,1298 @@
+00:00:00,200 --> 00:00:29,800 [Amelia]
+-Lovesac, so reporting into Jacob, um, Hatch, who's our CTO. My team is now newly branded as Data and Digital Technology, so we cover all data, AI, and customer-facing applications, and also PLR. That's under my group. So fairly new to Lovesac. Um, well, not really new anymore, but, uh, just been here six months, so still, still learning the business a little bit. Um, but yeah, really excited to kick off, off this project with you guys. 
+
+00:00:32,340 --> 00:00:46,740 [Tate]
+All righty. And, uh, I'm Tate Swanson. Uh, I am a data architect reporting to Amelia. So, uh, I will be involved as kind of a liaison with our data team, and, you know, however else I can, I can help. And I'm very excited to start. 
+
+00:00:48,960 --> 00:00:59,570 [Morgan]
+That'd be great. Um, just before I hand this over to David to, to run through, uh, some of the slides here, um, both Santa and I do have to drop at twelve. Uh, we should be off for only about twenty minutes. 
+
+00:00:59,570 --> 00:00:59,860 [Amelia]
+Twelve thirty. 
+
+00:01:00,120 --> 00:01:02,170 [Morgan]
+Well... Oh yeah, sorry, twelve thirty. Uh, and then- 
+
+00:01:02,170 --> 00:01:02,640 [Amelia]
+[laughs] 
+
+00:01:02,640 --> 00:01:09,980 [Morgan]
+-we should be able to circle back, um, before the end of the call. So just wanted to flag that. And, uh, David, I'll let you take it and run. 
+
+00:01:09,980 --> 00:01:17,640 [David]
+Cool. Um, so these slides are actually for the kickoff, so we're gonna skip through quite a few. Um, but just to, 
+
+00:01:18,880 --> 00:01:26,399 [David]
+uh, give you a quick feel ar-around what slides are available to you for the kickoff, um, we'll go through them all. But we'll- 
+
+00:01:26,400 --> 00:01:26,830 [Amelia]
+That's great. 
+
+00:01:26,830 --> 00:01:26,840 [David]
+Pos- 
+
+00:01:26,840 --> 00:01:32,380 [Amelia]
+Well, actually, just so you know as well, I'm presenting this project to a very large group of leaders next- 
+
+00:01:32,380 --> 00:01:32,500 [David]
+Right. 
+
+00:01:32,500 --> 00:01:33,580 [Amelia]
+-Thursday. 
+
+00:01:33,580 --> 00:01:33,780 [Morgan]
+Ooh. 
+
+00:01:33,780 --> 00:01:38,300 [Amelia]
+Um, and I'm creating that deck at the moment, so if I could steal some of these before- 
+
+00:01:38,300 --> 00:01:38,310 [David]
+Yeah 
+
+00:01:38,310 --> 00:01:42,520 [Amelia]
+...well, basically as soon as possible after this meeting, that would be very helpful for, for me. 
+
+00:01:42,520 --> 00:01:44,480 [David]
+Yeah, we'll send them over straight away. 
+
+00:01:44,480 --> 00:01:45,140 [Amelia]
+Great. 
+
+00:01:45,140 --> 00:02:49,060 [David]
+Cool. Um, so, uh, yeah, this agenda, we probably won't go through... Well, we won't go through everything, uh, but you'll see that the, the top of each slide has an agenda item. So we're gonna talk about the problem first, then, uh, we've already met everyone, uh, we'll go through the platform overview, um, proposed architecture, then, uh, go through the data model, and we'll have a demo of what, uh, you can actually see in Conseer. Laurel will do that. And then, um, early findings, uh, from your data, and also mixed in with that, uh, we've got some of the questions that we need answered, um, around that data. Um, the scope and timeline, which is really rough at the moment, but we'll, we'll flesh it out. And then, uh, success metrics and ways of working and, uh, open questions, and that's probably the most important bit. Um, we sent through too many questions to go through on this call- 
+
+00:02:49,060 --> 00:02:49,150 [Amelia]
+[laughs] 
+
+00:02:49,150 --> 00:02:52,500 [David]
+...but, uh, yeah, we've got some examples here. 
+
+00:02:53,840 --> 00:02:54,120 [David]
+Um- 
+
+00:02:54,120 --> 00:02:58,640 [Amelia]
+Great. Yeah, I saw that. There was a lot of detail, so I kind of parked it for now. 
+
+00:02:58,640 --> 00:02:59,540 [David]
+Yeah. [laughs] 
+
+00:02:59,540 --> 00:03:01,340 [Amelia]
+And then we'll get when, uh, when we can really focus- 
+
+00:03:01,340 --> 00:03:01,530 [David]
+Cool 
+
+00:03:01,530 --> 00:03:02,380 [Amelia]
+...on that this one. 
+
+00:03:03,700 --> 00:03:03,880 [David]
+Um, 
+
+00:03:04,980 --> 00:03:27,990 [David]
+so yeah, th-this is the, uh, slide that sort of sets it off, um, and it's the problem statement around, uh, no single source of truth for the, uh, product catalog. And we've probably been through this several times with you, so I don't know how much detail you wanna go into, but these are just user stories for, um, what you can't do now. 
+
+00:03:29,100 --> 00:03:29,140 [Amelia]
+Great. 
+
+00:03:29,140 --> 00:03:31,340 [David]
+You might find them useful for your- 
+
+00:03:31,340 --> 00:03:31,690 [Amelia]
+Slide. 
+
+00:03:31,690 --> 00:03:32,180 [David]
+Slide. 
+
+00:03:32,180 --> 00:03:32,890 [Amelia]
+Mm-hmm. 
+
+00:03:32,890 --> 00:03:34,220 [David]
+And then, uh, 
+
+00:03:35,480 --> 00:03:39,660 [David]
+here's a platform overview, which you've probably seen already again. Um- 
+
+00:03:39,660 --> 00:03:40,780 [Amelia]
+Yeah. 
+
+00:03:40,780 --> 00:03:57,980 [David]
+So, uh, we've got a sort of semantic, uh, foundation, which is DX Graph. And I've put a definition of, um, semantic down here just in case people might not know what that, uh, entails. And then we've got a description of DX Engine 
+
+00:03:59,100 --> 00:04:01,680 [David]
+and, um, the Experience APIs. 
+
+00:04:02,720 --> 00:04:06,430 [David]
+And you've, you've probably heard this a lot, so I won't go through that. 
+
+00:04:06,430 --> 00:04:06,480 [Amelia]
+Yeah. This is perfect. 
+
+00:04:06,480 --> 00:04:06,720 [David]
+Cool. 
+
+00:04:06,720 --> 00:04:08,220 [Amelia]
+A summary. 
+
+00:04:08,220 --> 00:04:19,760 [David]
+And then, uh, the proposed architecture fit. Um, so we'll have a governed product data layer and a real-time orchestration layer. They're the two parts, DX Graph and DX Engine. 
+
+00:04:21,140 --> 00:04:21,409 [David]
+Uh- 
+
+00:04:21,409 --> 00:04:21,440 [Amelia]
+Yeah. 
+
+00:04:21,440 --> 00:04:22,659 [David]
+And then there's some detail there. 
+
+00:04:24,560 --> 00:04:28,070 [David]
+Um, and then here's a diagram around the end-to-end architecture. 
+
+00:04:29,300 --> 00:04:30,400 [David]
+This is very high level. 
+
+00:04:31,680 --> 00:04:31,940 [David]
+Um- 
+
+00:04:31,940 --> 00:04:35,520 [Amelia]
+This is great. This is exactly what I need. This is a good level. Okay. 
+
+00:04:35,520 --> 00:04:35,680 [David]
+Cool. 
+
+00:04:36,760 --> 00:04:37,200 [Amelia]
+Sweet. 
+
+00:04:37,200 --> 00:04:44,920 [David]
+And we're not, uh... So we've got s-some questions around Sligo. Um, does 3Kit go through Sligo? 
+
+00:04:46,060 --> 00:04:52,980 [David]
+We weren't totally sure. Um, that's why we've [laughs] kinda not put arrows everywhere. Uh- 
+
+00:04:52,980 --> 00:04:53,469 [Amelia]
+Yeah. 
+
+00:04:53,469 --> 00:04:53,990 [David]
+And then, 
+
+00:04:55,060 --> 00:05:00,320 [David]
+uh, yeah, the other bits are... A lot, a lot of it's from your documentation, 
+
+00:05:01,860 --> 00:05:02,270 [David]
+um- 
+
+00:05:02,270 --> 00:05:02,270 [Amelia]
+Yeah 
+
+00:05:02,270 --> 00:05:04,460 [David]
+...and conversations you had with Sana already. 
+
+00:05:05,720 --> 00:05:06,160 [Amelia]
+Yeah. 
+
+00:05:06,160 --> 00:05:08,260 [David]
+Um, so you can go through that. 
+
+00:05:10,300 --> 00:05:16,030 [David]
+Uh, and I, I've put in, uh, explanations of each thing as well, so it should be- 
+
+00:05:16,030 --> 00:05:16,380 [Amelia]
+Great 
+
+00:05:16,380 --> 00:05:17,790 [David]
+...relatively self-explanatory. 
+
+00:05:19,400 --> 00:05:43,820 [David]
+And then we've got, um, this data model, sort of more deep dive, where we've gone into, um, collections, hierarchies, and taxonomies and, um, and relationships and, uh, defined them here and then, uh, got examples here. And, uh, then we've got a demo from Laurel 
+
+00:05:45,480 --> 00:05:46,500 [David]
+of the actual- 
+
+00:05:46,500 --> 00:05:46,530 [Amelia]
+Yeah. 
+
+00:05:46,530 --> 00:05:48,320 [David]
+-um, setup. So we've changed, 
+
+00:05:50,080 --> 00:05:54,620 [David]
+um, some of the UI, uh, and, and Laurel will demo that. 
+
+00:05:56,760 --> 00:05:58,599 [Morgan]
+Can I steal the screen sharing? 
+
+00:05:58,600 --> 00:06:02,140 [David]
+Yeah. I think you can just start a screen share. It, it just takes over. 
+
+00:06:03,680 --> 00:06:04,240 [Morgan]
+Oh, perfect.
+
+00:06:06,692 --> 00:06:08,432 [Laurel]
+Okay. Can you guys see my screen? 
+
+00:06:08,432 --> 00:06:08,592 [Sana]
+Yep. 
+
+00:06:09,692 --> 00:07:01,172 [Laurel]
+Okay, perfect. So, um, we have kind of the main-- the foundation is this main collection SKU, or sorry, SKU collection. Um, and this is just an upload of the, one of the product data files that you passed along to us. Um, so you can see it all here. You're able to kind of validate and filter the data here. So for example, if you wanna see, like, all the SKUs that have missing images, you can really easily do that here. Um, and then we also have a bundles collection, and this is from the bundles data file that you passed along. And we've built a one-to-many mapping. So for each bundle, we have directly linked the actual component SKU from the SKU collection to the bundle. So from the UI here, you're able to actually manage which components are part of that bundle. Um, and if you wanna add anything, you can just do a lookup here, and you can search it based on the name or the SKU. So it's just easy to manage in one place. 
+
+00:07:01,172 --> 00:07:01,452 [Sana]
+Nice. 
+
+00:07:02,952 --> 00:07:39,332 [Laurel]
+Um, and then on the SKU collection, we have built some dynamic relationships which, um, can be used to actually, like, verify compatibility between the cover and the insert records. So, um, there's three different relationships here, one for sectional, one for sack, one for snug. So if I just go and filter by all the sectionals, um, each of the cover and insert records are gonna be automatically, um, linked to the compatible, um, insert or cover record. So for example, this is a cover, um, and we can see that it's compatible with this insert and this insert. So, um, it's just really easy to, um- 
+
+00:07:39,332 --> 00:07:40,122 [Sana]
+Mm-hmm. 
+
+00:07:40,122 --> 00:07:43,132 [Laurel]
+-meet the compatibility and make sure that any configurations are actually valid. 
+
+00:07:44,192 --> 00:07:45,832 [Laurel]
+Um, and then same thing- 
+
+00:07:45,892 --> 00:07:55,672 [Sana]
+I'll just jump in. Sorry, Laurel. Um, so the compatibility information that you're seeing right now is reversed engineered from the data that you've provided. 
+
+00:07:55,672 --> 00:07:55,692 [Laurel]
+Yes. 
+
+00:07:55,692 --> 00:08:05,222 [Sana]
+So this is not based on rules that you've shared yet because we don't have any real rules from three kits or any other platform. 
+
+00:08:05,222 --> 00:08:05,232 [Laurel]
+Yeah. 
+
+00:08:05,232 --> 00:08:41,672 [Sana]
+This is just our analysis. Uh, Laurel did a bunch of analysis using some advanced analytics, uh, techniques and AI to figure out what seems to be compatible with what based on the product descriptions and the attributes on the products. So, uh, quite a bit of work went into this already to just figure out what we think the compatibility is. Um, but we would need your team to verify that we're on the right track with that compatibility. We just wanted to put it all in and then iterate rather than- 
+
+00:08:41,672 --> 00:08:41,681 [Laurel]
+Okay. 
+
+00:08:41,681 --> 00:08:47,442 [Sana]
+-um, try to figure it all out before and then load the data in. 
+
+00:08:47,442 --> 00:08:47,452 [Laurel]
+Yeah. 
+
+00:08:47,452 --> 00:08:55,092 [Sana]
+'Cause we don't... We just think that that approach of like the waterfall approa-approach in these projects just doesn't work. 
+
+00:08:55,092 --> 00:08:55,352 [Laurel]
+Yeah. 
+
+00:08:55,352 --> 00:08:57,972 [Sana]
+Um, so that's why we've done it this way. 
+
+00:08:57,972 --> 00:09:07,531 [Laurel]
+This is great. And the reason I was smiling is I was thinking, like, I wonder... I'm just trying to think on my side if we have those rules. If I... I don't think so. It's probably gonna be- 
+
+00:09:07,592 --> 00:09:08,181 [Sana]
+Oh, yeah. [laughs] 
+
+00:09:08,181 --> 00:09:13,632 [Laurel]
+-a little bit of a conversation and then figuring it out together and then validating, tweaking back and forth, I think. 
+
+00:09:13,632 --> 00:09:15,162 [Sana]
+That's what I thought too. [laughs] 
+
+00:09:15,162 --> 00:09:21,592 [Laurel]
+My people didn't do it anywhere, unfortunately, but I can get the right people on the call to, to talk this through and validate it. 
+
+00:09:21,592 --> 00:09:37,752 [Sana]
+Cool. Yeah. But I, I think La-Laurel also created a, um, a compatibility, uh, document. So it's compa-compatibility rules document. If we could even just have someone take a look at those rules and confirm that those rules are correct. 
+
+00:09:37,752 --> 00:09:37,762 [Laurel]
+Uh-huh. 
+
+00:09:37,762 --> 00:09:49,392 [Sana]
+If they are, then we can just leave this as is. If not, then we can go and, um, re-upload those relationships based on the updated, um, set of rules- 
+
+00:09:49,392 --> 00:09:49,882 [Laurel]
+Perfect. 
+
+00:09:49,882 --> 00:09:50,592 [Sana]
+-as well. 
+
+00:09:50,592 --> 00:09:59,432 [Laurel]
+And then just a, a, another call-out, just, just 'cause it's top of mind for me. Bundles and kits. You'll hear those two terminologies. 
+
+00:10:00,512 --> 00:10:07,492 [Laurel]
+Bundles are what we call groups of SKUs in Magento, Adobe Magento. 
+
+00:10:07,492 --> 00:10:08,472 [Sana]
+Yeah. 
+
+00:10:08,472 --> 00:10:11,312 [Laurel]
+Kit is the terminology in NetSuite. 
+
+00:10:11,312 --> 00:10:12,112 [Sana]
+Gotcha. 
+
+00:10:12,112 --> 00:10:12,431 [Laurel]
+Okay. 
+
+00:10:12,432 --> 00:10:12,832 [Sana]
+Okay. 
+
+00:10:12,832 --> 00:10:25,981 [Laurel]
+Now, I think there should be a kind of a one-to-one match, but once we get into the data, you'll probably notice there's not. So that's also probably gonna be a piece of work of, like, why aren't they completely- 
+
+00:10:25,981 --> 00:10:27,312 [Sana]
+Reconciling. 
+
+00:10:27,312 --> 00:10:35,772 [Laurel]
+Yeah, exactly. And is there a reason for that or is it a miss? But I just wanted to call that out 'cause I discovered that they're just the same name, but yeah. 
+
+00:10:35,772 --> 00:10:40,312 [Sana]
+For-- mean different... Yeah. Yeah, different things. Okay. Yep. 
+
+00:10:41,552 --> 00:10:50,572 [Laurel]
+Yeah, that's good to know. Thank you. And yeah, um, great call-out, Sam, as well. Yeah. Um, this is all just kind of an example of how it could work, but we can definitely alter it, um, once we have kind of the rules narrowed down. 
+
+00:10:50,572 --> 00:10:51,012 [Sana]
+Yep. 
+
+00:10:51,012 --> 00:11:00,372 [Laurel]
+Um, but yeah. So same thing for sack, um, and for snug. So you can also see that the inserts are all, um, the compatible inserts are all matched directly to the cover SKUs. 
+
+00:11:01,452 --> 00:11:01,652 [Sana]
+Right. 
+
+00:11:01,652 --> 00:11:36,492 [Laurel]
+Uh, and then we've also built out a couple example taxonomies, and we have a new hierarchy view that you can actually manage the hierarchies directly from. Um, so for example, this is just an example of kind of how the products or, are organized, um, starting from, like, the platform down to the lines. Um, so for all the platforms, you can see which brands are beneath them, um, and then which lines are under them as well. And you can manage this directly here. So you can move any nodes around to rearrange and then apply rules directly to the nodes so that it'll automatically tag all of the records, um, with their, like, category. 
+
+00:11:37,852 --> 00:11:54,692 [Laurel]
+Um, so another one we built here. This one is based on the, um, proposed hierarchy that you guys sent over in a PDF, um, just to kind of see how it would work. So we've built this one out, um, and you can see the different categories. And then if we go back to the data... 
+
+00:11:58,392 --> 00:12:26,480 [Laurel]
+Uh, okay. So in this, um, this column here, you can see that all of the SKUs are actually tagged directly with the classification from the proposed hierarchy that you guys were thinking about.Um, just to kind of see how it works and that this is all automatically gonna be done. I also did one just for fun of different fabrics, so you could kind of see, um, how all the fabrics that are used at SKU could be classified differently as well by like light, natural, synthetic, things like that. Um, yeah. So that's kind of what we've built so far. 
+
+00:12:26,480 --> 00:12:26,980 [Amelia]
+So in that- 
+
+00:12:26,980 --> 00:12:27,900 [Laurel]
+The hierarchy view 
+
+00:12:27,900 --> 00:12:32,620 [Amelia]
+... can I get down to the SKU level in the hierarchy view or is it just the hierarchy? 
+
+00:12:34,220 --> 00:12:35,820 [Sana]
+So there are two views- 
+
+00:12:35,820 --> 00:12:36,140 [Amelia]
+Yeah 
+
+00:12:36,140 --> 00:12:51,120 [Sana]
+... uh, Amelia. So one, uh, in this hierarchy, i-in this view, what you're really managing is the hierarchy and the rules. So if you right click on one of these, um... Yeah, right here. So you're editing the criteria for- 
+
+00:12:51,120 --> 00:12:51,130 [Amelia]
+Right 
+
+00:12:51,130 --> 00:12:54,820 [Sana]
+... what set of SKUs should fall within, um- 
+
+00:12:54,820 --> 00:12:55,380 [Amelia]
+Yeah 
+
+00:12:55,380 --> 00:13:25,440 [Sana]
+... this particular node, right? So these rules, of course, we've kinda come up with as well based on our understanding of the data. Eventually we need to validate that those rules are actually correct. Uh, if you close this for a second, you can also, uh, right click and edit the actual na-- like the, the name and the description of that node. We can actually add more, uh, metadata associated with each node as well. Maybe you have an image- 
+
+00:13:25,440 --> 00:13:25,570 [Amelia]
+Yeah 
+
+00:13:25,570 --> 00:13:45,580 [Sana]
+... associated with that taxonomy value. That can all be added, we just haven't added that yet. But if you go to the, the source view, um, let's go here for a second. So this is where you can actually, um... Actually sorry, not this view. I meant the actual collection. The SKU collection. Sorry. 
+
+00:13:47,260 --> 00:14:05,920 [Sana]
+Yep. Um, if you go to the column that defines the taxonomy, um, or that tags the records with the taxonomy, uh, you can actually go filter down to any taxonomy value and see all of the data within that. Um- 
+
+00:14:05,920 --> 00:14:10,680 [Amelia]
+Wow. It's filterable by, by... Okay. Yeah, that's clear. That's great. 
+
+00:14:10,680 --> 00:14:32,260 [Sana]
+Yeah. Now the question for you, 'cause this is also like we've been working on enhancing some of our taxonomy features. Um, from the taxonomy view, would it be helpful, um, to have the list of records that are tagged to that taxonomy value on the same view? Is it so- 
+
+00:14:32,260 --> 00:14:33,859 [Amelia]
+I think so. Yeah. 
+
+00:14:33,860 --> 00:14:40,120 [Sana]
+So if you go-- If we go back to this view, what I believe is possible, and I'm gonna confirm that with the product team- 
+
+00:14:40,120 --> 00:14:40,130 [Amelia]
+Yeah 
+
+00:14:40,130 --> 00:14:44,660 [Sana]
+... is that we may be able to add a grid view below it. 
+
+00:14:44,660 --> 00:14:45,180 [Amelia]
+Yes. 
+
+00:14:45,180 --> 00:14:49,080 [Sana]
+So when, when you actually select it here- 
+
+00:14:49,080 --> 00:14:49,090 [Amelia]
+Mm-hmm 
+
+00:14:49,090 --> 00:15:01,100 [Sana]
+... that view gets updated with a full list of, um, records. So I could talk to them about that, to add that, uh, the data grid widget to this view of your data, um- 
+
+00:15:01,100 --> 00:15:10,320 [Amelia]
+That would be really nice because I think it's very logical in your mind when you're going through, 'cause I, I love the layout of this. The other one's more of a spreadsheet view, whereas this is a- 
+
+00:15:10,320 --> 00:15:10,329 [Sana]
+Yeah 
+
+00:15:10,329 --> 00:15:12,910 [Amelia]
+... very logical walk through the hierarchy. 
+
+00:15:12,910 --> 00:15:13,260 [Sana]
+Yeah. 
+
+00:15:13,260 --> 00:15:14,120 [Amelia]
+Oh, like cup holders- 
+
+00:15:14,120 --> 00:15:14,200 [Sana]
+Yeah 
+
+00:15:14,200 --> 00:15:19,620 [Amelia]
+... click on it, do a quick validation, and then close it up again. So I think, I think that would be a really nice- 
+
+00:15:19,620 --> 00:15:31,900 [Sana]
+It would be nice to have. Uh, would you like that widget to be on the right-hand side or below the, the taxonomy? 'Cause I t- I'm worried about the screen real estate. Um- 
+
+00:15:31,900 --> 00:15:32,580 [Amelia]
+Yeah. Maybe- 
+
+00:15:32,580 --> 00:15:34,360 [Sana]
+And if you put it below- 
+
+00:15:34,360 --> 00:15:36,480 [Amelia]
+Pops up on the right. Yeah. 
+
+00:15:36,480 --> 00:15:38,060 [Sana]
+Maybe right is better- 
+
+00:15:38,060 --> 00:15:38,070 [Amelia]
+Yeah 
+
+00:15:38,070 --> 00:15:40,480 [Sana]
+... like, like a full list of records. 
+
+00:15:40,480 --> 00:15:40,650 [Amelia]
+Like if it- 
+
+00:15:40,650 --> 00:15:42,520 [Sana]
+But it won't show the full records, right? 
+
+00:15:42,520 --> 00:15:42,760 [Amelia]
+Yeah. 
+
+00:15:42,760 --> 00:15:47,480 [Laurel]
+If the grid is quite wide and, uh, it would be, it'd be kinda hidden. 
+
+00:15:47,480 --> 00:15:47,670 [Sana]
+Yeah. 
+
+00:15:47,670 --> 00:15:47,670 [Amelia]
+Yeah. 
+
+00:15:47,670 --> 00:15:49,170 [Laurel]
+It could be massive, so having it- 
+
+00:15:49,170 --> 00:15:53,840 [Sana]
+But you could still scroll through it. Yeah, you could scroll through it on the right, but it won't- 
+
+00:15:53,840 --> 00:15:53,850 [Laurel]
+Yeah 
+
+00:15:53,850 --> 00:15:57,520 [Sana]
+... show the full grid because there's just not enough space- 
+
+00:15:57,520 --> 00:15:57,620 [Laurel]
+Yeah 
+
+00:15:57,620 --> 00:16:12,320 [Sana]
+... for the full grid. So the, uh, one option is to be on the right-hand side, um, and then you'd scroll through the grid as you click through the, uh, the nodes. Um, and the, the second one is like keeping it below, um- 
+
+00:16:12,320 --> 00:16:13,280 [Laurel]
+Yeah 
+
+00:16:13,280 --> 00:16:22,720 [Sana]
+... this layer. So up to you. I mean, w-we-- it's not hard to put the grid on the page. We just wanna make sure it's in the right place, so it's- 
+
+00:16:22,720 --> 00:16:25,020 [Amelia]
+Yeah. I, I think- 
+
+00:16:25,020 --> 00:16:25,350 [Sana]
+Right for the- 
+
+00:16:25,350 --> 00:16:29,299 [Amelia]
+... the right-hand pane, like if we could think about it like a pane on the right- 
+
+00:16:29,299 --> 00:16:29,720 [Sana]
+Mm-hmm 
+
+00:16:29,720 --> 00:16:34,420 [Amelia]
+... I think that would be nice. You click on Pillows, it pops up on the right. You can scroll down. 
+
+00:16:34,420 --> 00:16:36,040 [Sana]
+To the, the list of pillows? 
+
+00:16:36,040 --> 00:16:37,920 [Amelia]
+Yeah, I think so. I think that'd be nice. 
+
+00:16:37,920 --> 00:16:53,690 [Sana]
+Okay. Okay. So we'll-- Let me, um, talk to the, the product team and see if that can be, um, done. But we want to make sure you have that hierarchical view. I know that came up in our original conversations, so we, uh, have recently added, um, this view- 
+
+00:16:53,690 --> 00:16:54,660 [Amelia]
+Very nice. I love this 
+
+00:16:54,660 --> 00:16:55,080 [Sana]
+... as well. 
+
+00:16:56,920 --> 00:16:57,100 [Amelia]
+Great. 
+
+00:16:57,100 --> 00:17:23,520 [Sana]
+Awesome. Yeah. Uh, but now, um, Amelia, will your team, um, want to get access and start to build out, um, the hierarchy themselves, or do you want us to take a first stab at a list of, um, hierarchies and, and just based on sort of your idea of what those should be, um, we build those out for you? Because I think we can do it both ways. 
+
+00:17:23,520 --> 00:17:32,330 [Amelia]
+Yeah. I think if you wouldn't mind taking that first stab at it, um, with that, with the hierarchy provided in the PDF, and then we have something to work from, right? 
+
+00:17:32,330 --> 00:17:32,340 [Sana]
+Sure. 
+
+00:17:32,340 --> 00:17:33,140 [Amelia]
+And then we, we- 
+
+00:17:33,140 --> 00:17:33,280 [Sana]
+Okay 
+
+00:17:33,280 --> 00:17:40,440 [Amelia]
+... as we go and change. But if you could build it out, just that, that... I think that would be the fastest, most efficient way to do it. 
+
+00:17:40,440 --> 00:17:40,749 [Laurel]
+Definitely. 
+
+00:17:40,749 --> 00:17:46,040 [Sana]
+Okay. Which I think, Laurel, you've done here, right? This is based on the PDF that was provided. 
+
+00:17:46,040 --> 00:17:51,400 [Laurel]
+This is based on the new proposed hierarchy slide. I think it was slide thirteen maybe. Um- 
+
+00:17:51,400 --> 00:17:52,370 [Sana]
+Okay. [chuckles] 
+
+00:17:52,370 --> 00:17:59,060 [Laurel]
+But it might need some, um, some edits on the rules and stuff. So I can go through and make sure that it matches exactly, if that's what you guys are looking for. 
+
+00:17:59,060 --> 00:18:07,680 [Amelia]
+Great. That's perfect. And then we can go and look at the rules and say, "Oh, no, we need to change this," and so we can tweak it from there. But this is a great start. Really great. 
+
+00:18:07,680 --> 00:18:08,960 [Sana]
+Perfect. Awesome.
+
+00:18:10,684 --> 00:18:11,464 [Amelia]
+Great. 
+
+00:18:11,464 --> 00:18:13,944 [Sana]
+Any more questions about demo? 
+
+00:18:13,944 --> 00:18:23,644 [Amelia]
+No, this is brilliant. I, I just wonder, could I get access to this so that I can take some screenshots for my presentation? Or could you take some screenshots for me? Which-whichever is better for you. 
+
+00:18:24,924 --> 00:18:28,684 [Sana]
+Yeah, we can set that up for sure. We can... We'll pull, we'll pull some screenshots- 
+
+00:18:28,684 --> 00:18:28,794 [Amelia]
+Yeah. 
+
+00:18:28,794 --> 00:18:33,584 [Sana]
+-for you for now and then we'll-- while we get the access all stood up and ready to go. Yeah. 
+
+00:18:33,584 --> 00:18:35,004 [Amelia]
+Wonderful. Thank you. 
+
+00:18:35,004 --> 00:18:35,824 [Sana]
+Yeah, no problem. 
+
+00:18:37,564 --> 00:18:40,964 [Amelia]
+Excited to, to see it, you know, come to life. [laughs] 
+
+00:18:40,964 --> 00:18:43,224 [Sana]
+See it in real life. Yeah, for sure. Cool. 
+
+00:18:44,584 --> 00:18:44,804 [David]
+Um, 
+
+00:18:46,104 --> 00:19:00,204 [David]
+so one of the questions that came out of all of that, uh, data analysis, um, was actually the number of SKUs, 'cause we've got, uh, thirteen thou... around thirteen thousand seven hundred SKUs in- 
+
+00:19:00,204 --> 00:19:00,214 [Amelia]
+Yeah. 
+
+00:19:00,214 --> 00:19:07,754 [David]
+-in the, the system. But, but we could have imported twenty-eight thousand from another... [laughs] 
+
+00:19:07,754 --> 00:19:08,124 [Amelia]
+[laughs] 
+
+00:19:08,124 --> 00:19:12,864 [David]
+So, uh, the-that's one of the questions. Um, and it's obviously a big one. 
+
+00:19:14,084 --> 00:19:14,364 [Amelia]
+Yes. 
+
+00:19:15,943 --> 00:19:27,004 [Amelia]
+I need to get to the bottom of it fully, but it was also shocking to me. I think we've just never done a cleanup. I think we just have everything in there. 
+
+00:19:27,004 --> 00:19:27,164 [David]
+Gotcha. 
+
+00:19:27,164 --> 00:19:31,324 [Amelia]
+But there needs to be an exercise where we go through and, you know, 
+
+00:19:32,384 --> 00:19:44,264 [Amelia]
+deac-discontinue some of these SKUs, um, to bring that number down. So we're not currently selling like this many SKUs, it's just we have never done that cleanup historically. 
+
+00:19:44,264 --> 00:19:46,344 [David]
+Right. How many have you got on Magento? 
+
+00:19:48,324 --> 00:19:51,324 [Amelia]
+I don't know. I'd have to check. I don't wanna make up a number. I'd have to check. 
+
+00:19:51,324 --> 00:19:51,484 [David]
+Cool. 
+
+00:19:53,524 --> 00:19:53,704 [David]
+Um, 
+
+00:19:54,944 --> 00:20:01,584 [David]
+so yeah, th-this was... That, that was the main sort of early finding. There's some, uh, data quality issues. 
+
+00:20:02,924 --> 00:20:03,434 [Amelia]
+Mm-hmm. 
+
+00:20:03,434 --> 00:20:08,144 [David]
+Um, and, and we'd like to know more about integration, but that's all in the questions. 
+
+00:20:09,384 --> 00:20:10,064 [Amelia]
+Yeah. 
+
+00:20:10,064 --> 00:20:10,404 [David]
+Um, 
+
+00:20:11,464 --> 00:20:12,524 [David]
+so the next slide. 
+
+00:20:13,544 --> 00:20:19,724 [David]
+Oh, it's the project scope, but we... It's probably too early to talk around this slide. This was just a placeholder really. 
+
+00:20:21,144 --> 00:20:22,024 [Amelia]
+Yeah. 
+
+00:20:22,024 --> 00:20:29,004 [David]
+Um, and again, for this implementation timeline, this is a placeholder. It's a kind of example of what we could show you. 
+
+00:20:30,744 --> 00:20:30,944 [David]
+Um- 
+
+00:20:30,944 --> 00:20:31,284 [Amelia]
+Right. 
+
+00:20:33,024 --> 00:20:33,644 [David]
+And then, 
+
+00:20:34,884 --> 00:20:46,244 [David]
+yeah, a-again, success metrics. Uh, this is based on, on your information, but it's a, again, a placeholder, uh, until we get answers from all the questions or some of the questions. 
+
+00:20:47,704 --> 00:20:47,824 [Amelia]
+Yeah. 
+
+00:20:47,824 --> 00:20:53,484 [David]
+Um, and then this was, uh, a ways of working, uh, slide. So, 
+
+00:20:54,884 --> 00:20:59,244 [David]
+um, this is probably for later as well, but we were thinking about a stand up, um, 
+
+00:21:00,264 --> 00:21:10,064 [David]
+a steering check-in, technical reviews, um, gate reviews, and then a Slack channel where... so we can contact someone 
+
+00:21:11,144 --> 00:21:12,244 [David]
+and they can contact us. 
+
+00:21:13,664 --> 00:21:26,604 [Amelia]
+Yeah. That's great. Um, just one tactical thing. Um, I'll also set up a Teams. We use Teams. We're a Microsoft shop. So, um, we'll set up a Teams channel, if that's okay. 
+
+00:21:26,604 --> 00:21:27,004 [David]
+Yeah, that's fine. 
+
+00:21:27,004 --> 00:21:32,824 [Amelia]
+We can give you access, and then we can chat on that and also share documentation on there as well, if that's okay for you. 
+
+00:21:32,824 --> 00:21:33,224 [David]
+Yeah. 
+
+00:21:33,224 --> 00:21:34,904 [Sana]
+Yeah, that's great. Nope. 
+
+00:21:34,904 --> 00:21:35,364 [Amelia]
+Perfect. 
+
+00:21:36,724 --> 00:21:44,304 [David]
+Uh, and then we've got the sort of main part, which is the open questions. We, we've sort of separated them out into the categories- 
+
+00:21:44,304 --> 00:21:44,354 [Amelia]
+Right. 
+
+00:21:44,354 --> 00:21:45,434 [David]
+-that we sent. Uh- 
+
+00:21:45,434 --> 00:21:45,434 [Amelia]
+Yeah 
+
+00:21:45,434 --> 00:21:54,884 [David]
+... there were twelve data questions, and they were things like, uh, where did each product file come from and which one is authoritative? 
+
+00:21:56,044 --> 00:21:56,684 [Amelia]
+Yeah. 
+
+00:21:56,684 --> 00:21:58,564 [David]
+Um, and then integration questions, 
+
+00:21:59,904 --> 00:22:01,984 [David]
+uh, config, and... 
+
+00:22:03,484 --> 00:22:08,064 [David]
+Sorry, I can't see that. Rules questions and then user stories. 
+
+00:22:08,064 --> 00:22:08,604 [Amelia]
+Yeah. 
+
+00:22:08,604 --> 00:22:21,784 [David]
+Um, and project and governance. Uh, also, um, something that's come up recently. We-we're not-- We've kind of assumed that you've set up Celigo and 3Kit, like it says on the website, 
+
+00:22:22,884 --> 00:22:30,444 [David]
+uh, through their documentation. But if you've got any, um, differences in your setup, maybe you did it a while ago 
+
+00:22:31,463 --> 00:22:35,104 [David]
+and it's, uh... 'Cause we kind of, uh, looked at the current documentation. 
+
+00:22:36,284 --> 00:22:36,494 [Amelia]
+Mm-hmm. 
+
+00:22:36,494 --> 00:22:48,574 [David]
+Um, so any kind of, uh, issues you've had or, um, things that may affect us getting the data or where the data comes from, that, that would be really great to know as well. 
+
+00:22:49,604 --> 00:22:50,644 [Amelia]
+Okay. 
+
+00:22:50,644 --> 00:22:50,804 [David]
+Um- 
+
+00:22:50,804 --> 00:22:57,054 [Amelia]
+Yeah, and probably... I'll probably set up a call with our technical people in those areas, and we can kind of dig into that, but 
+
+00:22:58,064 --> 00:23:07,984 [Amelia]
+I don't think there's anything major. I mean, we're using Celigo in very basic form right now, so it's probably just fairly standard, but we can get into that more in, in the project. 
+
+00:23:07,984 --> 00:23:09,304 [David]
+Yeah. I, and I've used- 
+
+00:23:09,304 --> 00:23:09,314 [Amelia]
+Um- 
+
+00:23:09,314 --> 00:23:14,564 [David]
+-a product like it. I haven't used Celigo, but I've on- used Jitbit, which is very similar. 
+
+00:23:14,564 --> 00:23:14,663 [Amelia]
+Yeah. 
+
+00:23:14,664 --> 00:23:28,054 [David]
+Um, uh, and that was quite difficult to set up. It was a long while ago that we, we used it, but, um, yeah, it was... it didn't really do what was advertised on the tin. [laughs] 
+
+00:23:28,054 --> 00:23:28,054 [Amelia]
+Mm. Okay. [laughs] 
+
+00:23:28,054 --> 00:23:31,014 [David]
+And I don't know whether Celigo is the same or not. I've never really used it. 
+
+00:23:31,014 --> 00:23:32,124 [Amelia]
+No, it's pretty straightforward. 
+
+00:23:32,124 --> 00:23:32,444 [David]
+Okay. 
+
+00:23:32,444 --> 00:23:37,404 [Amelia]
+It's pretty-- It should be pretty straightforward. I think you'll find it easy enough to use. But yeah, I'll get you access to that. 
+
+00:23:37,404 --> 00:23:38,544 [David]
+Cool. 
+
+00:23:38,544 --> 00:23:49,884 [Sana]
+Uh, do we, uh... A q-quick question about that. In terms of getting access to the files, um, you know, you've already sent a couple of files to us. They're in CSV format. 
+
+00:23:49,884 --> 00:23:49,924 [Amelia]
+Yeah. 
+
+00:23:49,924 --> 00:23:57,264 [Sana]
+Um, uh, one of them was, I believe, um, exported using Celigo. 
+
+00:23:57,264 --> 00:23:58,334 [Amelia]
+Mm-hmm. 
+
+00:23:58,334 --> 00:24:06,304 [Sana]
+Um, is the plan in the long term for us to just get a data dump and upload it, upload that data dump to, 
+
+00:24:07,324 --> 00:24:20,272 [Sana]
+uh, some location that we, uh, effectively tell you about? Or will we be involved in, um-Accessing Silego to go pull that data out. 
+
+00:24:20,272 --> 00:24:27,832 [Amelia]
+That's what I was thinking. I was thinking you would go into Silego and pull it out yourselves. But what's the preference from your side? 
+
+00:24:28,892 --> 00:24:37,972 [Sana]
+I think the easiest always on our side is for your team, who's already working on Silego, to continue giving us the data in the format that you've already 
+
+00:24:39,072 --> 00:24:42,582 [Sana]
+given to us, and we would give you a location, uh- 
+
+00:24:42,582 --> 00:24:42,582 [Amelia]
+Okay. 
+
+00:24:42,582 --> 00:24:44,072 [Sana]
+-with an API endpoint- 
+
+00:24:44,072 --> 00:24:44,391 [Amelia]
+Yeah. 
+
+00:24:44,391 --> 00:24:46,452 [Sana]
+-to go and dump it there. 
+
+00:24:46,452 --> 00:24:50,392 [Amelia]
+Okay. Okay. Yeah. I can ch-chat to the team about that if that's easier from your side. 
+
+00:24:51,512 --> 00:24:52,812 [Sana]
+Yeah. And also I think just- 
+
+00:24:52,812 --> 00:24:53,042 [Amelia]
+Yeah. 
+
+00:24:53,042 --> 00:25:04,932 [Sana]
+-you know, uh, we find that it's hard to get access to those systems as well, and then there's security concerns and... I'm coming, Morgan. Um, [laughs] there's some se-security concerns as well- 
+
+00:25:04,932 --> 00:25:05,352 [Amelia]
+Yeah. 
+
+00:25:05,352 --> 00:25:13,772 [Sana]
+-um, to get access to your internal system, so it's just easier if we just give you an endpoint to deliver that data to- 
+
+00:25:13,772 --> 00:25:16,612 [Amelia]
+We'll push rather than you pulling. Okay, that's fine. 
+
+00:25:16,612 --> 00:25:17,572 [Sana]
+Yeah. Yeah. 
+
+00:25:17,572 --> 00:25:20,672 [Amelia]
+Yep. Yep. Okay. That's no problem. 
+
+00:25:20,672 --> 00:25:21,432 [Sana]
+Awesome. All right. I'm- 
+
+00:25:21,432 --> 00:25:21,582 [Amelia]
+Thanks again. 
+
+00:25:21,582 --> 00:25:23,762 [Sana]
+-gonna go join Morgan as well. 
+
+00:25:23,762 --> 00:25:23,762 [Amelia]
+Yeah. 
+
+00:25:23,762 --> 00:25:26,112 [Sana]
+And you guys can continue. [laughs] Thank you so much. 
+
+00:25:26,112 --> 00:25:27,572 [Amelia]
+Thank you. You too. 
+
+00:25:27,572 --> 00:25:27,622 [Sana]
+Thanks, Tate. 
+
+00:25:27,622 --> 00:25:27,622 [David]
+Cheers. 
+
+00:25:27,622 --> 00:25:28,232 [Sana]
+Take care. Bye. 
+
+00:25:31,592 --> 00:25:39,632 [David]
+Uh, so, so yeah, that was mostly the, the question slide. Um, and then we've got a next step slide, but that probably, 
+
+00:25:40,672 --> 00:25:41,082 [David]
+uh- 
+
+00:25:41,082 --> 00:25:41,082 [Amelia]
+Okay. 
+
+00:25:41,082 --> 00:25:43,672 [David]
+-we'll need to go over on, on Monday when your- 
+
+00:25:44,712 --> 00:25:44,842 [Amelia]
+Yep. 
+
+00:25:44,842 --> 00:25:45,992 [David]
+-the person starts. 
+
+00:25:47,072 --> 00:25:47,252 [David]
+It- 
+
+00:25:47,252 --> 00:25:47,552 [Amelia]
+Yeah. 
+
+00:25:47,552 --> 00:25:52,982 [David]
+Is that the plan, to, to go through this again on Monday and are you joining and Tate? 
+
+00:25:52,982 --> 00:26:09,292 [Amelia]
+Yeah. He's gonna be new, he's gonna be new to the team, so he can be kind of... If you could take him through this deck. Um, I'll also join and, and Tate can, can join as well. But I mean, obviously we've seen a lot of the content, but it's gonna be more for him to kind of get his head around what's going on and kind of bring him up to speed. 
+
+00:26:09,292 --> 00:26:12,092 [David]
+Cool. And what's his role here? 
+
+00:26:12,092 --> 00:26:16,312 [Amelia]
+So the role is actually omni-channel product owner role. 
+
+00:26:16,312 --> 00:26:16,832 [David]
+Right. 
+
+00:26:16,832 --> 00:26:41,852 [Amelia]
+So it's a little bit of a catchall, but he's also gonna be responsible for enterprise architecture. So this is a good project because it's gonna be kind of overseeing, you know, multiple different systems. Um, and he is gonna be... Yeah, I mean, te-technically it probably would sit in the data space eventually, but to get this set up, we just need, um, we need a focused effort, so we're gonna, we're gonna put it on that team, and then it's gonna migrate, grade into the data team long term. 
+
+00:26:41,912 --> 00:26:42,632 [David]
+Cool. 
+
+00:26:42,632 --> 00:27:00,392 [Amelia]
+We also have a master data. So the person that's, um, responsible for our product master data currently is called Eric. He sits in another team, and he's just moving onto the data team now. So he'll also be looped in, and I'll include him on this meeting as well. Um, so he's gonna be our main- 
+
+00:27:00,392 --> 00:27:00,402 [David]
+Oh. 
+
+00:27:00,402 --> 00:27:08,072 [Amelia]
+-super user of, of this platform, so he'll also be involved. Less from the architecture perspective, but more on the, the usability side of things. 
+
+00:27:08,072 --> 00:27:08,292 [David]
+Right. 
+
+00:27:09,712 --> 00:27:11,632 [David]
+So are we gonna have all of the... So we've got... 
+
+00:27:13,332 --> 00:27:19,092 [David]
+Are we gonna have a project lead or is that the pro, uh, product owner of the- 
+
+00:27:19,092 --> 00:27:25,872 [Amelia]
+Lead is with me. I'll fill this in from our side. I think it's gonna be a bit of a hybrid of roles. We're all kind of involved a little bit. 
+
+00:27:25,872 --> 00:27:26,272 [David]
+Yeah, sure. 
+
+00:27:26,272 --> 00:27:30,892 [Amelia]
+Um, but I'll, I'll think through exactly who's gonna be play each of those roles. 
+
+00:27:30,892 --> 00:27:31,052 [David]
+Cool. 
+
+00:27:32,372 --> 00:27:35,932 [David]
+And then we've got a couple of things in the appendix, uh, 
+
+00:27:37,672 --> 00:27:43,552 [David]
+around 3Kit, um, what the differences are between 3Kit and Consea. 
+
+00:27:45,132 --> 00:27:45,221 [Amelia]
+Yeah. 
+
+00:27:45,221 --> 00:27:46,292 [David]
+Um, and then 
+
+00:27:48,412 --> 00:27:49,172 [David]
+Silego. 
+
+00:27:50,692 --> 00:27:51,912 [David]
+Um- 
+
+00:27:51,912 --> 00:27:58,452 [Amelia]
+Sorry, back on the last one. I, I think instead of it being 3Kit, I think it's more on the Adobe Commerce side. 
+
+00:27:59,752 --> 00:27:59,911 [David]
+Right. 
+
+00:27:59,912 --> 00:28:06,122 [Amelia]
+I don't think much of this stuff is configured in 3Kit itself. I think it's mostly on Adobe. 
+
+00:28:06,122 --> 00:28:06,132 [David]
+Okay. 
+
+00:28:06,132 --> 00:28:16,332 [Amelia]
+But that's something that we need to get into more details on. Um, but from my original conversations, I had thought that it was, uh, all these bundles were set up and configured in 3Kit. 
+
+00:28:16,332 --> 00:28:16,652 [David]
+Yeah. 
+
+00:28:16,652 --> 00:28:19,471 [Amelia]
+But I learned that it's actually in Adobe. 
+
+00:28:19,472 --> 00:28:20,472 [David]
+Ah, okay. 
+
+00:28:22,192 --> 00:28:26,262 [David]
+And how's that been done? So it's been, like, programmed into the- 
+
+00:28:27,292 --> 00:28:27,632 [Amelia]
+Yeah. 
+
+00:28:27,632 --> 00:28:28,252 [David]
+-PHP, is it? 
+
+00:28:28,252 --> 00:28:33,352 [Amelia]
+Manually. From what I understand, it's, like, manually configured. 
+
+00:28:33,352 --> 00:28:34,071 [David]
+Right. Hard, 
+
+00:28:35,152 --> 00:28:35,271 [David]
+um- 
+
+00:28:35,272 --> 00:28:36,011 [Amelia]
+Hard-coded. 
+
+00:28:36,011 --> 00:28:36,492 [David]
+Hard-coded. 
+
+00:28:36,492 --> 00:28:36,972 [Amelia]
+Yeah. 
+
+00:28:36,972 --> 00:28:37,532 [David]
+Right. 
+
+00:28:37,532 --> 00:28:43,012 [Amelia]
+Yeah. Yeah. But we can set up time with that team to understand a little bit more how they manage that. 
+
+00:28:43,012 --> 00:28:47,992 [David]
+And, uh, are you sticking with, um, Adobe Commerce in the future? 
+
+00:28:50,572 --> 00:28:52,452 [Amelia]
+Um, for now, yes. 
+
+00:28:52,452 --> 00:28:54,072 [David]
+Yeah. So we should assume that's... 
+
+00:28:55,152 --> 00:28:55,972 [Amelia]
+Yes. Yeah. 
+
+00:28:55,972 --> 00:29:03,552 [David]
+A-and when we... Uh, are we gonna sort of be able to see the code so that we can retrofit it? Yeah. 
+
+00:29:03,552 --> 00:29:04,312 [Amelia]
+Yeah. Yeah. 
+
+00:29:04,312 --> 00:29:06,232 [David]
+Or at least the rules, 'cause it- 
+
+00:29:06,232 --> 00:29:07,712 [Amelia]
+Yeah. It's a little tricky- 
+
+00:29:07,712 --> 00:29:07,722 [David]
+I assume that's where the rules are coming from. 
+
+00:29:07,722 --> 00:29:15,312 [Amelia]
+-because we work through an agency. So there's an agency called Blue Acorn who manages our entire platform. 
+
+00:29:15,312 --> 00:29:15,812 [David]
+Right. 
+
+00:29:15,812 --> 00:29:32,772 [Amelia]
+Um, so we will need to work with them, but I'm hoping with this project we can start kind of taking over that responsibility in-house as well. Um, but yeah, it's just, it's through an agency for now with a, with a, with a, a full-time employee on our side who kind of manages that, that agency. 
+
+00:29:32,772 --> 00:29:33,312 [David]
+Right. 
+
+00:29:33,312 --> 00:29:35,012 [Amelia]
+So I'll connect you with that team. 
+
+00:29:35,012 --> 00:29:35,212 [David]
+Cool. 
+
+00:29:36,232 --> 00:29:40,672 [David]
+And we'd speak to the agency or we'd speak to your, your employee? 
+
+00:29:40,672 --> 00:29:50,542 [Amelia]
+You can chat to them. I'm hoping that we at least get their technical, um, lead to be part of this project. Maybe, maybe it's like a couple of hours a week or something we assign to this project- 
+
+00:29:50,542 --> 00:29:50,581 [David]
+Yeah. 
+
+00:29:50,581 --> 00:29:53,232 [Amelia]
+-from the, from the agency side. 
+
+00:29:53,232 --> 00:29:53,552 [David]
+Great. 
+
+00:29:55,732 --> 00:29:56,052 [David]
+Um, 
+
+00:29:57,932 --> 00:30:04,592 [David]
+okay, I'll do another one for Magento. Actually, uh, I come from more of a, a e-commerce background, so. 
+
+00:30:04,592 --> 00:30:05,332 [Amelia]
+Oh, perfect. 
+
+00:30:05,332 --> 00:30:05,492 [David]
+Yeah. 
+
+00:30:05,492 --> 00:30:06,672 [Amelia]
+Oh, good. 
+
+00:30:06,672 --> 00:30:11,072 [David]
+Um, like WebSphere Commerce, uh, Oracle Commerce. Um- 
+
+00:30:11,072 --> 00:30:12,052 [Amelia]
+Oh, great. 
+
+00:30:12,052 --> 00:30:13,432 [David]
+Yeah. Like, and 
+
+00:30:16,012 --> 00:30:19,632 [David]
+lots and lots of other ones that we made ourselves as well. [laughs] 
+
+00:30:19,632 --> 00:30:21,432 [Amelia]
+Yeah. [laughs] 
+
+00:30:21,432 --> 00:30:30,488 [David]
+Um, and thenUh, yeah, how Consear integrates with Celigo. This is how we think it integrates. 
+
+00:30:31,768 --> 00:30:33,288 [David]
+Uh, and how it will integrate, sorry. 
+
+00:30:34,928 --> 00:30:35,808 [David]
+So, uh- 
+
+00:30:35,808 --> 00:30:36,538 [Amelia]
+Okay. Yeah 
+
+00:30:36,538 --> 00:30:43,788 [David]
+... we're, we're thinking that we'd ingest from Celigo, but we're not totally sure around that from the documentation. 
+
+00:30:45,968 --> 00:30:46,328 [Amelia]
+Was... 
+
+00:30:49,448 --> 00:30:52,128 [Amelia]
+So ingest into graph. Yeah. 
+
+00:30:55,868 --> 00:31:12,728 [David]
+And then it would go to the, uh... It would go from the, to the DX graph, to the DX engine, and then out, out to the POS terminals, your website, and any kind of, um, MCP for Google Shopping or ChatGPT or anything like that in the future. 
+
+00:31:14,028 --> 00:31:15,408 [Amelia]
+Yeah. Okay. That's good. 
+
+00:31:15,408 --> 00:31:17,308 [David]
+And then we assume Celigo was in the middle 
+
+00:31:18,348 --> 00:31:18,688 [David]
+between- 
+
+00:31:18,688 --> 00:31:18,928 [Amelia]
+Yes 
+
+00:31:18,928 --> 00:31:20,468 [David]
+... NetSuite and Magento. 
+
+00:31:21,628 --> 00:31:22,128 [Amelia]
+That's correct. 
+
+00:31:22,128 --> 00:31:24,048 [David]
+Sounds... That's correct, right? 
+
+00:31:24,048 --> 00:31:24,248 [Amelia]
+Yep. 
+
+00:31:26,048 --> 00:31:32,168 [David]
+Um, and how this, this feed from Celigo, that would be, y-you've mentioned easy to set up? 
+
+00:31:33,728 --> 00:31:42,668 [Amelia]
+Yeah, I believe so. I think we just need to give it an endpoint and push it through. But I'll, I'll set up some time with the, with the team to, to ask what inputs they need, and then we can go from there. 
+
+00:31:42,668 --> 00:31:43,868 [David]
+Cool. Perfect. 
+
+00:31:45,168 --> 00:31:49,288 [David]
+Were there any other slides or were there any of the slides that you wanted to go back to? 
+
+00:31:50,648 --> 00:31:54,178 [Amelia]
+No, this is perfect. If you wouldn't mind sen- sharing this deck, then- 
+
+00:31:54,178 --> 00:31:54,488 [David]
+Yeah, sure 
+
+00:31:54,488 --> 00:32:07,808 [Amelia]
+... I might link some of them for my content, and also I can up- make some updates maybe to the team structure from our side. I can answer some of those questions on that, the questions slide, so we can kind of use this as a collaboration document if that's, uh- 
+
+00:32:07,808 --> 00:32:08,368 [David]
+Yeah 
+
+00:32:08,368 --> 00:32:08,608 [Amelia]
+... works for you. 
+
+00:32:08,608 --> 00:32:14,128 [David]
+That's great. That's, uh, so should we out-output it as PowerPoint or? 
+
+00:32:14,128 --> 00:32:15,328 [Amelia]
+Yeah, if possible. Is that- 
+
+00:32:15,328 --> 00:32:15,408 [David]
+Yeah 
+
+00:32:15,408 --> 00:32:16,388 [Amelia]
+... okay from your side? 
+
+00:32:16,388 --> 00:32:17,048 [David]
+Yeah, that's fine. 
+
+00:32:18,128 --> 00:32:19,408 [Amelia]
+Great. 
+
+00:32:19,408 --> 00:32:19,588 [David]
+Um- 
+
+00:32:19,588 --> 00:32:29,208 [Amelia]
+And then once we have the team set up, we can kind of just put a live version in the teams folder and, or SharePoint folder, and then we can, um, we can just kinda collaborate on it together. 
+
+00:32:29,208 --> 00:32:30,428 [David]
+Cool. Perfect. 
+
+00:32:31,488 --> 00:32:31,768 [David]
+Brilliant. 
+
+00:32:31,768 --> 00:32:32,308 [Amelia]
+Great. 
+
+00:32:33,908 --> 00:32:38,688 [Amelia]
+Brilliant. That sounds good. Is there anything else? Anything from you, Tate? Any questions from you, Tate? 
+
+00:32:39,828 --> 00:32:43,408 [Tate]
+No, everything's looking very straightforward and, uh, very excited. 
+
+00:32:43,408 --> 00:32:43,648 [David]
+Yeah. 
+
+00:32:45,248 --> 00:32:46,278 [David]
+Should be really good. 
+
+00:32:46,278 --> 00:32:49,808 [Amelia]
+Awesome. Great. Thank you so much for the time. 
+
+00:32:49,808 --> 00:32:50,287 [David]
+Thank you. 
+
+00:32:50,288 --> 00:32:52,537 [Amelia]
+Thank you. Thank you. Have a good rest of the day. 
+
+00:32:52,537 --> 00:32:54,128 [David]
+Cheers. Bye-bye. 
+
+00:32:54,128 --> 00:33:04,097 [Amelia]
+Thank you. Bye. [children chattering]
