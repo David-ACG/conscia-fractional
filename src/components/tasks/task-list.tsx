@@ -12,7 +12,7 @@ import {
   ChevronRight,
   Merge,
   Loader2,
-  Trello,
+  Kanban,
 } from "lucide-react";
 import { toast } from "sonner";
 import { updateTaskStatus } from "@/lib/actions/tasks";
@@ -520,7 +520,7 @@ export function TaskList({
             onClick={() => setTrelloOpen(true)}
             data-testid="trello-export-button"
           >
-            <Trello className="mr-2 h-4 w-4" />
+            <Kanban className="mr-2 h-4 w-4" />
             Export to Trello
           </Button>
         ) : (
@@ -533,7 +533,7 @@ export function TaskList({
                     disabled
                     data-testid="trello-export-button"
                   >
-                    <Trello className="mr-2 h-4 w-4" />
+                    <Kanban className="mr-2 h-4 w-4" />
                     Export to Trello
                   </Button>
                 </span>
