@@ -24,12 +24,21 @@ export async function PATCH(_request: NextRequest) {
     );
   }
 
-  const { count, error } = await admin
+  const { count, error: countError } = await admin
+    .from("notifications")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", user.id)
+    .eq("is_read", false);
+
+  if (countError) {
+    return NextResponse.json({ error: countError.message }, { status: 500 });
+  }
+
+  const { error } = await admin
     .from("notifications")
     .update({ is_read: true })
     .eq("user_id", user.id)
-    .eq("is_read", false)
-    .select("*", { count: "exact" });
+    .eq("is_read", false);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
