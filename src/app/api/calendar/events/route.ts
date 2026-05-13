@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+type RelatedCustomer = { id: string; name: string; slug: string | null };
+type RelatedIntegration = { account_identifier: string | null };
+
+function firstRelated<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null;
+  return value ?? null;
+}
+
 export async function GET(request: NextRequest) {
   const authClient = await createClient();
   if (!authClient) {
@@ -73,38 +81,43 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const events = (data ?? []).map((row) => ({
-    id: row.id,
-    title: row.title,
-    start: row.start_time,
-    end: row.end_time,
-    location: row.location ?? null,
-    meeting_url: row.meeting_url ?? null,
-    attendees:
-      (row.attendees as Array<{
-        email: string;
-        name?: string;
-        responseStatus?: string;
-      }>) ?? [],
-    crm_customer: row.crm_customers
-      ? {
-          id: (row.crm_customers as { id: string; name: string; slug: string })
-            .id,
-          name: (
-            row.crm_customers as { id: string; name: string; slug: string }
-          ).name,
-          slug: (
-            row.crm_customers as { id: string; name: string; slug: string }
-          ).slug,
-        }
-      : null,
-    meeting_id: row.meeting_id ?? null,
-    status: row.status,
-    google_event_id: row.google_event_id ?? null,
-    account:
-      (row.integrations as { account_identifier: string } | null)
-        ?.account_identifier ?? null,
-  }));
+  const events = (data ?? []).map((row) => {
+    const crmCustomer = firstRelated(
+      row.crm_customers as unknown as RelatedCustomer | RelatedCustomer[] | null,
+    );
+    const integration = firstRelated(
+      row.integrations as unknown as
+        | RelatedIntegration
+        | RelatedIntegration[]
+        | null,
+    );
+
+    return {
+      id: row.id,
+      title: row.title,
+      start: row.start_time,
+      end: row.end_time,
+      location: row.location ?? null,
+      meeting_url: row.meeting_url ?? null,
+      attendees:
+        (row.attendees as Array<{
+          email: string;
+          name?: string;
+          responseStatus?: string;
+        }>) ?? [],
+      crm_customer: crmCustomer
+        ? {
+            id: crmCustomer.id,
+            name: crmCustomer.name,
+            slug: crmCustomer.slug,
+          }
+        : null,
+      meeting_id: row.meeting_id ?? null,
+      status: row.status,
+      google_event_id: row.google_event_id ?? null,
+      account: integration?.account_identifier ?? null,
+    };
+  });
 
   return NextResponse.json(events);
 }
