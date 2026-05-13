@@ -12,6 +12,8 @@ RUN npm ci
 # --- Builder ---
 FROM base AS builder
 WORKDIR /app
+ARG NEXT_IGNORE_TYPE_ERRORS=false
+ENV NEXT_IGNORE_TYPE_ERRORS=${NEXT_IGNORE_TYPE_ERRORS}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
