@@ -4,6 +4,10 @@ import { getEventForPreFill } from "@/lib/services/calendar-meeting-service";
 import { MeetingList } from "@/components/meetings/meeting-list";
 import type { Meeting, CrmCustomer } from "@/lib/types";
 
+type MeetingWithCustomer = Meeting & {
+  crm_customer: { name: string } | null;
+};
+
 async function getMeetingsData() {
   const clientId = await getActiveClientId();
   if (!clientId)
@@ -26,7 +30,7 @@ async function getMeetingsData() {
       supabase
         .from("meetings")
         .select(
-          "id, title, meeting_date, duration_minutes, actual_duration_seconds, platform, original_filename, attendees, action_items, recording_url, crm_customer_id, summary, crm_customer:crm_customers(id, name, slug)",
+          "id, client_id, title, meeting_date, duration_minutes, actual_duration_seconds, platform, original_filename, attendees, action_items, recording_url, crm_customer_id, transcript, summary, created_at, updated_at, crm_customer:crm_customers(id, name, slug)",
         )
         .eq("client_id", clientId)
         .order("meeting_date", { ascending: false }),
@@ -59,10 +63,22 @@ async function getMeetingsData() {
     meetingTaskCounts[mid] = (meetingTaskCounts[mid] ?? 0) + 1;
   }
 
+  const meetings = (meetingsRes.data ?? []).map((meeting) => {
+    const row = meeting as unknown as MeetingWithCustomer & {
+      crm_customer: { name: string } | { name: string }[] | null;
+    };
+    const crmCustomer = Array.isArray(row.crm_customer)
+      ? (row.crm_customer[0] ?? null)
+      : row.crm_customer;
+
+    return {
+      ...row,
+      crm_customer: crmCustomer ? { name: crmCustomer.name } : null,
+    };
+  });
+
   return {
-    meetings: (meetingsRes.data ?? []) as (Meeting & {
-      crm_customer: { name: string } | null;
-    })[],
+    meetings,
     customers: (customersRes.data ?? []) as Pick<CrmCustomer, "id" | "name">[],
     timesheetMeetingIds,
     meetingTaskCounts,
