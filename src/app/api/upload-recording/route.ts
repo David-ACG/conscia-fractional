@@ -11,6 +11,10 @@ export const runtime = "nodejs";
  */
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
