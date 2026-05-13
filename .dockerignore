@@ -1,0 +1,9 @@
+.git
+.next
+node_modules
+.env*
+.beads/dolt
+.playwright-report
+.playwright-mcp
+test-results
+*.tsbuildinfo

@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getPublicOrigin } from "@/lib/public-url";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
+  const origin = getPublicOrigin(request);
 
   if (code) {
     const supabase = await createClient();
     if (!supabase) {
       return NextResponse.redirect(
-        new URL("/portal/login?error=auth_failed", request.url),
+        new URL("/portal/login?error=auth_failed", origin),
       );
     }
 
@@ -34,11 +36,11 @@ export async function GET(request: Request) {
           .in("status", ["pending", "accepted"]);
       }
 
-      return NextResponse.redirect(new URL("/portal", request.url));
+      return NextResponse.redirect(new URL("/portal", origin));
     }
   }
 
   return NextResponse.redirect(
-    new URL("/portal/login?error=auth_failed", request.url),
+    new URL("/portal/login?error=auth_failed", origin),
   );
 }

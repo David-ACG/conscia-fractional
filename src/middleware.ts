@@ -25,6 +25,15 @@ const securityHeaders = {
 };
 
 export async function middleware(request: NextRequest) {
+  if (
+    request.nextUrl.pathname === "/" &&
+    request.nextUrl.searchParams.has("code")
+  ) {
+    const callbackUrl = request.nextUrl.clone();
+    callbackUrl.pathname = "/auth/callback";
+    return Response.redirect(callbackUrl);
+  }
+
   // Refresh auth session and handle route protection
   const response = await updateSession(request);
 
