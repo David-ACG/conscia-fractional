@@ -68,7 +68,11 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
     const batchEmbeddings = await callOllamaEmbed(batchTexts);
 
     for (let j = 0; j < batchTexts.length; j++) {
-      results[i + j] = batchEmbeddings[j];
+      const vector = batchEmbeddings[j];
+      if (!vector) {
+        throw new Error(`Embedding response missing vector ${j}`);
+      }
+      results[i + j] = vector;
     }
   }
 

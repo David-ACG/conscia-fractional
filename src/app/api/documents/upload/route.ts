@@ -186,19 +186,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Upsert points to Qdrant
     const qdrant = getQdrantClient();
-    const points = preparedChunks.map((chunk, i) => ({
-      id: crypto.randomUUID(),
-      vector: vectors[i],
-      payload: {
-        document_id: documentId,
-        chunk_index: chunk.index,
-        content: chunk.text,
-        source_type: sourceType,
-        crm_customer_id: crmCustomerId ?? null,
-        user_id: user.id,
-        name: documentName,
-      },
-    }));
+    const points = preparedChunks.map((chunk, i) => {
+      const vector = vectors[i];
+      if (!vector) {
+        throw new Error(`Missing embedding for chunk ${i}`);
+      }
+
+      return {
+        id: crypto.randomUUID(),
+        vector,
+        payload: {
+          document_id: documentId,
+          chunk_index: chunk.index,
+          content: chunk.text,
+          source_type: sourceType,
+          crm_customer_id: crmCustomerId ?? null,
+          user_id: user.id,
+          name: documentName,
+        },
+      };
+    });
 
     await qdrant.upsert(COLLECTION_NAME, { points });
 
