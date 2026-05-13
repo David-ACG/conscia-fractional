@@ -8,4 +8,5 @@
 {"key":"compact_tier2_dep_levels","value":"5"}
 {"key":"compaction_enabled","value":"false"}
 {"key":"issue_prefix","value":"conscia-fractional"}
+{"key":"kv.memory.fractionalbuddy-internal-site-is-deployed-on-p520-home","value":"FractionalBuddy internal site is deployed on P520 (/home/david/apps/fractionalbuddy) as Docker Compose service/container 'fractionalbuddy'. It exposes old direct URL http://192.168.178.50:3002 and LAN-only mDNS name http://fractionalbuddy.local via avahi + P520 Traefik. Deployment uses clean clone of GitHub master plus env at /home/david/apps/fractionalbuddy/fractionalbuddy.env; build arg NEXT_IGNORE_TYPE_ERRORS=true is used until strict TypeScript debt is fixed (see conscia-fractional-9kn)."}
 {"key":"schema_version","value":"9"}
