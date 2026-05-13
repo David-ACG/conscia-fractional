@@ -3,6 +3,15 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { callClaude } from "@/lib/services/claude-cli";
 
+type RelatedMeeting = { title: string };
+
+function meetingTitle(
+  value: RelatedMeeting | RelatedMeeting[] | null | undefined,
+): string | null {
+  const meeting = Array.isArray(value) ? value[0] : value;
+  return meeting?.title ?? null;
+}
+
 export async function POST() {
   const authClient = await createClient();
   if (!authClient) {
@@ -48,7 +57,9 @@ export async function POST() {
     description: t.description,
     priority: t.priority,
     assignee: t.assignee,
-    meeting: (t.meetings as { title: string } | null)?.title ?? null,
+    meeting: meetingTitle(
+      t.meetings as unknown as RelatedMeeting | RelatedMeeting[] | null,
+    ),
   }));
 
   const prompt = `You are a task management assistant. Analyze these tasks and identify groups of similar/duplicate tasks that should be consolidated into one.
@@ -127,7 +138,9 @@ Only include groups with 2+ tasks. If no duplicates found, return {"groups": []}
       .map((t) => ({
         id: t!.id,
         title: t!.title,
-        meeting: (t!.meetings as { title: string } | null)?.title ?? null,
+        meeting: meetingTitle(
+          t!.meetings as unknown as RelatedMeeting | RelatedMeeting[] | null,
+        ),
       })),
   }));
 
@@ -182,8 +195,10 @@ export async function PUT(request: Request) {
 
   // Build consolidation note
   const noteLines = (originals ?? []).map((t) => {
-    const meetingTitle = (t.meetings as { title: string } | null)?.title;
-    return `- "${t.title}"${meetingTitle ? ` (from meeting: ${meetingTitle})` : ""}`;
+    const title = meetingTitle(
+      t.meetings as unknown as RelatedMeeting | RelatedMeeting[] | null,
+    );
+    return `- "${t.title}"${title ? ` (from meeting: ${title})` : ""}`;
   });
 
   const consolidationNote = `## Consolidated from ${task_ids.length} tasks\n${noteLines.join("\n")}`;
