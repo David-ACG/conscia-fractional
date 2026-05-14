@@ -1,5 +1,8 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { extractMeetingData } from "@/lib/services/transcript-extraction-service";
+import {
+  extractMeetingData,
+  type ExtractionResult,
+} from "@/lib/services/transcript-extraction-service";
 import { parseMeetingDateFromFilename } from "@/lib/services/filename-date-parser";
 import type { TranscriptSegment } from "@/lib/types/transcription";
 
@@ -15,6 +18,44 @@ export interface ProcessUploadedRecordingParams {
 
 function roundUpTo15(minutes: number): number {
   return Math.ceil(minutes / 15) * 15;
+}
+
+function titleFromFilename(fileName?: string): string {
+  if (!fileName) return "Recorded meeting";
+  return fileName
+    .replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function extractMeetingDataWithFallback(
+  srt: string,
+  fallbackTitle: string,
+  filename?: string,
+): Promise<ExtractionResult> {
+  try {
+    return await extractMeetingData(srt, filename);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Failed to extract meeting data:", message);
+    return {
+      title: fallbackTitle,
+      summary: [
+        "## Transcript Saved",
+        "",
+        "The recording was uploaded and transcribed, but automatic summary and task extraction did not complete.",
+        "",
+        `Extraction error: ${message}`,
+      ].join("\n"),
+      tasks: [],
+      metadata: {
+        durationMinutes: 0,
+        speakers: [],
+        meetingDate: null,
+      },
+    };
+  }
 }
 
 function msToSrtTimestamp(ms: number): string {
@@ -148,8 +189,11 @@ export async function processRecording(
     .update({ recording_url: audioUrl })
     .eq("id", meetingId);
 
-  // 7. Extract meeting data via Claude
-  const extracted = await extractMeetingData(srt);
+  // 7. Extract meeting data via Claude. Keep the recording if extraction fails.
+  const extracted = await extractMeetingDataWithFallback(
+    srt,
+    "Recorded meeting",
+  );
 
   // 8. Update meeting with extracted data and action_items
   await supabase
@@ -281,8 +325,12 @@ export async function processUploadedRecording(
 
   const meetingId = meeting.id as string;
 
-  // 5. Extract meeting data via Claude
-  const extracted = await extractMeetingData(srt);
+  // 5. Extract meeting data via Claude. Keep the recording if extraction fails.
+  const extracted = await extractMeetingDataWithFallback(
+    srt,
+    titleFromFilename(fileName),
+    fileName,
+  );
 
   // 6. Update meeting with extracted data and action_items
   await supabase

@@ -9,9 +9,7 @@ import {
 } from "@testing-library/react";
 
 // ── Supabase browser client mock ──────────────────────────────────────────────
-const mockStorageUpload = vi.fn();
-const mockStorageCreateSignedUrl = vi.fn();
-const mockStorageRemove = vi.fn();
+const mockStorageUploadToSignedUrl = vi.fn();
 
 vi.mock("@/lib/supabase/client", () => ({
   createClient: vi.fn(() => ({
@@ -22,9 +20,7 @@ vi.mock("@/lib/supabase/client", () => ({
     },
     storage: {
       from: () => ({
-        upload: mockStorageUpload,
-        createSignedUrl: mockStorageCreateSignedUrl,
-        remove: mockStorageRemove,
+        uploadToSignedUrl: mockStorageUploadToSignedUrl,
       }),
     },
   })),
@@ -40,6 +36,11 @@ vi.mock("@/lib/audio-compress", () => ({
 // ── Fetch mock ────────────────────────────────────────────────────────────────
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
+let transcriptionResponse: {
+  ok: boolean;
+  status?: number;
+  json: () => Promise<unknown>;
+};
 
 // ── LiveTranscript mock ───────────────────────────────────────────────────────
 vi.mock("../live-transcript", () => ({
@@ -113,18 +114,57 @@ describe("FileUploadTranscription", () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    mockStorageUpload.mockResolvedValue({ error: null });
-    mockStorageCreateSignedUrl.mockResolvedValue({
-      data: { signedUrl: "https://storage.example.com/signed/recording.mp3" },
-      error: null,
-    });
-    mockStorageRemove.mockResolvedValue({ error: null });
-
-    // Mock fetch for transcription API
-    mockFetch.mockResolvedValue({
+    mockStorageUploadToSignedUrl.mockResolvedValue({ error: null });
+    transcriptionResponse = {
       ok: true,
       json: () => Promise.resolve({ segments: MOCK_SEGMENTS }),
-    });
+    };
+
+    mockFetch.mockImplementation(
+      (input: RequestInfo | URL, init?: RequestInit) => {
+        const url = typeof input === "string" ? input : input.toString();
+        const method = init?.method ?? "GET";
+
+        if (url === "/api/upload-recording" && method === "POST") {
+          return Promise.resolve({
+            ok: true,
+            json: () =>
+              Promise.resolve({
+                token: "signed-upload-token",
+                path: "test-user-id/123_audio.mp3",
+                signedUrl: "https://storage.example.com/upload/audio.mp3",
+              }),
+          });
+        }
+
+        if (url.startsWith("/api/upload-recording?") && method === "GET") {
+          return Promise.resolve({
+            ok: true,
+            json: () =>
+              Promise.resolve({
+                signedUrl: "https://storage.example.com/signed/recording.mp3",
+              }),
+          });
+        }
+
+        if (url === "/api/upload-recording" && method === "DELETE") {
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ ok: true }),
+          });
+        }
+
+        if (url === "/api/transcription/batch") {
+          return Promise.resolve(transcriptionResponse);
+        }
+
+        return Promise.resolve({
+          ok: false,
+          status: 404,
+          json: () => Promise.resolve({ error: "Not found" }),
+        });
+      },
+    );
   });
 
   it("renders drop zone in idle state", () => {
@@ -225,7 +265,7 @@ describe("FileUploadTranscription", () => {
   it("transitions to upload progress on Transcribe click", async () => {
     // Delay upload so the uploading stage is visible before resolution
     let resolveUpload!: (v: { error: null }) => void;
-    mockStorageUpload.mockImplementationOnce(
+    mockStorageUploadToSignedUrl.mockImplementationOnce(
       () =>
         new Promise<{ error: null }>((res) => {
           resolveUpload = res;
@@ -254,7 +294,7 @@ describe("FileUploadTranscription", () => {
     });
   });
 
-  it("calls Supabase upload and transcription API on Transcribe", async () => {
+  it("calls signed upload and transcription API on Transcribe", async () => {
     render(
       <FileUploadTranscription onComplete={onComplete} onDiscard={onDiscard} />,
     );
@@ -269,7 +309,16 @@ describe("FileUploadTranscription", () => {
     });
 
     await waitFor(() => {
-      expect(mockStorageUpload).toHaveBeenCalled();
+      expect(mockFetch).toHaveBeenCalledWith(
+        "/api/upload-recording",
+        expect.objectContaining({ method: "POST" }),
+      );
+      expect(mockStorageUploadToSignedUrl).toHaveBeenCalledWith(
+        "test-user-id/123_audio.mp3",
+        "signed-upload-token",
+        expect.any(Blob),
+        expect.objectContaining({ contentType: "audio/mpeg" }),
+      );
     });
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
@@ -380,12 +429,15 @@ describe("FileUploadTranscription", () => {
       fireEvent.click(dialogButton);
     });
 
-    expect(mockStorageRemove).toHaveBeenCalled();
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/upload-recording",
+      expect.objectContaining({ method: "DELETE" }),
+    );
     expect(onDiscard).toHaveBeenCalledOnce();
   });
 
   it("shows error stage when upload fails", async () => {
-    mockStorageUpload.mockResolvedValueOnce({
+    mockStorageUploadToSignedUrl.mockResolvedValueOnce({
       error: { message: "Storage quota exceeded" },
     });
 
@@ -413,11 +465,12 @@ describe("FileUploadTranscription", () => {
   });
 
   it("shows error stage when transcription API fails", async () => {
-    mockFetch.mockResolvedValueOnce({
+    transcriptionResponse = {
       ok: false,
+      status: 500,
       json: () =>
         Promise.resolve({ error: "Transcription service unavailable" }),
-    });
+    };
 
     render(
       <FileUploadTranscription onComplete={onComplete} onDiscard={onDiscard} />,
@@ -443,7 +496,7 @@ describe("FileUploadTranscription", () => {
   });
 
   it("Retry resets to idle state", async () => {
-    mockStorageUpload.mockResolvedValueOnce({
+    mockStorageUploadToSignedUrl.mockResolvedValueOnce({
       error: { message: "Upload failed" },
     });
 

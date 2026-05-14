@@ -145,24 +145,52 @@ export function FileUploadTranscription({
       console.log(
         `[upload] Uploading ${(fileToUpload.size / 1024 / 1024).toFixed(1)} MB as ${uploadContentType}`,
       );
+      const uploadInitRes = await fetch("/api/upload-recording", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path, contentType: uploadContentType }),
+        signal: abortControllerRef.current.signal,
+      });
+
+      const uploadInit = (await uploadInitRes.json().catch(() => ({}))) as {
+        token?: string;
+        path?: string;
+        error?: string;
+      };
+
+      if (!uploadInitRes.ok || !uploadInit.token || !uploadInit.path) {
+        throw new Error(
+          uploadInit.error ??
+            `Failed to prepare upload (${uploadInitRes.status})`,
+        );
+      }
+
       const { error: uploadError } = await supabase.storage
         .from("meeting-recordings")
-        .upload(path, fileToUpload, {
+        .uploadToSignedUrl(uploadInit.path, uploadInit.token, fileToUpload, {
           contentType: uploadContentType,
+          cacheControl: "3600",
           upsert: false,
         });
 
       if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
-      setUploadedPath(path);
+      setUploadedPath(uploadInit.path);
       setUploadProgress(100);
 
       // 2. Get signed URL
-      const { data: urlData, error: urlError } = await supabase.storage
-        .from("meeting-recordings")
-        .createSignedUrl(path, 60 * 60 * 24); // 24-hour URL
+      const readUrlRes = await fetch(
+        `/api/upload-recording?path=${encodeURIComponent(uploadInit.path)}`,
+        { signal: abortControllerRef.current.signal },
+      );
+      const urlData = (await readUrlRes.json().catch(() => ({}))) as {
+        signedUrl?: string;
+        error?: string;
+      };
 
-      if (urlError || !urlData?.signedUrl) {
-        throw new Error(`Failed to get file URL: ${urlError?.message}`);
+      if (!readUrlRes.ok || !urlData.signedUrl) {
+        throw new Error(
+          urlData.error ?? `Failed to get file URL (${readUrlRes.status})`,
+        );
       }
       setSignedUrl(urlData.signedUrl);
 
@@ -201,9 +229,11 @@ export function FileUploadTranscription({
   async function cleanupUploadedFile() {
     const pathToDelete = uploadedPath;
     if (!pathToDelete) return;
-    const supabase = createClient();
-    if (!supabase) return;
-    await supabase.storage.from("meeting-recordings").remove([pathToDelete]);
+    await fetch("/api/upload-recording", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path: pathToDelete }),
+    }).catch(() => undefined);
     setUploadedPath(null);
   }
 

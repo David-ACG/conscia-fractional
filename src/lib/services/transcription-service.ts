@@ -21,6 +21,49 @@ function getClient(): DeepgramClient {
   return new DeepgramClient({ apiKey });
 }
 
+function isRetryableTranscriptionError(error: unknown): boolean {
+  const maybeError = error as {
+    message?: string;
+    statusCode?: number;
+    rawResponse?: { status?: number };
+  };
+  const status = maybeError.statusCode ?? maybeError.rawResponse?.status;
+  if (status === 0 || status === 408 || status === 429) return true;
+  if (status && status >= 500) return true;
+
+  const message = maybeError.message?.toLowerCase() ?? "";
+  return (
+    message.includes("timeout") ||
+    message.includes("network") ||
+    message.includes("fetch failed")
+  );
+}
+
+async function wait(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function withTranscriptionRetry<T>(
+  operation: () => Promise<T>,
+): Promise<T> {
+  const maxAttempts = 3;
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      if (attempt === maxAttempts || !isRetryableTranscriptionError(error)) {
+        throw error;
+      }
+      await wait(1500 * attempt);
+    }
+  }
+
+  throw lastError;
+}
+
 interface DeepgramUtterance {
   start?: number;
   end?: number;
@@ -88,15 +131,17 @@ export async function transcribeBatch(
   const client = getClient();
   const mergedConfig = { ...DEFAULT_CONFIG, ...config };
 
-  const response = await client.listen.v1.media.transcribeUrl({
-    url: audioUrl,
-    model: mergedConfig.model,
-    language: mergedConfig.language,
-    smartFormat: mergedConfig.smart_format,
-    diarize: mergedConfig.diarize,
-    punctuate: mergedConfig.punctuate,
-    utterances: mergedConfig.utterances,
-  });
+  const response = await withTranscriptionRetry(() =>
+    client.listen.v1.media.transcribeUrl({
+      url: audioUrl,
+      model: mergedConfig.model,
+      language: mergedConfig.language,
+      smartFormat: mergedConfig.smart_format,
+      diarize: mergedConfig.diarize,
+      punctuate: mergedConfig.punctuate,
+      utterances: mergedConfig.utterances,
+    }),
+  );
 
   const utterances = response.results?.utterances ?? [];
   return deepgramResponseToSegments(utterances as DeepgramUtterance[]);
@@ -112,14 +157,16 @@ export async function transcribeBatchFromBuffer(
 
   const blob = new Blob([buffer], { type: mimetype });
 
-  const response = await client.listen.v1.media.transcribeFile(blob, {
-    model: mergedConfig.model,
-    language: mergedConfig.language,
-    smartFormat: mergedConfig.smart_format,
-    diarize: mergedConfig.diarize,
-    punctuate: mergedConfig.punctuate,
-    utterances: mergedConfig.utterances,
-  });
+  const response = await withTranscriptionRetry(() =>
+    client.listen.v1.media.transcribeFile(blob, {
+      model: mergedConfig.model,
+      language: mergedConfig.language,
+      smartFormat: mergedConfig.smart_format,
+      diarize: mergedConfig.diarize,
+      punctuate: mergedConfig.punctuate,
+      utterances: mergedConfig.utterances,
+    }),
+  );
 
   const utterances = response.results?.utterances ?? [];
   return deepgramResponseToSegments(utterances as DeepgramUtterance[]);
