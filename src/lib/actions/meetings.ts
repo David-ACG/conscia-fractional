@@ -9,7 +9,6 @@ import {
   type MeetingFormData,
 } from "@/lib/validations/meetings";
 import { notifyMeetingProcessed } from "@/lib/services/slack-notification-service";
-import { embedMeeting } from "@/lib/services/auto-embed-service";
 import { extractMeetingData } from "@/lib/services/transcript-extraction-service";
 
 /** Round minutes up to the nearest 15-minute increment */
@@ -86,12 +85,52 @@ export async function deleteMeeting(id: string) {
   const supabase = createClient();
   if (!supabase) return { error: "Database unavailable" };
 
-  const { error } = await supabase.from("meetings").delete().eq("id", id);
+  try {
+    const { error: tasksError } = await supabase
+      .from("tasks")
+      .delete()
+      .eq("meeting_id", id);
 
-  if (error) return { error: error.message };
+    if (tasksError) {
+      return { error: `Failed to delete meeting tasks: ${tasksError.message}` };
+    }
 
-  revalidatePath("/meetings");
-  return { success: true };
+    const { error: timeEntriesError } = await supabase
+      .from("time_entries")
+      .delete()
+      .eq("meeting_id", id);
+
+    if (timeEntriesError) {
+      return {
+        error: `Failed to delete meeting timesheet entries: ${timeEntriesError.message}`,
+      };
+    }
+
+    const { error: calendarError } = await supabase
+      .from("calendar_events")
+      .update({ meeting_id: null })
+      .eq("meeting_id", id);
+
+    if (calendarError) {
+      return {
+        error: `Failed to unlink meeting calendar events: ${calendarError.message}`,
+      };
+    }
+
+    const { error } = await supabase.from("meetings").delete().eq("id", id);
+
+    if (error) return { error: error.message };
+
+    revalidatePath("/meetings");
+    revalidatePath("/tasks");
+    revalidatePath("/timesheet");
+    revalidatePath("/calendar");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete meeting:", error);
+    return { error: "Failed to delete meeting. Please try again." };
+  }
 }
 
 export async function logMeetingToTimesheet(meetingId: string) {
@@ -253,6 +292,9 @@ export async function createMeetingFromTranscript(data: ProcessedTranscript) {
         data: { user },
       } = await userClient.auth.getUser();
       if (user && data.rawTranscript) {
+        const { embedMeeting } = await import(
+          "@/lib/services/auto-embed-service"
+        );
         await embedMeeting(meetingId, user.id);
       }
     }

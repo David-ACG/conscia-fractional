@@ -206,16 +206,23 @@ export function MeetingList({
   }
 
   async function handleDelete() {
-    if (!deletingMeeting) return;
+    if (!deletingMeeting || deleting) return;
+
     setDeleting(true);
-    const result = await deleteMeeting(deletingMeeting.id);
-    setDeleting(false);
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      toast.success("Meeting deleted");
-      setDeleteOpen(false);
-      setDeletingMeeting(null);
+    try {
+      const result = await deleteMeeting(deletingMeeting.id);
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success("Meeting deleted");
+        setDeleteOpen(false);
+        setDeletingMeeting(null);
+      }
+    } catch (error) {
+      console.error("Failed to delete meeting:", error);
+      toast.error("Meeting deletion failed. Please try again.");
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -596,7 +603,9 @@ export function MeetingList({
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
             className="fixed inset-0 bg-black/50"
-            onClick={() => setDeleteOpen(false)}
+            onClick={() => {
+              if (!deleting) setDeleteOpen(false);
+            }}
           />
           <div className="relative z-50 rounded-lg border bg-background p-6 shadow-lg max-w-sm w-full mx-4">
             <h3 className="text-lg font-semibold">Delete meeting</h3>
@@ -605,7 +614,11 @@ export function MeetingList({
               &rdquo;? This cannot be undone.
             </p>
             <div className="mt-4 flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setDeleteOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setDeleteOpen(false)}
+                disabled={deleting}
+              >
                 Cancel
               </Button>
               <Button

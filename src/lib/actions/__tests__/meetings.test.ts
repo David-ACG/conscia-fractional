@@ -17,7 +17,6 @@ vi.mock("next/cache", () => ({
 // Mock Supabase
 const mockSingle = vi.fn();
 const mockEq = vi.fn().mockReturnThis();
-const mockNot = vi.fn().mockReturnThis();
 const mockSelect = vi.fn(() => ({ single: mockSingle, eq: mockEq }));
 const mockDelete = vi.fn(() => ({ eq: mockEq }));
 const mockUpdate = vi.fn(() => ({ eq: mockEq }));
@@ -138,13 +137,18 @@ describe("Meeting Actions", () => {
   });
 
   describe("deleteMeeting", () => {
-    it("removes a meeting", async () => {
+    it("removes a meeting and its linked records", async () => {
       const { deleteMeeting } = await import("../meetings");
       const result = await deleteMeeting("meeting-1");
 
       expect(result).toEqual({ success: true });
-      expect(mockFrom).toHaveBeenCalledWith("meetings");
-      expect(mockDelete).toHaveBeenCalled();
+      expect(mockFrom).toHaveBeenNthCalledWith(1, "tasks");
+      expect(mockFrom).toHaveBeenNthCalledWith(2, "time_entries");
+      expect(mockFrom).toHaveBeenNthCalledWith(3, "calendar_events");
+      expect(mockFrom).toHaveBeenNthCalledWith(4, "meetings");
+      expect(mockDelete).toHaveBeenCalledTimes(3);
+      expect(mockUpdate).toHaveBeenCalledWith({ meeting_id: null });
+      expect(mockEq).toHaveBeenCalledWith("meeting_id", "meeting-1");
       expect(mockEq).toHaveBeenCalledWith("id", "meeting-1");
     });
   });
@@ -375,11 +379,8 @@ describe("Meeting Actions", () => {
         crm_customer_id: "cust-1",
       };
 
-      // Track calls to mockFrom
-      let callCount = 0;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mockFrom.mockImplementation((table: any) => {
-        callCount++;
         if (table === "meetings") {
           return {
             select: vi.fn(() => ({
